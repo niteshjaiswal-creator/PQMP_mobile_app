@@ -1,0 +1,10 @@
+appId: com.vecv.pqmp
+name: Smoke - app launches without raw values
+tags:
+  - smoke
+---
+- launchApp:
+    clearState: true
+- waitForAnimationToEnd
+- takeScreenshot: smoke-launch
+- runFlow: common/assert-no-raw-values.yaml

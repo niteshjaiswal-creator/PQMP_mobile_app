@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Management reports</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="/_blob/0197031cd7cfeb6dd68aec3fd9f1230f">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>body{margin:0}a{color:#1f4e8c}a:hover{color:#163a69}</style>
+</helmet>
+<main class="app" style="width: 390px; height: 1900px">
+  <div class="page">
+    <header class="top">
+      <span class="avatar" style="background: #1b6b34">MG</span>
+      <div style="flex: 1; min-width: 0"><div class="cap">Management</div><div style="font-size: 18px; font-weight: 800">Reports</div></div>
+    </header>
+    <div class="chips" role="group" aria-label="Report scope">
+      <a class="chip on" href="#">Last 30 days</a><a class="chip" href="#">All regions</a><a class="chip" href="#">All categories</a>
+    </div>
+
+    <section aria-label="Case summary" style="display: flex; flex-direction: column; gap: 10px">
+      <h2 class="h2">Case summary</h2>
+      <div class="stats">
+        <a href="CaseList.dc.html" class="stat"><b>412</b><span>Total cases</span></a>
+        <a href="CaseList.dc.html" class="stat"><b style="color: #1d4ed8">101</b><span>Open</span></a>
+        <a href="CaseList.dc.html" class="stat"><b style="color: #1b6b34">311</b><span>Closed</span></a>
+        <a href="CaseList.dc.html" class="stat"><b style="color: #865000">38</b><span>Pending order cases</span></a>
+        <a href="CaseList.dc.html" class="stat"><b>17</b><span>Updated today</span></a>
+        <a href="CaseList.dc.html" class="stat"><b style="color: #b42318">9</b><span>High priority</span></a>
+        <a href="CaseList.dc.html" class="stat"><b>11</b><span>Awaiting dealer reply</span></a>
+        <a href="CaseList.dc.html" class="stat"><b>46</b><span>Feedback pending</span></a>
+      </div>
+    </section>
+
+    <section class="card pad" style="display: flex; flex-direction: column; gap: 14px" aria-label="Cases by category">
+      <h2 class="h2" style="font-size: 16px">By category</h2>
+      <div class="bars">
+        <div class="bar"><div class="l">Order Status<span>198</span></div><div class="t"><i style="width: 100%"></i></div></div>
+        <div class="bar"><div class="l">Logistics Support<span>74</span></div><div class="t"><i style="width: 37%"></i></div></div>
+        <div class="bar"><div class="l">Project Poorti<span>52</span></div><div class="t"><i style="width: 26%"></i></div></div>
+        <div class="bar"><div class="l">Order Cancellation<span>41</span></div><div class="t"><i style="width: 21%"></i></div></div>
+        <div class="bar"><div class="l">Other categories<span>47</span></div><div class="t"><i style="width: 24%"></i></div></div>
+      </div>
+    </section>
+
+    <section class="card pad" style="display: flex; flex-direction: column; gap: 14px" aria-label="Open cases by status">
+      <h2 class="h2" style="font-size: 16px">Open cases by status</h2>
+      <div class="bars">
+        <div class="bar"><div class="l">New<span>14</span></div><div class="t"><i style="width: 22%; background: #1d4ed8"></i></div></div>
+        <div class="bar"><div class="l">Assigned<span>19</span></div><div class="t"><i style="width: 30%; background: #5b21b6"></i></div></div>
+        <div class="bar"><div class="l">In Progress<span>64</span></div><div class="t"><i style="width: 100%; background: #b26a00"></i></div></div>
+        <div class="bar"><div class="l">Hold<span>3</span></div><div class="t"><i style="width: 5%; background: #475569"></i></div></div>
+        <div class="bar"><div class="l">Reopened<span>1</span></div><div class="t"><i style="width: 2%; background: #b42318"></i></div></div>
+      </div>
+    </section>
+
+    <section class="card pad" style="display: flex; flex-direction: column; gap: 14px" aria-label="Feedback summary">
+      <div style="display: flex; justify-content: space-between; align-items: baseline"><h2 class="h2" style="font-size: 16px">Feedback</h2><a href="CaseList.dc.html" style="font-size: 13px; font-weight: 700">6 low ratings</a></div>
+      <div style="display: flex; align-items: center; gap: 16px">
+        <div><div style="font-size: 36px; font-weight: 800; letter-spacing: -.02em">4.2</div><div class="cap">average of 265</div></div>
+        <div class="bars" style="flex: 1; gap: 6px">
+          <div class="bar"><div class="t"><i style="width: 100%; background: #b26a00"></i></div></div>
+          <div class="bar"><div class="t"><i style="width: 62%; background: #b26a00"></i></div></div>
+          <div class="bar"><div class="t"><i style="width: 18%; background: #b26a00"></i></div></div>
+          <div class="bar"><div class="t"><i style="width: 6%; background: #b26a00"></i></div></div>
+          <div class="bar"><div class="t"><i style="width: 4%; background: #b26a00"></i></div></div>
+        </div>
+      </div>
+      <div class="cap">Bars show 5 stars at the top down to 1 star.</div>
+    </section>
+
+    <section class="card pad" style="display: flex; flex-direction: column; gap: 14px" aria-label="Support desk workload">
+      <h2 class="h2" style="font-size: 16px">Support desk workload</h2>
+      <div style="display: grid; grid-template-columns: 1.4fr repeat(3, minmax(0, 1fr)); gap: 8px 6px; font-size: 13px">
+        <span class="cap">Desk</span><span class="cap" style="text-align: right">Open</span><span class="cap" style="text-align: right">Closed</span><span class="cap" style="text-align: right">Transferred</span>
+        <b>Desk 1</b><b style="text-align: right">42</b><span style="text-align: right">118</span><span style="text-align: right">4</span>
+        <b>Desk 2</b><b style="text-align: right">18</b><span style="text-align: right">96</span><span style="text-align: right">7</span>
+        <b>Desk 3</b><b style="text-align: right">27</b><span style="text-align: right">97</span><span style="text-align: right">2</span>
+        <b>Unassigned</b><b style="text-align: right; color: #b42318">14</b><span style="text-align: right">–</span><span style="text-align: right">–</span>
+      </div>
+    </section>
+
+    <section class="card" style="overflow: hidden">
+      <a href="CaseList.dc.html" class="row"><span class="ico" style="background: #fff2d6; color: #865000"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h11v10H3zM14 9h4l3 3v4h-7"/><circle cx="7" cy="17.5" r="1.8"/><circle cx="17" cy="17.5" r="1.8"/></svg></span>
+        <div class="tx"><b>Pending order cases · 38</b><span>Parts pending delivery from SAP</span></div><svg class="i" viewBox="0 0 24 24" aria-hidden="true" style="color: #5b6475"><path d="m9 6 6 6-6 6"/></svg></a>
+      <a href="CaseList.dc.html" class="row"><span class="ico" style="background: #fdecea; color: #b42318"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 2 20h20zM12 10v4M12 17v.01"/></svg></span>
+        <div class="tx"><b>Integration exceptions · 5</b><span>SAP 3 · Logistics 2</span></div><svg class="i" viewBox="0 0 24 24" aria-hidden="true" style="color: #5b6475"><path d="m9 6 6 6-6 6"/></svg></a>
+    </section>
+    <div class="refreshed"><svg class="i sm" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Last refreshed today, 10:30 AM</div>
+  </div>
+
+  <nav class="tabbar" aria-label="Main">
+    <a href="MgmtHome.dc.html" class="tab on" aria-current="page"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>Reports</a>
+    <a href="CaseList.dc.html" class="tab"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>Cases</a>
+    <a href="Account.dc.html" class="tab"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>Account</a>
+  </nav>
+</main>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":1900}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

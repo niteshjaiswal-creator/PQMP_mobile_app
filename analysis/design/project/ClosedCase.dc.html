@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Closed case and feedback</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="/_blob/0197031cd7cfeb6dd68aec3fd9f1230f">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>body{margin:0}a{color:#1f4e8c}a:hover{color:#163a69}</style>
+</helmet>
+<main class="app" style="width: 390px; height: 1140px">
+  <div class="page nobar">
+    <header class="top">
+      <a class="iconbtn" href="CaseList.dc.html" aria-label="Back"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="m15 6-6 6 6 6"/></svg></a>
+      <div class="t">PD261015106702</div>
+    </header>
+    <section style="display: flex; flex-direction: column; gap: 8px">
+      <span class="pill s-done" style="align-self: flex-start">Closed</span>
+      <h1 class="h1" style="font-size: 23px">Cartons damaged on arrival</h1>
+      <div class="cap">Packaging · Packaging Deviation · Handled by PQMP Support</div>
+    </section>
+
+    <section class="card pad" style="display: flex; flex-direction: column; gap: 8px; background: #f3faf5; border-color: #cfe9d6" aria-label="Closure remarks">
+      <div class="over" style="color: #1b6b34">Resolution · Closed 29 Oct 2026, 4:20 PM</div>
+      <p style="margin: 0; font-size: 15px; line-height: 1.5; font-weight: 600">Replacement packaging dispatched with your next order. The plant has been asked to use reinforced cartons for this part.</p>
+    </section>
+
+    <nav class="seg" aria-label="Case sections">
+      <a href="CaseDetail.dc.html">Overview</a>
+      <a href="Messages.dc.html">Messages</a>
+    </nav>
+
+    <section class="card pad" style="display: flex; flex-direction: column; gap: 16px" aria-label="Feedback">
+      <div><h2 class="h2">How was the support on this case?</h2><div class="cap" style="margin-top: 4px">1 is poor, 5 is excellent</div></div>
+      <div class="stars" role="radiogroup" aria-label="Rating">
+        <button type="button" class="star on" aria-label="1 star"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1 6.2L12 17.3 6.5 20.2l1-6.2L3 9.6l6.2-.9z"/></svg></button>
+        <button type="button" class="star on" aria-label="2 stars"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1 6.2L12 17.3 6.5 20.2l1-6.2L3 9.6l6.2-.9z"/></svg></button>
+        <button type="button" class="star on" aria-label="3 stars"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1 6.2L12 17.3 6.5 20.2l1-6.2L3 9.6l6.2-.9z"/></svg></button>
+        <button type="button" class="star on" aria-label="4 stars" aria-checked="true"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1 6.2L12 17.3 6.5 20.2l1-6.2L3 9.6l6.2-.9z"/></svg></button>
+        <button type="button" class="star" aria-label="5 stars"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1 6.2L12 17.3 6.5 20.2l1-6.2L3 9.6l6.2-.9z"/></svg></button>
+      </div>
+      <label class="field"><span>Anything to add? (optional)</span><textarea class="input" placeholder="Your remarks" aria-label="Feedback remarks" style="height: 84px"></textarea></label>
+      <a class="btn" href="#">Submit feedback</a>
+    </section>
+
+    <section class="card pad" style="display: flex; flex-direction: column; gap: 10px">
+      <b style="font-size: 15px">Issue not solved?</b>
+      <span class="cap" style="line-height: 1.45">You can reopen this case and tell support what is still pending.</span>
+      <a class="btn ghost sm" href="Reopen.dc.html" style="align-self: flex-start">Reopen case</a>
+    </section>
+  </div>
+</main>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":1140}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

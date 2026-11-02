@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Order and parts</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="/_blob/0197031cd7cfeb6dd68aec3fd9f1230f">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>body{margin:0}a{color:#1f4e8c}a:hover{color:#163a69}</style>
+</helmet>
+<main class="app" style="width: 390px; height: 1640px">
+  <div class="page nobar">
+    <header class="top">
+      <a class="iconbtn" href="CaseList.dc.html" aria-label="Back"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="m15 6-6 6 6 6"/></svg></a>
+      <div class="t">EUR261024106958</div>
+      <button class="iconbtn" type="button" aria-label="Refresh order data"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8 8 0 0 0-14.5-4.5L4 8M4 4v4h4M4 13a8 8 0 0 0 14.5 4.5L20 16M20 20v-4h-4"/></svg></button>
+    </header>
+    <nav class="seg" aria-label="Case sections">
+      <a href="CaseDetail.dc.html">Overview</a>
+      <a href="OrderParts.dc.html" class="on" aria-current="page">Order &amp; parts</a>
+      <a href="Messages.dc.html">Messages <span class="badge">1</span></a>
+    </nav>
+
+    <section class="card pad" style="display: flex; flex-direction: column; gap: 12px" aria-label="Order summary">
+      <div style="display: flex; justify-content: space-between; align-items: center"><h2 class="h2">Order</h2><span class="pill s-prog">Partially delivered</span></div>
+      <div class="qty">
+        <div><b>2</b><span>Parts</span></div>
+        <div><b style="color: #1b6b34">1</b><span>Delivered</span></div>
+        <div><b style="color: #865000">1</b><span>Pending</span></div>
+      </div>
+      <div>
+        <div class="kv"><span>Order number</span><b>4100231876</b></div>
+        <div class="kv"><span>Order type</span><b>Stock order</b></div>
+        <div class="kv"><span>PO number</span><b>7700012345</b></div>
+        <div class="kv"><span>PO date</span><b>20 Oct 2026</b></div>
+        <div class="kv"><span>Plant</span><b>RDC Binola</b></div>
+        <div class="kv"><span>Dealer</span><b>Shree Motors (1S1148)</b></div>
+      </div>
+      <div class="refreshed"><svg class="i sm" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Last refreshed today, 10:30 AM</div>
+    </section>
+
+    <h2 class="h2" style="margin-top: 4px">Parts</h2>
+
+    <section class="card part" aria-label="Part F8210300">
+      <div style="display: flex; justify-content: space-between; gap: 8px; align-items: flex-start">
+        <div><div style="font-size: 15px; font-weight: 800">F8210300</div><div class="cap">Clutch plate assembly · HSN 87089300</div></div>
+        <span class="pill s-prog">Partially delivered</span>
+      </div>
+      <div class="qty"><div><b>4</b><span>Ordered</span></div><div><b>2</b><span>Delivered</span></div><div><b style="color: #865000">2</b><span>Pending</span></div></div>
+      <div>
+        <div class="kv"><span>Expected delivery</span><b>06 Nov 2026</b></div>
+        <div class="kv"><span>Delivery no.</span><b>8000561234</b></div>
+        <div class="kv"><span>Invoice no.</span><b>9012345678</b></div>
+        <div class="kv"><span>Invoice date</span><b class="na">Awaiting Update</b></div>
+        <div class="kv"><span>Remarks</span><b>Balance 2 in next dispatch</b></div>
+      </div>
+      <a href="#tracking" style="display: flex; align-items: center; gap: 8px; padding: 10px 12px; border-radius: 12px; background: #e6effd; font-size: 13px; font-weight: 700; color: #1d4ed8 !important">
+        <svg class="i sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h11v10H3zM14 9h4l3 3v4h-7"/><circle cx="7" cy="17.5" r="1.8"/><circle cx="17" cy="17.5" r="1.8"/></svg>In transit · Indore hub<span style="flex: 1"></span>Track</a>
+    </section>
+
+    <section class="card part" aria-label="Part E4410021">
+      <div style="display: flex; justify-content: space-between; gap: 8px; align-items: flex-start">
+        <div><div style="font-size: 15px; font-weight: 800">E4410021</div><div class="cap">Brake lining set · HSN 68138100</div></div>
+        <span class="pill s-done">Fully delivered</span>
+      </div>
+      <div class="qty"><div><b>10</b><span>Ordered</span></div><div><b>10</b><span>Delivered</span></div><div><b>0</b><span>Pending</span></div></div>
+      <div>
+        <div class="kv"><span>Delivered on</span><b>28 Oct 2026</b></div>
+        <div class="kv"><span>Delivery no.</span><b>8000559871</b></div>
+        <div class="kv"><span>Invoice</span><b>9012341122 · 27 Oct 2026</b></div>
+      </div>
+    </section>
+
+    <section id="tracking" class="card pad" style="display: flex; flex-direction: column; gap: 12px" aria-label="Consignment tracking">
+      <div style="display: flex; justify-content: space-between; align-items: center"><h2 class="h2">Tracking</h2><span class="cap">LR 552019 · Road</span></div>
+      <div>
+        <div class="ev cur"><span class="d"></span><div><b>In transit</b><p>Reached Indore hub</p><time>Today, 8:05 AM</time></div></div>
+        <div class="ev"><span class="d"></span><div><b>Dispatched</b><p>Left RDC Binola</p><time>01 Nov 2026, 6:40 PM</time></div></div>
+      </div>
+      <div class="refreshed"><svg class="i sm" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Last updated today, 8:05 AM</div>
+      <div class="fallback"><svg class="i sm" viewBox="0 0 24 24" aria-hidden="true" style="margin-top: 2px"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.5v.01"/></svg><span><b>LR 551877:</b> Tracking unavailable right now. Please check again later.</span></div>
+    </section>
+  </div>
+</main>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":1640}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,18 @@
+# Signs in as the mock dealer (src/mock/README.md). Debug builds with useMockApi only.
+appId: com.vecv.pqmp
+---
+- launchApp:
+    clearState: true
+- tapOn:
+    id: login.userId
+- inputText: dealer
+- tapOn:
+    id: login.password
+- inputText: test123
+- hideKeyboard
+- tapOn:
+    id: login.submit
+- extendedWaitUntil:
+    visible:
+      id: home.kpi.total
+    timeout: 10000

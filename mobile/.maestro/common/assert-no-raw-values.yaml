@@ -1,0 +1,11 @@
+# Reusable check (SRS 9.3, 4.2): customer-facing screens must not show raw backend values
+# or internal support desk names. Run via `- runFlow: ../common/assert-no-raw-values.yaml`.
+appId: com.vecv.pqmp
+---
+- assertNotVisible: ".*\\bnull\\b.*"
+- assertNotVisible: ".*\\bundefined\\b.*"
+- assertNotVisible: ".*\\bNaN\\b.*"
+- assertNotVisible: ".*0000-00-00.*"
+- assertNotVisible: ".*00\\.00\\.0000.*"
+- assertNotVisible: ".*Invalid Date.*"
+- assertNotVisible: ".*EGP Desk.*"

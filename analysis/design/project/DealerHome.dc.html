@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Dealer home</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="/_blob/0197031cd7cfeb6dd68aec3fd9f1230f">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>body{margin:0}a{color:#1f4e8c}a:hover{color:#163a69}</style>
+</helmet>
+<main class="app" style="width: 390px; height: 1100px">
+  <div class="page">
+    <header class="top">
+      <span class="avatar">SM</span>
+      <div style="flex: 1; min-width: 0">
+        <div class="cap">Good morning</div>
+        <div style="font-size: 18px; font-weight: 800">Shree Motors</div>
+      </div>
+      <a class="iconbtn" href="Notifications.dc.html" aria-label="Updates, 2 unread">
+        <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg><span class="dot"></span>
+      </a>
+    </header>
+
+    <section class="alert" aria-label="Awaiting your response">
+      <div class="over" style="display: flex; align-items: center; gap: 6px"><svg class="i sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12"/></svg>Awaiting your response · 1</div>
+      <div style="font-size: 15px; font-weight: 800">EUR261024106958</div>
+      <p style="margin: 0; font-size: 14px; line-height: 1.5">Support asked: “Please confirm the delivery address for part F8210300.”</p>
+      <a href="Messages.dc.html" class="btn red sm" style="align-self: flex-start">Reply</a>
+    </section>
+
+    <section aria-label="Case summary" class="stats">
+      <a href="CaseList.dc.html" class="stat"><b>62</b><span>Total cases</span></a>
+      <a href="CaseList.dc.html" class="stat"><b style="color: #1d4ed8">12</b><span>Open</span></a>
+      <a href="CaseList.dc.html" class="stat"><b style="color: #865000">7</b><span>In progress</span></a>
+      <a href="CaseList.dc.html" class="stat"><b style="color: #1b6b34">50</b><span>Closed</span></a>
+    </section>
+
+    <section class="card" style="overflow: hidden">
+      <a href="ClosedCase.dc.html" class="row">
+        <span class="ico" style="background: #fff2d6; color: #865000"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1 6.2L12 17.3 6.5 20.2l1-6.2L3 9.6l6.2-.9z"/></svg></span>
+        <div class="tx"><b>2 closed cases to rate</b><span>Feedback pending</span></div>
+        <svg class="i" viewBox="0 0 24 24" aria-hidden="true" style="color: #5b6475"><path d="m9 6 6 6-6 6"/></svg>
+      </a>
+      <a href="OrderParts.dc.html" class="row">
+        <span class="ico"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h11v10H3zM14 9h4l3 3v4h-7"/><circle cx="7" cy="17.5" r="1.8"/><circle cx="17" cy="17.5" r="1.8"/></svg></span>
+        <div class="tx"><b>3 order and delivery updates</b><span>Expected dates and dispatches this week</span></div>
+        <svg class="i" viewBox="0 0 24 24" aria-hidden="true" style="color: #5b6475"><path d="m9 6 6 6-6 6"/></svg>
+      </a>
+    </section>
+
+    <section style="display: flex; flex-direction: column; gap: 10px">
+      <div style="display: flex; align-items: baseline; justify-content: space-between">
+        <h2 class="h2">Recently updated</h2>
+        <a href="CaseList.dc.html" style="font-size: 13px; font-weight: 700; padding: 8px 0">See all</a>
+      </div>
+      <a href="CaseDetail.dc.html" class="card case">
+        <div class="r"><span class="no">EUR261024106958</span><span class="pill s-prog">In Progress</span></div>
+        <div class="muted" style="font-size: 13px; font-weight: 600">Order Status · Execution/EDA Required</div>
+        <div class="upd">1 of 3 parts delivered. Next expected 06 Nov 2026.</div>
+      </a>
+      <a href="CaseDetail.dc.html" class="card case">
+        <div class="r"><span class="no">DRLR261022106911</span><span class="pill s-asg">Assigned</span></div>
+        <div class="muted" style="font-size: 13px; font-weight: 600">Order Status · Dispatch Required – LR</div>
+        <div class="upd">Your case is with PQMP Support.</div>
+      </a>
+    </section>
+
+    <section class="card pad" style="display: flex; flex-direction: column; gap: 14px" aria-label="Your cases by category">
+      <h2 class="h2" style="font-size: 16px">Your cases by category</h2>
+      <div class="bars">
+        <div class="bar"><div class="l">Order Status<span>31</span></div><div class="t"><i style="width: 100%"></i></div></div>
+        <div class="bar"><div class="l">Logistics Support<span>12</span></div><div class="t"><i style="width: 39%"></i></div></div>
+        <div class="bar"><div class="l">Packaging<span>9</span></div><div class="t"><i style="width: 29%"></i></div></div>
+        <div class="bar"><div class="l">Other categories<span>10</span></div><div class="t"><i style="width: 32%"></i></div></div>
+      </div>
+    </section>
+  </div>
+
+  <nav class="tabbar" aria-label="Main">
+    <a href="DealerHome.dc.html" class="tab on" aria-current="page"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>Home</a>
+    <a href="CaseList.dc.html" class="tab"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>Cases</a>
+    <a href="CreateType.dc.html" class="fab" aria-label="Raise a new case"><svg class="i" viewBox="0 0 24 24" aria-hidden="true" style="width: 26px; height: 26px; stroke-width: 2.4"><path d="M12 5v14M5 12h14"/></svg></a>
+    <a href="Notifications.dc.html" class="tab"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>Updates</a>
+    <a href="Account.dc.html" class="tab"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>Account</a>
+  </nav>
+</main>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":1100}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

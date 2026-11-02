@@ -1,0 +1,47 @@
+appId: com.vecv.pqmp
+name: Dealer - raise a case with lookup, part selection, failure keeps input
+tags: [CREATE-01, CREATE-02, CREATE-03, CREATE-04, CREATE-05, CREATE-06, CREATE-09, CREATE-10, CREATE-11, CREATE-12, CREATE-13, SCAN-02, SCAN-03, SCAN-04]
+---
+- runFlow: ../common/sign-in-dealer.yaml
+- tapOn:
+    id: tabs.newCase
+- tapOn:
+    id: createType.category.3
+- tapOn:
+    id: createType.subCategory.6
+- tapOn:
+    id: createType.continue
+- tapOn:
+    id: createReference.sales_order
+- inputText: "4100239001"
+- hideKeyboard
+- tapOn:
+    id: createReference.continue
+- tapOn:
+    id: scanReview.part.0
+- tapOn:
+    id: scanReview.useParts
+- tapOn:
+    id: createDetails.issueTitle
+- inputText: "EDA needed"
+- tapOn:
+    id: createDetails.problemStatement
+- inputText: "FAIL"
+- tapOn:
+    id: createDetails.contact.person
+- inputText: "Rohit"
+- tapOn:
+    id: createDetails.contact.phone
+- inputText: "9876543210"
+- hideKeyboard
+- scrollUntilVisible:
+    element:
+      id: createDetails.modeOfQuery.Call
+- tapOn:
+    id: createDetails.modeOfQuery.Call
+- tapOn:
+    id: createDetails.submit
+- assertVisible:
+    id: createDetails.banner
+    text: ".*saved here.*"
+- assertVisible: "EDA needed"

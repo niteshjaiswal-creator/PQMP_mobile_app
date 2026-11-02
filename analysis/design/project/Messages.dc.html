@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Messages and files</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="/_blob/0197031cd7cfeb6dd68aec3fd9f1230f">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>body{margin:0}a{color:#1f4e8c}a:hover{color:#163a69}</style>
+</helmet>
+<main class="app" style="width: 390px; height: 1000px">
+  <div class="page" style="padding-bottom: 110px">
+    <header class="top">
+      <a class="iconbtn" href="CaseList.dc.html" aria-label="Back"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="m15 6-6 6 6 6"/></svg></a>
+      <div class="t">EUR261024106958</div>
+    </header>
+    <nav class="seg" aria-label="Case sections">
+      <a href="CaseDetail.dc.html">Overview</a>
+      <a href="OrderParts.dc.html">Order &amp; parts</a>
+      <a href="Messages.dc.html" class="on" aria-current="page">Messages</a>
+    </nav>
+
+    <section aria-label="Files" style="display: flex; flex-direction: column; gap: 10px">
+      <h2 class="h2">Files · 3</h2>
+      <div class="card" style="overflow: hidden">
+        <a href="#" class="row"><span class="ico" style="width: 36px; height: 36px"><svg class="i sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H6a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8z"/><path d="M14 3v5h5"/></svg></span>
+          <div class="tx"><b>Invoice scan.jpg</b><span>Scanned invoice · You · 24 Oct 2026</span></div><svg class="i sm" viewBox="0 0 24 24" aria-hidden="true" style="color: #5b6475"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg></a>
+        <a href="#" class="row"><span class="ico" style="width: 36px; height: 36px; background: #efeafd; color: #5b21b6"><svg class="i sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H6a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8z"/><path d="M14 3v5h5"/></svg></span>
+          <div class="tx"><b>LR copy.pdf</b><span>PQMP Support · 01 Nov 2026</span></div><svg class="i sm" viewBox="0 0 24 24" aria-hidden="true" style="color: #5b6475"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg></a>
+      </div>
+    </section>
+
+    <section aria-label="Messages" style="display: flex; flex-direction: column; gap: 10px">
+      <h2 class="h2">Messages</h2>
+      <div class="cap" style="text-align: center">25 Oct 2026</div>
+      <div class="msg them"><div class="who">PQMP Support</div>We are checking the order with the plant and will share the expected date.</div>
+      <div class="msg me"><div class="who">You</div>Thanks. The vehicle is waiting in the workshop.</div>
+      <div class="cap" style="text-align: center">Today</div>
+      <div class="msg them" style="border-color: #f3c3c3; background: #fdeeee"><div class="who" style="color: #b42318">PQMP Support · needs your reply</div>Please confirm the delivery address for part F8210300.</div>
+    </section>
+  </div>
+
+  <form style="position: absolute; left: 0; right: 0; bottom: 0; background: #ffffff; border-top: 1px solid #e4e8f0; padding: 12px 16px 24px; display: flex; gap: 8px; align-items: center">
+    <button type="button" class="iconbtn" aria-label="Attach a file"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="m21 12-8.5 8.5a5 5 0 0 1-7-7L14 5a3.5 3.5 0 0 1 5 5l-8.5 8.5a2 2 0 0 1-3-3L15 8"/></svg></button>
+    <label class="input" style="flex: 1; height: 46px"><input type="text" placeholder="Reply to support" aria-label="Reply to support"></label>
+    <button type="button" class="iconbtn" aria-label="Send" style="background: #1f4e8c; border-color: #1f4e8c; color: #ffffff !important"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4z"/></svg></button>
+  </form>
+</main>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":1000}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

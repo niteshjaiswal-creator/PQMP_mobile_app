@@ -1,0 +1,1265 @@
+{
+  "AUTH-01": {
+    "status": "tested",
+    "updated": "2026-11-02T19:30:56.722Z",
+    "openQuestions": [
+      "Persona: SRS targets dealers, POC and provided QA login (egpsupportdesk1) are support desk. Need dealer QA login and confirmation of target persona(s).",
+      "Portal auth mechanism and whether a mobile API layer exists (SRS 17.1) - portal unreachable 2026-10-26 (503 / VPN?).",
+      "Portal has no mobile/JSON API (/api/* 404). Who provides token-based auth + case APIs for the app?",
+      "Usernames may contain spaces or '@' (e.g. display name or email used as username). Must the mobile login accept them?"
+    ],
+    "notes": "LoginScreen.tsx + api/auth.ts; signed in as dealer on emulator via mock (2026-11-03)",
+    "portalEvidence": [
+      "analysis/portal/sitemap.md",
+      "analysis/portal/api-contracts.md",
+      "analysis/portal/roles-and-access.md",
+      "analysis/portal/users-by-role.md"
+    ],
+    "implementation": [
+      "mobile/src/screens/LoginScreen.tsx",
+      "mobile/src/api/auth.ts",
+      "mobile/src/api/client.ts"
+    ],
+    "tests": [
+      "mobile/src/screens/LoginScreen.test.tsx",
+      "mobile/src/api/auth.test.ts",
+      "mobile/src/api/api.test.ts",
+      "analysis/test-reports/2026-11-03-auth-emulator.md"
+    ]
+  },
+  "CREATE-02": {
+    "status": "implemented",
+    "updated": "2026-11-02T20:18:54.455Z",
+    "openQuestions": [
+      "Case taxonomy differs: SRS 12.3 generic case types vs POC type::sub-type matrix (7 types). Confirm live master and whether it is available via API; domain/case-validation.ts must be reworked to the matrix."
+    ],
+    "notes": "Category list from masters API.",
+    "portalEvidence": [
+      "analysis/portal/masters.md",
+      "analysis/portal/case-create.md"
+    ],
+    "implementation": [
+      "mobile/src/screens/create/CreateTypeScreen.tsx"
+    ],
+    "tests": [
+      "mobile/__tests__/dealer-journey.test.tsx"
+    ]
+  },
+  "CREATE-04": {
+    "status": "implemented",
+    "updated": "2026-11-02T20:18:54.489Z",
+    "openQuestions": [
+      "Dynamic field rules: POC rule matrix (SAP doc single/multi, SO, invoice, support required, improvement, CSM/ASM approval, supplying plant, part-description file) - confirm against portal Field Configuration Master.",
+      "SAP document / SO number lookup endpoint used to pre-fill the form is unknown."
+    ],
+    "portalEvidence": [
+      "analysis/portal/case-create.md"
+    ],
+    "notes": "Fields, references, parts and attachments driven by the sub-type form config; case-validation.ts reworked to it (visibleWhen supported).",
+    "implementation": [
+      "mobile/src/domain/case-validation.ts",
+      "mobile/src/screens/create/CreateDetailsScreen.tsx",
+      "mobile/src/screens/create/CreateReferenceScreen.tsx"
+    ],
+    "tests": [
+      "mobile/src/domain/case-validation.test.ts"
+    ]
+  },
+  "FLOW-02": {
+    "status": "needs-approval",
+    "updated": "2026-11-02T19:31:53.511Z",
+    "openQuestions": [
+      "SRS 10.2 recommended statuses (Submitted, Awaiting Assignment, Under Review, Clarification Required, Awaiting User Response, Awaiting Backend Update, Resolved, Closure Pending) do not exist in portal/POC (New, Assigned, Inprogress, Hold, Resume, Escalated, Reassigned, Closed, Re-open). Need VECV approval + backend support."
+    ],
+    "portalEvidence": [
+      "analysis/portal/masters.md"
+    ],
+    "notes": "SRS 10.2 statuses are not in the portal; need VECV approval and backend support"
+  },
+  "DETAIL-17": {
+    "status": "needs-approval",
+    "updated": "2026-11-02T19:32:42.089Z",
+    "openQuestions": [
+      "Escalate Case (L3->L4) is a support-desk action in the POC and conflicts with SRS 20 out-of-scope item 6 (escalation management portal in mobile app)."
+    ],
+    "portalEvidence": [
+      "analysis/portal/case-detail.md"
+    ],
+    "notes": "Prototype only, not in SRS; left out of the final design. Needs VECV approval"
+  },
+  "DETAIL-16": {
+    "status": "needs-approval",
+    "updated": "2026-11-02T19:32:42.072Z",
+    "openQuestions": [
+      "SLA risk badge: POC hard-codes 24h SLA and 50/75/90/100% thresholds; SRS 10.4 says SLA formulas need business confirmation.",
+      "Source of the POC's 24h SLA target and thresholds? Portal has no SLA rules (SRS 10.4 needs business confirmation).",
+      "Is SLA counted in working hours (Calendar Sync holidays) or calendar hours?",
+      "Wrong Part Supply has no SLA row, and Customer Order Cancellation has no assignment-matrix rows. Are these gaps?"
+    ],
+    "portalEvidence": [
+      "analysis/portal/roles-and-access.md"
+    ],
+    "notes": "Prototype only, not in SRS; left out of the final design. Needs VECV approval"
+  },
+  "AUTH-03": {
+    "status": "implemented",
+    "updated": "2026-11-02T20:17:16.533Z",
+    "portalEvidence": [
+      "analysis/portal/api-contracts.md"
+    ],
+    "notes": "Tokens in Keychain, restored on launch, one refresh on 401 then sign-out with \"session expired\" notice, sign-out from Account. Inactivity timeout policy awaits VECV (SRS 8.1.4).",
+    "implementation": [
+      "mobile/src/api/auth.ts",
+      "mobile/src/api/client.ts",
+      "mobile/src/session/SessionContext.tsx",
+      "mobile/src/screens/account/AccountScreen.tsx",
+      "mobile/src/screens/LoginScreen.tsx",
+      "mobile/src/navigation/RootNavigator.tsx"
+    ],
+    "tests": [
+      "mobile/src/api/client.test.ts",
+      "mobile/__tests__/dealer-journey.test.tsx"
+    ],
+    "openQuestions": [
+      "Session inactivity timeout policy (SRS 8.1.4) not yet defined by VECV."
+    ]
+  },
+  "DASH-01": {
+    "status": "implemented",
+    "updated": "2026-11-02T20:17:16.551Z",
+    "portalEvidence": [
+      "analysis/portal/sitemap.md",
+      "analysis/portal/dashboard-dealer.md"
+    ],
+    "openQuestions": [
+      "UAT /dashboard returns HTTP 500 — needs fixing to baseline DASH KPIs.",
+      "KPI bucket definition: current statusBucket() puts Assigned under In Progress (UAT system: Open 5 vs portal 'Open' 522). Recommend Open = New/Assigned/Re-Assigned/Re-Open, In Progress = In Progress/Hold/Resume/Escalated. Confirm with VECV.",
+      "'Recently updated' window and what counts as an update?",
+      "Who builds the dashboard/count API?",
+      "Production dashboard shows system-wide data to a dealer (other dealers, regions, staff names). Intended? Breaks SRS 5.1/4.2.",
+      "Official formulas for Total Logged / Open / Resolved / Avg Closure Time: production totals disagree (1,596 vs 1,623 vs 1,546).",
+      "Default period for the mobile dashboard: month to date (portal) or all-time?"
+    ],
+    "notes": "Home KPIs total/open/in progress/closed + recently updated (HomeScreen).",
+    "implementation": [
+      "mobile/src/screens/home/HomeScreen.tsx"
+    ],
+    "tests": [
+      "mobile/__tests__/dealer-journey.test.tsx",
+      "mobile/.maestro/dealer/home-and-cases.yaml"
+    ]
+  },
+  "DASH-04": {
+    "status": "implemented",
+    "updated": "2026-11-02T20:17:16.618Z",
+    "portalEvidence": [
+      "analysis/portal/case-list.md",
+      "analysis/portal/dashboard-dealer.md"
+    ],
+    "notes": "KPI tiles and rows open My Cases with a matching preset (features/cases/filters.ts).",
+    "implementation": [
+      "mobile/src/screens/home/HomeScreen.tsx",
+      "mobile/src/features/cases/filters.ts",
+      "mobile/src/screens/cases/CaseListScreen.tsx"
+    ],
+    "tests": [
+      "mobile/src/features/cases/filters.test.ts",
+      "mobile/__tests__/dealer-journey.test.tsx"
+    ]
+  },
+  "CREATE-01": {
+    "status": "implemented",
+    "updated": "2026-11-02T20:18:54.435Z",
+    "portalEvidence": [
+      "analysis/portal/case-create.md",
+      "analysis/portal/screens/case-create.png"
+    ],
+    "notes": "3-step create flow: category, order reference (+ check details), details.",
+    "implementation": [
+      "mobile/src/screens/create/CreateTypeScreen.tsx",
+      "mobile/src/screens/create/CreateReferenceScreen.tsx",
+      "mobile/src/screens/create/ScanReviewScreen.tsx",
+      "mobile/src/screens/create/CreateDetailsScreen.tsx",
+      "mobile/src/features/create/CreateCaseContext.tsx"
+    ],
+    "tests": [
+      "mobile/__tests__/dealer-journey.test.tsx",
+      "mobile/.maestro/dealer/raise-case.yaml"
+    ]
+  },
+  "CREATE-03": {
+    "status": "implemented",
+    "updated": "2026-11-02T20:18:54.472Z",
+    "portalEvidence": [
+      "analysis/portal/masters.md",
+      "analysis/portal/api-contracts.md"
+    ],
+    "openQuestions": [
+      "Legacy sub-types (Buyback, Invoice Soft Copy, Non Transit Claims, Parts Pickup Not Done, Settlement Not Received, Approval Matrix - SRN Request): display-only on mobile?",
+      "POC Order Cancellation sub-types (Alternate Parts, Higher Assembly, Others) don't exist in the portal (only Customer Order Cancellation). Older/planned taxonomy?"
+    ],
+    "notes": "Creatable sub-categories under the chosen category.",
+    "implementation": [
+      "mobile/src/screens/create/CreateTypeScreen.tsx"
+    ],
+    "tests": [
+      "mobile/__tests__/dealer-journey.test.tsx"
+    ]
+  },
+  "CREATE-05": {
+    "status": "implemented",
+    "updated": "2026-11-02T20:18:54.506Z",
+    "portalEvidence": [
+      "analysis/portal/case-create.md"
+    ],
+    "openQuestions": [
+      "SRS asks for issue title + remarks + preferred contact mode; portal has only Problem Statement and Mode of Query. Add fields or map?"
+    ],
+    "notes": "Issue title, description, remarks, contact person/number/email, preferred contact mode.",
+    "implementation": [
+      "mobile/src/screens/create/CreateDetailsScreen.tsx",
+      "mobile/src/domain/case-validation.ts"
+    ],
+    "tests": [
+      "mobile/src/domain/case-validation.test.ts",
+      "mobile/__tests__/dealer-journey.test.tsx"
+    ]
+  },
+  "CREATE-06": {
+    "status": "implemented",
+    "updated": "2026-11-02T20:18:54.523Z",
+    "portalEvidence": [
+      "analysis/portal/case-create.md",
+      "analysis/portal/api-contracts.md"
+    ],
+    "notes": "SO/SAP document/invoice/PO references with format checks and lookup; part rows with quantity.",
+    "implementation": [
+      "mobile/src/screens/create/CreateReferenceScreen.tsx",
+      "mobile/src/screens/create/CreateDetailsScreen.tsx"
+    ],
+    "tests": [
+      "mobile/src/domain/case-validation.test.ts",
+      "mobile/__tests__/dealer-journey.test.tsx"
+    ],
+    "openQuestions": [
+      "openCase in lookups carries only the case number; GET /cases/{id} must accept it (TODO(api-contract) in CreateReferenceScreen)."
+    ]
+  },
+  "CREATE-07": {
+    "status": "implemented",
+    "updated": "2026-11-02T20:18:54.539Z",
+    "portalEvidence": [
+      "analysis/portal/case-create.md"
+    ],
+    "notes": "Attach photos/files on step 3 with remove.",
+    "implementation": [
+      "mobile/src/screens/create/CreateDetailsScreen.tsx",
+      "mobile/src/features/attachments/pickFile.ts"
+    ],
+    "tests": [
+      "mobile/src/domain/attachment-policy.test.ts"
+    ]
+  },
+  "CREATE-08": {
+    "status": "not-started",
+    "updated": "2026-11-02T20:18:54.714Z",
+    "portalEvidence": [
+      "analysis/portal/case-create.md"
+    ],
+    "notes": "Same as SCAN-01: camera scan deferred until the barcode format is known."
+  },
+  "CREATE-10": {
+    "status": "implemented",
+    "updated": "2026-11-02T20:18:54.572Z",
+    "portalEvidence": [
+      "analysis/portal/case-create.md"
+    ],
+    "notes": "Select the parts the case is about.",
+    "implementation": [
+      "mobile/src/screens/create/ScanReviewScreen.tsx"
+    ],
+    "tests": [
+      "mobile/__tests__/dealer-journey.test.tsx",
+      "mobile/.maestro/dealer/raise-case.yaml"
+    ]
+  },
+  "CREATE-12": {
+    "status": "implemented",
+    "updated": "2026-11-02T20:18:54.604Z",
+    "portalEvidence": [
+      "analysis/portal/masters.md"
+    ],
+    "notes": "Case registered screen shows only the server-returned number.",
+    "implementation": [
+      "mobile/src/screens/create/CaseCreatedScreen.tsx"
+    ],
+    "tests": [
+      "mobile/__tests__/dealer-journey.test.tsx"
+    ]
+  },
+  "LIST-01": {
+    "status": "implemented",
+    "updated": "2026-11-02T20:17:16.637Z",
+    "portalEvidence": [
+      "analysis/portal/case-list.md",
+      "analysis/portal/screens/case-list.png"
+    ],
+    "openQuestions": [
+      "Only a desk account was available; need a dealer test account to verify dealer-scoped listing."
+    ],
+    "notes": "My Cases list with paging, pull-to-refresh, empty/error states; scope enforced by API.",
+    "implementation": [
+      "mobile/src/screens/cases/CaseListScreen.tsx",
+      "mobile/src/components/CaseCard.tsx"
+    ],
+    "tests": [
+      "mobile/__tests__/dealer-journey.test.tsx",
+      "mobile/__tests__/screen-states.test.tsx",
+      "mobile/.maestro/dealer/home-and-cases.yaml"
+    ]
+  },
+  "LIST-02": {
+    "status": "implemented",
+    "updated": "2026-11-02T20:17:16.657Z",
+    "portalEvidence": [
+      "analysis/portal/case-list.md"
+    ],
+    "notes": "Case card: number, category/sub-category, status, priority, order reference, latest update, created and updated dates.",
+    "implementation": [
+      "mobile/src/components/CaseCard.tsx"
+    ],
+    "tests": [
+      "mobile/__tests__/dealer-journey.test.tsx"
+    ]
+  },
+  "LIST-03": {
+    "status": "implemented",
+    "updated": "2026-11-02T20:17:16.674Z",
+    "portalEvidence": [
+      "analysis/portal/case-list.md"
+    ],
+    "notes": "Debounced search by case or order number (min 3 characters).",
+    "implementation": [
+      "mobile/src/screens/cases/CaseListScreen.tsx",
+      "mobile/src/features/cases/filters.ts"
+    ],
+    "tests": [
+      "mobile/src/features/cases/filters.test.ts",
+      "mobile/__tests__/dealer-journey.test.tsx",
+      "mobile/.maestro/dealer/home-and-cases.yaml"
+    ]
+  },
+  "LIST-04": {
+    "status": "implemented",
+    "updated": "2026-11-02T20:17:16.692Z",
+    "portalEvidence": [
+      "analysis/portal/case-list.md"
+    ],
+    "notes": "Filter sheet: status, category, sub-category, priority, raised date range, order-related only.",
+    "implementation": [
+      "mobile/src/features/cases/FilterSheet.tsx",
+      "mobile/src/features/cases/filters.ts"
+    ],
+    "tests": [
+      "mobile/src/features/cases/filters.test.ts",
+      "mobile/.maestro/dealer/home-and-cases.yaml"
+    ]
+  },
+  "LIST-09": {
+    "status": "implemented",
+    "updated": "2026-11-02T20:17:16.784Z",
+    "portalEvidence": [
+      "analysis/portal/case-list.md",
+      "analysis/portal/roles-and-access.md",
+      "analysis/portal/role-analysis-phase1.md",
+      "analysis/portal/users-by-role.md"
+    ],
+    "notes": "Dealer cards never show desk names (assignedDesk only for internal roles); scope enforced by API.",
+    "openQuestions": [
+      "Users can hold several roles (107 users). Should mobile show a role switcher or the union of scopes?",
+      "Mobile API must expose the user's roles and mapped dealer codes at login; the portal has no such JSON."
+    ],
+    "implementation": [
+      "mobile/src/components/CaseCard.tsx",
+      "mobile/src/domain/case-status.ts"
+    ],
+    "tests": [
+      "mobile/__tests__/dealer-journey.test.tsx",
+      "mobile/src/api/api.test.ts"
+    ]
+  },
+  "LIST-10": {
+    "status": "needs-approval",
+    "updated": "2026-11-02T19:32:41.949Z",
+    "portalEvidence": [
+      "analysis/portal/case-list.md"
+    ],
+    "notes": "Prototype only, not in SRS; left out of the final design. Needs VECV approval"
+  },
+  "LIST-11": {
+    "status": "needs-approval",
+    "updated": "2026-11-02T19:32:41.965Z",
+    "portalEvidence": [
+      "analysis/portal/case-list.md",
+      "analysis/portal/masters.md"
+    ],
+    "notes": "Prototype only, not in SRS; left out of the final design. Needs VECV approval"
+  },
+  "LIST-13": {
+    "status": "needs-approval",
+    "updated": "2026-11-02T19:32:41.996Z",
+    "portalEvidence": [
+      "analysis/portal/case-list.md"
+    ],
+    "notes": "Prototype only, not in SRS; left out of the final design. Needs VECV approval"
+  },
+  "DETAIL-01": {
+    "status": "implemented",
+    "updated": "2026-11-02T20:18:05.445Z",
+    "portalEvidence": [
+      "analysis/portal/case-detail.md",
+      "analysis/portal/screens/case-detail-closed.png",
+      "analysis/portal/role-analysis-phase1.md"
+    ],
+    "notes": "Case header: number, status, priority, title, category/sub-category, raised/updated, issue details.",
+    "openQuestions": [
+      "Some roles (e.g. Business Head) redirect to the production host eicheregp.vecv.net on UAT login - is that intended, and which roles are mobile Phase 1?"
+    ],
+    "implementation": [
+      "mobile/src/screens/case-detail/CaseDetailScreen.tsx"
+    ],
+    "tests": [
+      "mobile/__tests__/dealer-journey.test.tsx",
+      "mobile/.maestro/dealer/case-tracking.yaml"
+    ]
+  },
+  "DETAIL-03": {
+    "status": "implemented",
+    "updated": "2026-11-02T20:18:05.480Z",
+    "portalEvidence": [
+      "analysis/portal/case-detail.md"
+    ],
+    "notes": "Timeline from GET /timeline; wording in features/case-detail/timeline.ts.",
+    "implementation": [
+      "mobile/src/features/case-detail/timeline.ts",
+      "mobile/src/components/Timeline.tsx"
+    ],
+    "tests": [
+      "mobile/src/features/case-detail/timeline.test.ts"
+    ]
+  },
+  "DETAIL-04": {
+    "status": "implemented",
+    "updated": "2026-11-02T20:18:05.499Z",
+    "portalEvidence": [
+      "analysis/portal/case-detail.md",
+      "analysis/portal/roles-and-access.md",
+      "analysis/portal/role-analysis-phase1.md"
+    ],
+    "openQuestions": [
+      "History descriptions embed desk names ('Case assigned to X'). Will backend provide customer-safe descriptions or should the app rewrite them?"
+    ],
+    "notes": "Dealers see \"PQMP Support\" via customerFacingOwner() in header, timeline, messages and files. Final name awaits VECV.",
+    "implementation": [
+      "mobile/src/screens/case-detail/CaseDetailScreen.tsx",
+      "mobile/src/features/case-detail/timeline.ts",
+      "mobile/src/features/case-detail/MessagesTab.tsx"
+    ],
+    "tests": [
+      "mobile/src/features/case-detail/timeline.test.ts",
+      "mobile/__tests__/dealer-journey.test.tsx"
+    ]
+  },
+  "DETAIL-06": {
+    "status": "implemented",
+    "updated": "2026-11-02T20:18:05.534Z",
+    "portalEvidence": [
+      "analysis/portal/case-detail.md"
+    ],
+    "notes": "Messages tab: view and add comments while open; read-only notice when closed or for management.",
+    "implementation": [
+      "mobile/src/features/case-detail/MessagesTab.tsx"
+    ],
+    "tests": [
+      "mobile/__tests__/dealer-journey.test.tsx",
+      "mobile/.maestro/dealer/case-tracking.yaml"
+    ]
+  },
+  "DETAIL-07": {
+    "status": "implemented",
+    "updated": "2026-11-02T20:18:05.553Z",
+    "portalEvidence": [],
+    "openQuestions": [
+      "Clarification request/response does not exist in portal workflow — backend change needed for FLOW-03/DETAIL-07/ATTACH-04/NOTIF-05."
+    ],
+    "notes": "Clarification requested / response received in timeline and highlighted in messages.",
+    "implementation": [
+      "mobile/src/features/case-detail/timeline.ts",
+      "mobile/src/features/case-detail/MessagesTab.tsx"
+    ],
+    "tests": [
+      "mobile/src/features/case-detail/timeline.test.ts"
+    ]
+  },
+  "DETAIL-08": {
+    "status": "implemented",
+    "updated": "2026-11-02T20:18:05.571Z",
+    "portalEvidence": [
+      "analysis/portal/case-detail.md"
+    ],
+    "notes": "Files list with source, uploader, date, size; opens a signed download URL.",
+    "implementation": [
+      "mobile/src/features/case-detail/MessagesTab.tsx"
+    ],
+    "tests": [
+      "mobile/__tests__/dealer-journey.test.tsx"
+    ]
+  },
+  "DETAIL-09": {
+    "status": "implemented",
+    "updated": "2026-11-02T20:18:05.589Z",
+    "portalEvidence": [
+      "analysis/portal/case-detail.md"
+    ],
+    "openQuestions": [
+      "Source for order header/delivery summary (ORDER-01/02) and part quantities (PART-02) — not present in portal."
+    ],
+    "notes": "Order & parts tab only when sections.order/parts/consignment apply.",
+    "implementation": [
+      "mobile/src/features/case-detail/OrderPartsTab.tsx",
+      "mobile/src/screens/case-detail/CaseDetailScreen.tsx"
+    ],
+    "tests": [
+      "mobile/__tests__/dealer-journey.test.tsx"
+    ]
+  },
+  "DETAIL-11": {
+    "status": "implemented",
+    "updated": "2026-11-02T20:18:05.624Z",
+    "portalEvidence": [
+      "analysis/portal/case-detail.md"
+    ],
+    "openQuestions": [
+      "Consignment tracking API/source not present in portal — which logistics system?"
+    ],
+    "notes": "Tracking cards per consignment with events or a fallback.",
+    "implementation": [
+      "mobile/src/features/case-detail/OrderPartsTab.tsx"
+    ],
+    "tests": [
+      "mobile/__tests__/dealer-journey.test.tsx"
+    ]
+  },
+  "DETAIL-12": {
+    "status": "implemented",
+    "updated": "2026-11-02T20:18:05.641Z",
+    "portalEvidence": [
+      "analysis/portal/case-detail.md"
+    ],
+    "notes": "Resolution card with closure remarks and date.",
+    "implementation": [
+      "mobile/src/features/case-detail/Closure.tsx"
+    ],
+    "tests": [
+      "mobile/__tests__/dealer-journey.test.tsx",
+      "mobile/.maestro/dealer/closure-feedback-reopen.yaml"
+    ]
+  },
+  "DETAIL-13": {
+    "status": "implemented",
+    "updated": "2026-11-02T20:18:05.659Z",
+    "portalEvidence": [],
+    "openQuestions": [
+      "Feedback (rating + remarks) has no backend in portal — where is it stored?"
+    ],
+    "notes": "Feedback card after closure; shows given rating and remarks.",
+    "implementation": [
+      "mobile/src/features/case-detail/Closure.tsx",
+      "mobile/src/domain/closure-rules.ts"
+    ],
+    "tests": [
+      "mobile/src/domain/closure-rules.test.ts",
+      "mobile/__tests__/dealer-journey.test.tsx"
+    ]
+  },
+  "DETAIL-14": {
+    "status": "implemented",
+    "updated": "2026-11-02T20:18:05.678Z",
+    "portalEvidence": [
+      "analysis/portal/case-list.md",
+      "analysis/portal/api-contracts.md"
+    ],
+    "notes": "Reopen sheet with mandatory remarks, only when actions.canReopen.",
+    "implementation": [
+      "mobile/src/features/case-detail/Closure.tsx",
+      "mobile/src/domain/closure-rules.ts"
+    ],
+    "tests": [
+      "mobile/src/domain/closure-rules.test.ts",
+      "mobile/__tests__/dealer-journey.test.tsx"
+    ]
+  },
+  "FLOW-01": {
+    "status": "implemented",
+    "updated": "2026-11-02T20:18:05.695Z",
+    "portalEvidence": [
+      "analysis/portal/masters.md"
+    ],
+    "notes": "Portal statuses shown as business labels everywhere (StatusPill, timeline).",
+    "implementation": [
+      "mobile/src/domain/case-status.ts",
+      "mobile/src/components/ui.tsx"
+    ],
+    "tests": [
+      "mobile/src/domain/case-status.test.ts"
+    ]
+  },
+  "ORDER-03": {
+    "status": "implemented",
+    "updated": "2026-11-02T20:18:05.784Z",
+    "portalEvidence": [],
+    "notes": "LastRefreshed on order, parts and each consignment.",
+    "implementation": [
+      "mobile/src/components/states.tsx",
+      "mobile/src/features/case-detail/OrderPartsTab.tsx"
+    ],
+    "tests": [
+      "mobile/__tests__/dealer-journey.test.tsx"
+    ]
+  },
+  "ORDER-04": {
+    "status": "implemented",
+    "updated": "2026-11-02T20:18:05.801Z",
+    "portalEvidence": [
+      "analysis/portal/case-detail.md"
+    ],
+    "notes": "Per-section fallback (unavailable/pending/not applicable/error with retry); rest of case still loads.",
+    "implementation": [
+      "mobile/src/features/case-detail/OrderPartsTab.tsx",
+      "mobile/src/components/states.tsx"
+    ],
+    "tests": [
+      "mobile/__tests__/dealer-journey.test.tsx"
+    ]
+  },
+  "NOTIF-01": {
+    "status": "implemented",
+    "updated": "2026-11-02T20:18:54.381Z",
+    "portalEvidence": [],
+    "openQuestions": [
+      "No notification events in portal — what backend emits case events for FCM push?"
+    ],
+    "notes": "Updates screen: all/unread, mark one/all read, tap opens the case on the right tab. Push not built.",
+    "implementation": [
+      "mobile/src/screens/notifications/NotificationsScreen.tsx"
+    ],
+    "tests": [
+      "mobile/__tests__/dealer-journey.test.tsx"
+    ]
+  },
+  "ALERT-01": {
+    "status": "needs-approval",
+    "updated": "2026-11-02T19:32:42.105Z",
+    "portalEvidence": [],
+    "notes": "Prototype only, not in SRS; left out of the final design. Needs VECV approval"
+  },
+  "PART-02": {
+    "status": "implemented",
+    "updated": "2026-11-02T20:18:05.837Z",
+    "portalEvidence": [
+      "analysis/portal/case-detail.md"
+    ],
+    "openQuestions": [
+      "Which SAP API provides part-level ordered/delivered/pending qty and EDA date (assumed by POC, absent in portal)?"
+    ],
+    "notes": "Ordered/delivered/pending with pendingQuantity and derivePartStatus.",
+    "implementation": [
+      "mobile/src/features/case-detail/OrderPartsTab.tsx",
+      "mobile/src/domain/part-status.ts"
+    ],
+    "tests": [
+      "mobile/src/domain/part-status.test.ts",
+      "mobile/__tests__/dealer-journey.test.tsx"
+    ]
+  },
+  "DASH-09": {
+    "status": "needs-approval",
+    "updated": "2026-11-02T19:32:41.933Z",
+    "portalEvidence": [],
+    "openQuestions": [
+      "Is there a dealer region / dealer type master for the dashboard filters?"
+    ],
+    "notes": "Prototype only, not in SRS; left out of the final design. Needs VECV approval"
+  },
+  "DASH-02": {
+    "status": "implemented",
+    "updated": "2026-11-02T20:17:16.569Z",
+    "portalEvidence": [
+      "analysis/portal/dashboard-dealer.md"
+    ],
+    "notes": "Awaiting-your-response card, feedback pending and order/delivery update rows on dealer home.",
+    "implementation": [
+      "mobile/src/screens/home/HomeScreen.tsx"
+    ],
+    "tests": [
+      "mobile/__tests__/dealer-journey.test.tsx",
+      "mobile/.maestro/dealer/home-and-cases.yaml"
+    ]
+  },
+  "DASH-03": {
+    "status": "implemented",
+    "updated": "2026-11-02T20:17:16.588Z",
+    "portalEvidence": [
+      "analysis/portal/dashboard-dealer.md",
+      "analysis/portal/screens/dealer-landing.png"
+    ],
+    "notes": "Create case (tab bar +), My Cases tab, recently updated list on home.",
+    "implementation": [
+      "mobile/src/screens/home/HomeScreen.tsx",
+      "mobile/src/navigation/TabBar.tsx"
+    ],
+    "tests": [
+      "mobile/__tests__/dealer-journey.test.tsx"
+    ]
+  },
+  "AUTH-02": {
+    "status": "tested",
+    "updated": "2026-11-02T19:30:56.742Z",
+    "implementation": [
+      "mobile/src/api/auth.ts",
+      "mobile/src/screens/LoginScreen.tsx"
+    ],
+    "tests": [
+      "mobile/src/api/auth.test.ts",
+      "mobile/src/api/api.test.ts",
+      "analysis/test-reports/2026-11-03-auth-emulator.md"
+    ],
+    "notes": "403 -> inactive message (api/auth.ts); verified on emulator with user \"inactive\""
+  },
+  "AUTH-04": {
+    "status": "tested",
+    "updated": "2026-11-02T19:30:56.774Z",
+    "implementation": [
+      "mobile/src/api/auth.ts",
+      "mobile/src/api/client.ts",
+      "mobile/src/domain/login-validation.ts"
+    ],
+    "tests": [
+      "mobile/src/api/auth.test.ts",
+      "mobile/src/screens/LoginScreen.test.tsx",
+      "analysis/test-reports/2026-11-03-auth-emulator.md"
+    ],
+    "notes": "Friendly errors (api/auth.ts, client.ts); verified on emulator: empty fields, wrong password"
+  },
+  "CREATE-09": {
+    "status": "implemented",
+    "updated": "2026-11-02T20:18:54.556Z",
+    "notes": "Check details screen: document no., GST, seller GST, invoice ref editable (from lookup today; scan will feed the same screen).",
+    "implementation": [
+      "mobile/src/screens/create/ScanReviewScreen.tsx"
+    ],
+    "tests": [
+      "mobile/__tests__/dealer-journey.test.tsx"
+    ]
+  },
+  "CREATE-11": {
+    "status": "implemented",
+    "updated": "2026-11-02T20:18:54.589Z",
+    "notes": "Validated submit with idempotency key; server field errors mapped to fields.",
+    "implementation": [
+      "mobile/src/screens/create/CreateDetailsScreen.tsx",
+      "mobile/src/domain/case-validation.ts"
+    ],
+    "tests": [
+      "mobile/src/domain/case-validation.test.ts",
+      "mobile/__tests__/dealer-journey.test.tsx"
+    ]
+  },
+  "CREATE-13": {
+    "status": "implemented",
+    "updated": "2026-11-02T20:18:54.630Z",
+    "notes": "Draft held in CreateCaseContext above the screens; failure keeps every value.",
+    "implementation": [
+      "mobile/src/features/create/CreateCaseContext.tsx",
+      "mobile/src/screens/create/CreateDetailsScreen.tsx"
+    ],
+    "tests": [
+      "mobile/__tests__/dealer-journey.test.tsx",
+      "mobile/.maestro/dealer/raise-case.yaml"
+    ]
+  },
+  "LIST-05": {
+    "status": "implemented",
+    "updated": "2026-11-02T20:17:16.712Z",
+    "notes": "StatusPill via portalStatusLabel/statusTone; unknown codes show Under Review.",
+    "implementation": [
+      "mobile/src/components/ui.tsx",
+      "mobile/src/domain/case-status.ts"
+    ],
+    "tests": [
+      "mobile/src/domain/case-status.test.ts"
+    ]
+  },
+  "LIST-06": {
+    "status": "implemented",
+    "updated": "2026-11-02T20:17:16.732Z",
+    "notes": "Latest update text on each card (falls back to summary).",
+    "implementation": [
+      "mobile/src/components/CaseCard.tsx"
+    ],
+    "tests": [
+      "mobile/__tests__/dealer-journey.test.tsx"
+    ]
+  },
+  "LIST-07": {
+    "status": "implemented",
+    "updated": "2026-11-02T20:17:16.750Z",
+    "notes": "\"Rate this case\" tag when feedback is pending after closure.",
+    "implementation": [
+      "mobile/src/components/CaseCard.tsx"
+    ],
+    "tests": [
+      "mobile/__tests__/dealer-journey.test.tsx"
+    ]
+  },
+  "LIST-08": {
+    "status": "implemented",
+    "updated": "2026-11-02T20:17:16.767Z",
+    "notes": "\"Tracking\" tag when the case has consignments.",
+    "implementation": [
+      "mobile/src/components/CaseCard.tsx"
+    ],
+    "tests": [
+      "mobile/__tests__/dealer-journey.test.tsx"
+    ]
+  },
+  "DETAIL-02": {
+    "status": "implemented",
+    "updated": "2026-11-02T20:18:05.462Z",
+    "notes": "Latest update card at the top (red with Reply when a clarification is open).",
+    "implementation": [
+      "mobile/src/screens/case-detail/CaseDetailScreen.tsx"
+    ],
+    "tests": [
+      "mobile/__tests__/dealer-journey.test.tsx"
+    ]
+  },
+  "DETAIL-05": {
+    "status": "implemented",
+    "updated": "2026-11-02T20:18:05.516Z",
+    "notes": "Details card: references, contact, sub-type fields, parts, description, remarks (fallbacks via display.ts).",
+    "implementation": [
+      "mobile/src/screens/case-detail/CaseDetailScreen.tsx"
+    ],
+    "tests": [
+      "mobile/__tests__/dealer-journey.test.tsx"
+    ]
+  },
+  "DETAIL-10": {
+    "status": "implemented",
+    "updated": "2026-11-02T20:18:05.606Z",
+    "notes": "Part cards when part data exists.",
+    "implementation": [
+      "mobile/src/features/case-detail/OrderPartsTab.tsx"
+    ],
+    "tests": [
+      "mobile/__tests__/dealer-journey.test.tsx"
+    ]
+  },
+  "FLOW-03": {
+    "status": "in-progress",
+    "updated": "2026-11-02T20:18:05.712Z",
+    "notes": "Dealer reply to clarification implemented (MessagesTab, inReplyTo). Support \"ask dealer\" screen is Phase 3.",
+    "implementation": [
+      "mobile/src/features/case-detail/MessagesTab.tsx"
+    ],
+    "tests": [
+      "mobile/__tests__/dealer-journey.test.tsx"
+    ]
+  },
+  "FLOW-04": {
+    "status": "implemented",
+    "updated": "2026-11-02T20:18:05.729Z",
+    "notes": "Reopen with mandatory remarks when allowed by the server.",
+    "implementation": [
+      "mobile/src/features/case-detail/Closure.tsx"
+    ],
+    "tests": [
+      "mobile/__tests__/dealer-journey.test.tsx"
+    ]
+  },
+  "ORDER-01": {
+    "status": "implemented",
+    "updated": "2026-11-02T20:18:05.748Z",
+    "notes": "Order number, type label, PO, PO date, plant, dealer, sold-to, chassis when present.",
+    "implementation": [
+      "mobile/src/features/case-detail/OrderPartsTab.tsx"
+    ],
+    "tests": [
+      "mobile/__tests__/dealer-journey.test.tsx"
+    ]
+  },
+  "ORDER-02": {
+    "status": "implemented",
+    "updated": "2026-11-02T20:18:05.766Z",
+    "notes": "Parts/delivered/pending counts and overall status.",
+    "implementation": [
+      "mobile/src/features/case-detail/OrderPartsTab.tsx"
+    ],
+    "tests": [
+      "mobile/__tests__/dealer-journey.test.tsx"
+    ]
+  },
+  "PART-01": {
+    "status": "implemented",
+    "updated": "2026-11-02T20:18:05.819Z",
+    "notes": "Part number, description, HSN when available.",
+    "implementation": [
+      "mobile/src/features/case-detail/OrderPartsTab.tsx"
+    ],
+    "tests": [
+      "mobile/__tests__/dealer-journey.test.tsx"
+    ]
+  },
+  "PART-03": {
+    "status": "implemented",
+    "updated": "2026-11-02T20:18:05.852Z",
+    "notes": "Delivery number/date, invoice number/date (invalid dates show Awaiting Update).",
+    "implementation": [
+      "mobile/src/features/case-detail/OrderPartsTab.tsx"
+    ],
+    "tests": [
+      "mobile/__tests__/dealer-journey.test.tsx"
+    ]
+  },
+  "PART-04": {
+    "status": "implemented",
+    "updated": "2026-11-02T20:18:05.872Z",
+    "notes": "Expected delivery date for parts not fully delivered.",
+    "implementation": [
+      "mobile/src/features/case-detail/OrderPartsTab.tsx"
+    ],
+    "tests": [
+      "mobile/__tests__/dealer-journey.test.tsx"
+    ]
+  },
+  "PART-05": {
+    "status": "implemented",
+    "updated": "2026-11-02T20:18:05.890Z",
+    "notes": "Part remarks when present.",
+    "implementation": [
+      "mobile/src/features/case-detail/OrderPartsTab.tsx"
+    ]
+  },
+  "PART-06": {
+    "status": "implemented",
+    "updated": "2026-11-02T20:18:05.907Z",
+    "notes": "Consignment reference and status on each part.",
+    "implementation": [
+      "mobile/src/features/case-detail/OrderPartsTab.tsx"
+    ]
+  },
+  "SCAN-01": {
+    "status": "not-started",
+    "updated": "2026-11-02T20:18:54.696Z",
+    "notes": "Camera scan deferred: react-native-vision-camera 5 moved code scanning out of core and needs Nitro modules; barcode format undecided (SRS 11.7). Check details screen is ready to receive scan output.",
+    "openQuestions": [
+      "Barcode/QR format and fields on the invoice; is OCR needed (SRS 11.7)?",
+      "Pick scanner library: vision-camera 4.x (built-in code scanner) or 5.x + barcode plugin."
+    ]
+  },
+  "SCAN-02": {
+    "status": "implemented",
+    "updated": "2026-11-02T20:18:54.648Z",
+    "notes": "Review and correct values on Check details (fed by lookup until the camera step is built).",
+    "implementation": [
+      "mobile/src/screens/create/ScanReviewScreen.tsx"
+    ],
+    "tests": [
+      "mobile/__tests__/dealer-journey.test.tsx"
+    ]
+  },
+  "SCAN-03": {
+    "status": "implemented",
+    "updated": "2026-11-02T20:18:54.663Z",
+    "notes": "Select applicable parts from the document.",
+    "implementation": [
+      "mobile/src/screens/create/ScanReviewScreen.tsx"
+    ],
+    "tests": [
+      "mobile/__tests__/dealer-journey.test.tsx"
+    ]
+  },
+  "SCAN-04": {
+    "status": "implemented",
+    "updated": "2026-11-02T20:18:54.679Z",
+    "notes": "Manual entry always possible; lookup outage lets the user continue unverified.",
+    "implementation": [
+      "mobile/src/screens/create/CreateReferenceScreen.tsx"
+    ],
+    "tests": [
+      "mobile/__tests__/dealer-journey.test.tsx"
+    ]
+  },
+  "CONSIGN-01": {
+    "status": "implemented",
+    "updated": "2026-11-02T20:18:05.923Z",
+    "notes": "Consignment status and movement events.",
+    "implementation": [
+      "mobile/src/features/case-detail/OrderPartsTab.tsx"
+    ],
+    "tests": [
+      "mobile/__tests__/dealer-journey.test.tsx",
+      "mobile/.maestro/dealer/case-tracking.yaml"
+    ]
+  },
+  "CONSIGN-02": {
+    "status": "implemented",
+    "updated": "2026-11-02T20:18:05.942Z",
+    "notes": "Last updated time per consignment.",
+    "implementation": [
+      "mobile/src/features/case-detail/OrderPartsTab.tsx"
+    ],
+    "tests": [
+      "mobile/__tests__/dealer-journey.test.tsx"
+    ]
+  },
+  "CONSIGN-03": {
+    "status": "implemented",
+    "updated": "2026-11-02T20:18:05.960Z",
+    "notes": "\"Tracking unavailable\" fallback per consignment.",
+    "implementation": [
+      "mobile/src/features/case-detail/OrderPartsTab.tsx"
+    ],
+    "tests": [
+      "mobile/__tests__/dealer-journey.test.tsx"
+    ]
+  },
+  "ATTACH-01": {
+    "status": "implemented",
+    "updated": "2026-11-02T20:18:54.257Z",
+    "notes": "Camera/photos/files picker, type and size checks, upload during create and after (Add file).",
+    "implementation": [
+      "mobile/src/features/attachments/pickFile.ts",
+      "mobile/src/domain/attachment-policy.ts",
+      "mobile/src/features/case-detail/MessagesTab.tsx",
+      "mobile/src/screens/create/CreateDetailsScreen.tsx"
+    ],
+    "tests": [
+      "mobile/src/domain/attachment-policy.test.ts"
+    ],
+    "openQuestions": [
+      "Attachment types, size and count per case (SRS 11.6) awaiting VECV; defaults PDF/JPG/PNG, 10 MB, 5 files."
+    ]
+  },
+  "ATTACH-02": {
+    "status": "implemented",
+    "updated": "2026-11-02T20:18:54.278Z",
+    "notes": "Open/download permitted files via signed URL.",
+    "implementation": [
+      "mobile/src/features/case-detail/MessagesTab.tsx"
+    ],
+    "tests": [
+      "mobile/__tests__/dealer-journey.test.tsx"
+    ]
+  },
+  "ATTACH-03": {
+    "status": "implemented",
+    "updated": "2026-11-02T20:18:54.297Z",
+    "notes": "Composer shown only when actions.canComment; failed send keeps text.",
+    "implementation": [
+      "mobile/src/features/case-detail/MessagesTab.tsx"
+    ],
+    "tests": [
+      "mobile/__tests__/dealer-journey.test.tsx",
+      "mobile/.maestro/dealer/case-tracking.yaml"
+    ]
+  },
+  "ATTACH-04": {
+    "status": "implemented",
+    "updated": "2026-11-02T20:18:54.314Z",
+    "notes": "Reply goes as response to the open clarification (inReplyTo).",
+    "implementation": [
+      "mobile/src/features/case-detail/MessagesTab.tsx"
+    ],
+    "tests": [
+      "mobile/__tests__/dealer-journey.test.tsx",
+      "mobile/.maestro/dealer/case-tracking.yaml"
+    ]
+  },
+  "ATTACH-05": {
+    "status": "implemented",
+    "updated": "2026-11-02T20:18:54.331Z",
+    "notes": "Reopen requires 10–300 character remarks.",
+    "implementation": [
+      "mobile/src/features/case-detail/Closure.tsx",
+      "mobile/src/domain/closure-rules.ts"
+    ],
+    "tests": [
+      "mobile/src/domain/closure-rules.test.ts",
+      "mobile/.maestro/dealer/closure-feedback-reopen.yaml"
+    ]
+  },
+  "NOTIF-02": {
+    "status": "not-started",
+    "updated": "2026-11-02T19:32:22.978Z",
+    "notes": "Event raised by backend and listed via NOTIF-01; push (@react-native-firebase/messaging) not built; channels need VECV (SRS 8.9.6)"
+  },
+  "NOTIF-03": {
+    "status": "needs-approval",
+    "updated": "2026-11-02T19:32:22.999Z",
+    "notes": "Assignment alerts to customers only if approved (SRS 15.2.8)"
+  },
+  "NOTIF-04": {
+    "status": "not-started",
+    "updated": "2026-11-02T19:32:23.016Z",
+    "notes": "Event raised by backend and listed via NOTIF-01; push (@react-native-firebase/messaging) not built; channels need VECV (SRS 8.9.6)"
+  },
+  "NOTIF-05": {
+    "status": "not-started",
+    "updated": "2026-11-02T19:32:23.033Z",
+    "notes": "Event raised by backend and listed via NOTIF-01; push (@react-native-firebase/messaging) not built; channels need VECV (SRS 8.9.6)"
+  },
+  "NOTIF-06": {
+    "status": "not-started",
+    "updated": "2026-11-02T19:32:23.050Z",
+    "notes": "Event raised by backend and listed via NOTIF-01; push (@react-native-firebase/messaging) not built; channels need VECV (SRS 8.9.6)"
+  },
+  "NOTIF-07": {
+    "status": "not-started",
+    "updated": "2026-11-02T19:32:23.066Z",
+    "notes": "Event raised by backend and listed via NOTIF-01; push (@react-native-firebase/messaging) not built; channels need VECV (SRS 8.9.6)"
+  },
+  "NOTIF-08": {
+    "status": "not-started",
+    "updated": "2026-11-02T19:32:23.083Z",
+    "notes": "Event raised by backend and listed via NOTIF-01; push (@react-native-firebase/messaging) not built; channels need VECV (SRS 8.9.6)"
+  },
+  "NOTIF-09": {
+    "status": "not-started",
+    "updated": "2026-11-02T19:32:23.098Z",
+    "notes": "Event raised by backend and listed via NOTIF-01; push (@react-native-firebase/messaging) not built; channels need VECV (SRS 8.9.6)"
+  },
+  "NOTIF-10": {
+    "status": "not-started",
+    "updated": "2026-11-02T19:32:23.113Z",
+    "notes": "Event raised by backend and listed via NOTIF-01; push (@react-native-firebase/messaging) not built; channels need VECV (SRS 8.9.6)"
+  },
+  "NOTIF-11": {
+    "status": "not-started",
+    "updated": "2026-11-02T19:32:23.129Z",
+    "notes": "Event raised by backend and listed via NOTIF-01; push (@react-native-firebase/messaging) not built; channels need VECV (SRS 8.9.6)"
+  },
+  "FEEDBACK-01": {
+    "status": "implemented",
+    "updated": "2026-11-02T20:18:54.347Z",
+    "notes": "1–5 star rating with labels after closure.",
+    "implementation": [
+      "mobile/src/features/case-detail/Closure.tsx",
+      "mobile/src/domain/closure-rules.ts"
+    ],
+    "tests": [
+      "mobile/src/domain/closure-rules.test.ts",
+      "mobile/__tests__/dealer-journey.test.tsx"
+    ],
+    "openQuestions": [
+      "Is feedback mandatory, and is there a time window (SRS 13.11.7)?"
+    ]
+  },
+  "FEEDBACK-02": {
+    "status": "implemented",
+    "updated": "2026-11-02T20:18:54.365Z",
+    "notes": "Optional remarks up to 500 characters.",
+    "implementation": [
+      "mobile/src/features/case-detail/Closure.tsx"
+    ],
+    "tests": [
+      "mobile/src/domain/closure-rules.test.ts"
+    ]
+  },
+  "DATA-01": {
+    "status": "implemented",
+    "updated": "2026-11-02T20:18:54.400Z",
+    "notes": "403 shows \"You do not have access to this information.\" via ErrorState; out-of-scope cases read as not found.",
+    "implementation": [
+      "mobile/src/api/client.ts",
+      "mobile/src/components/states.tsx"
+    ],
+    "tests": [
+      "mobile/src/api/client.test.ts",
+      "mobile/__tests__/screen-states.test.tsx"
+    ]
+  },
+  "DATA-02": {
+    "status": "implemented",
+    "updated": "2026-11-02T20:18:54.418Z",
+    "notes": "LastRefreshed wherever order, part or tracking data shows.",
+    "implementation": [
+      "mobile/src/components/states.tsx",
+      "mobile/src/features/case-detail/OrderPartsTab.tsx"
+    ],
+    "tests": [
+      "mobile/__tests__/dealer-journey.test.tsx"
+    ]
+  },
+  "DASH-05": {
+    "status": "needs-approval",
+    "updated": "2026-11-02T19:32:41.868Z",
+    "notes": "Prototype only, not in SRS; left out of the final design. Needs VECV approval"
+  },
+  "DASH-06": {
+    "status": "needs-approval",
+    "updated": "2026-11-02T19:32:41.887Z",
+    "notes": "Prototype only, not in SRS; left out of the final design. Needs VECV approval"
+  },
+  "DASH-07": {
+    "status": "needs-approval",
+    "updated": "2026-11-02T19:32:41.902Z",
+    "notes": "Prototype only, not in SRS; left out of the final design. Needs VECV approval"
+  },
+  "DASH-08": {
+    "status": "needs-approval",
+    "updated": "2026-11-02T19:32:41.917Z",
+    "notes": "Prototype only, not in SRS; left out of the final design. Needs VECV approval"
+  },
+  "LIST-12": {
+    "status": "needs-approval",
+    "updated": "2026-11-02T19:32:41.981Z",
+    "notes": "Prototype only, not in SRS; left out of the final design. Needs VECV approval"
+  },
+  "PROFILE-01": {
+    "status": "needs-approval",
+    "updated": "2026-11-02T19:32:42.011Z",
+    "notes": "Prototype only, not in SRS; left out of the final design. Needs VECV approval"
+  },
+  "PROFILE-02": {
+    "status": "needs-approval",
+    "updated": "2026-11-02T19:32:42.026Z",
+    "notes": "Prototype only, not in SRS; left out of the final design. Needs VECV approval"
+  },
+  "PROFILE-03": {
+    "status": "needs-approval",
+    "updated": "2026-11-02T19:32:42.042Z",
+    "notes": "Prototype only, not in SRS; left out of the final design. Needs VECV approval"
+  },
+  "DETAIL-15": {
+    "status": "needs-approval",
+    "updated": "2026-11-02T19:32:42.057Z",
+    "notes": "Prototype only, not in SRS; left out of the final design. Needs VECV approval"
+  },
+  "ALERT-02": {
+    "status": "needs-approval",
+    "updated": "2026-11-02T19:32:42.120Z",
+    "notes": "Prototype only, not in SRS; left out of the final design. Needs VECV approval"
+  },
+  "ALERT-03": {
+    "status": "needs-approval",
+    "updated": "2026-11-02T19:32:42.137Z",
+    "notes": "Prototype only, not in SRS; left out of the final design. Needs VECV approval"
+  },
+  "ALERT-04": {
+    "status": "needs-approval",
+    "updated": "2026-11-02T19:32:42.152Z",
+    "notes": "Prototype only, not in SRS; left out of the final design. Needs VECV approval"
+  }
+}

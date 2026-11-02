@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Check scanned details</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="/_blob/0197031cd7cfeb6dd68aec3fd9f1230f">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>body{margin:0}a{color:#1f4e8c}a:hover{color:#163a69}</style>
+</helmet>
+<main class="app" style="width: 390px; height: 1040px">
+  <div class="page nobar">
+    <header class="top">
+      <a class="iconbtn" href="CreateReference.dc.html" aria-label="Back"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="m15 6-6 6 6 6"/></svg></a>
+      <div class="t">Check scanned details</div>
+    </header>
+    <div class="card" style="padding: 12px 14px; display: flex; gap: 10px; align-items: center; background: #f3faf5; border-color: #cfe9d6">
+      <svg class="i" viewBox="0 0 24 24" aria-hidden="true" style="color: #1b6b34"><path d="m5 12 5 5 9-10"/></svg>
+      <span style="font-size: 14px; font-weight: 700">Invoice scanned. Correct anything that looks wrong.</span>
+    </div>
+
+    <label class="field"><span>Invoice number</span><div class="input"><input type="text" value="9012345678" aria-label="Invoice number"></div></label>
+    <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px">
+      <label class="field"><span>GST number</span><div class="input"><input type="text" value="23AAACE1234F1Z5" aria-label="GST number"></div></label>
+      <label class="field"><span>Seller GST</span><div class="input"><input type="text" value="23AAACV5678K1Z2" aria-label="Seller GST number"></div></label>
+    </div>
+    <label class="field"><span>Invoice reference</span><div class="input"><input type="text" placeholder="Not found in scan: type it if you have it" aria-label="Invoice reference"></div></label>
+
+    <section style="display: flex; flex-direction: column; gap: 10px">
+      <div><h2 class="h2">Which parts is this case about?</h2><div class="cap" style="margin-top: 2px">3 parts on this invoice · 2 selected</div></div>
+      <section class="card" style="overflow: hidden">
+        <label class="row"><span class="check on"><svg class="i sm" viewBox="0 0 24 24" aria-hidden="true" style="stroke-width: 3"><path d="m5 12 5 5 9-10"/></svg></span>
+          <div class="tx"><b>F8210300</b><span>Clutch plate assembly · HSN 87089300 · Qty 4</span></div></label>
+        <label class="row"><span class="check on"><svg class="i sm" viewBox="0 0 24 24" aria-hidden="true" style="stroke-width: 3"><path d="m5 12 5 5 9-10"/></svg></span>
+          <div class="tx"><b>E4410021</b><span>Brake lining set · HSN 68138100 · Qty 10</span></div></label>
+        <label class="row"><span class="check"></span>
+          <div class="tx"><b>A1100457</b><span>Oil filter · HSN 84212300 · Qty 20</span></div></label>
+      </section>
+    </section>
+    <a class="btn" href="CreateDetails.dc.html">Use 2 parts</a>
+    <a class="btn ghost" href="#">Scan again</a>
+    <p class="hint" style="margin: 0; text-align: center">Scan not working? Go back and type the numbers instead.</p>
+  </div>
+</main>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":1040}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

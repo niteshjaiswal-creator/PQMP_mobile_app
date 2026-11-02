@@ -1,0 +1,698 @@
+[
+  {
+    "number": "1.1",
+    "title": "Purpose of the Document",
+    "text": "This document defines the updated proposed solution for the VECV PQMP Case Tracking\nMobile Application.\nThe document captures:\n1. Business scope.\n2. User journeys.\n3. Functional modules.\n4. Case lifecycle.\n5. Integration requirements.\n6. Order and part status visibility.\n7. Case assignment and backend handling.\n8. Customer feedback.\n9. Invoice/barcode scan-assisted capture.\n10. Consignment tracking.\n11. Data handling rules.\n12. Audit requirements.\n13. Reports and dashboards.\n14. Non-functional requirements.\n15. Risks, dependencies, open points, and out-of-scope items.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "1.2",
+    "title": "Background",
+    "text": "The PQMP / EGP ecosystem is used for handling cases related to:\n1. Order status.\n2. Expected delivery updates.\n3. Order cancellation.\n4. Norms modification.\n5. Delivery concerns.\n6. Invoice-related queries.\n7. Pending part concerns.\n8. Other support-related issues.\nIn the current process, users receive case references and updates through available\ncommunication channels. However, the complete case journey, current case owner, latest\nstatus, part-wise order position, pending quantity, expected delivery date, delivery progress, and\nclosure remarks will be always available in a simple and mobile-friendly view. The proposed\nsolution aims to provide a clear case tracking experience where users can create cases, track\nprogress, view timelines, check order-related details, review part-wise delivery\ninformation, receive notifications, access closure remarks , simple customer feedback,\nscan-assisted order/part capture, possible consignment tracking from a single\n\n\nportal/mobile interface.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "1.3",
+    "title": "Business Objectives",
+    "text": "The key business objectives of the proposed solution are:\n1. Provide a structured and easy-to-use case creation experience through mobile.\n2. Enable users to track all their cases from a single My Cases view.\n3. Show current case status, latest update, timeline, owner/team information where\npermitted, feedbacks and closure remarks.\n4. Reduce manual follow-ups by making case progress visible to users.\n5. Display order-level details for order-related cases.\n6. Display part-wise quantity and delivery position wherever order data is available.\n7. Show pending quantity and expected delivery information in a user-friendly format.\n8. Prevent confusion by avoiding raw backend values such as technical codes, blank\ndates, null values, or invalid date formats.\n9. Support notifications for key events such as case creation, assignment, status update,\nclarification, order update, closure, and reopening.\n10. Provide dashboard and customer analytics in the current phase.\n11. Capture simple customer feedback against the case ID.\n12. Support scan-assisted capture from invoice/barcode where available.\n13. Support consignment tracking where third-party logistics API is available.\n14. Create a scalable foundation for future enhancements, deeper integrations, additional\ncase categories, and extended user roles.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "1.4",
+    "title": "Scope of This Document",
+    "text": "This document covers:\n1. Current process understanding.\n2. Proposed mobile solution overview.\n3. User personas and access rules.\n4. End-to-end case creation and tracking flow.\n5. Functional modules and detailed requirements.\n6. Case lifecycle and status management.\n7. ECC / SAP order tracking and part-wise visibility.\n8. Invoice/barcode scan-assisted capture.\n9. Consignment tracking.\n10. Customer feedback/rating.\n11. Integration requirements.\n12. Master data and configuration requirements.\n13. Screen-level solution direction.\n14. Reports and dashboard expectations.\n15. Notifications and alerts.\n16. Security, access control, audit, and error handling.\n17. Non-functional requirements.\n\n\n18. Risks, dependencies and out-of-scope items.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "1.5",
+    "title": "Scope Principles",
+    "text": "The proposed solution will follow these principles:\n1. The user experience should remain simple, business-readable, and mobile-friendly.\n2. Case creation will be handled through structured portal/mobile forms.\n3. Dashboard and customer analytics will remain part of the current phase.\n4. Order and part status details will be shown only for applicable order-related cases.\n5. Invoice/barcode scan will assist capture, but the user must review/select relevant part\ndetails before case submission.\n6. Consignment tracking will depend on logistics API availability.\n7. User access will be controlled through role, user, dealer, location and mapping rules in\nexisting PQMP web portal.\n8. All existing business rules, field mappings, integrations, notification channels, status\nmappings, assignment logic, closure rules, and dashboard KPIs that are already\napplicable in the existing web portal will continue to be followed for the mobile app. Any\nnew feature, enhancement, change in logic, or additional functionality will require\nconfirmation and approval from VECV before inclusion in the final scope of work\ndocument.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "2.1",
+    "title": "Current Process Summary",
+    "text": "The current case management process involves case creation in PQMP / EGP web portal,\nassignment to the relevant support team, review of case details, order-related checking in ECC /\nSAP where applicable, update sharing, and case closure.\nFor order-related cases, the support team needs to check order number, PO number, part\nnumber, delivered quantity, pending quantity, invoice reference, delivery reference, and\nexpected delivery date from ECC / SAP or related backend sources.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "2.2",
+    "title": "Current High-Level Workflow",
+    "text": "1. User raises a case related to order, part, delivery, invoice, cancellation, norms, or\nanother issue.\n2. System generates a case number.\n3. Case registration confirmation is sent through the available channel.\n\n\n4. Case appears in the PQMP / EGP case listings.\n5. Case is assigned to the relevant owner or support team as per case assignment matrix.\n6. Support team reviews issue, category, documents, and related details.\n7. For order-related cases, order and part details are checked from ECC / SAP or the\nrelevant backend source.\n8. Support team updates case status and remarks.\n9. Customers/ Dealers receive updates through the available communication channel.\n10. Case is resolved and closed after the required action or response.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "2.3",
+    "title": "Current Challenges",
+    "text": "The following challenges are identified:\n1. Users don’t have clear visibility of the current case status.\n2. Users don’t know what the next action is.\n3. Order and part-related information is not available in a simple mobile-friendly format.\n4. Part-wise delivery status not be clearly visible.\n5. Pending quantity and expected delivery date require manual follow-up.\n6. Backend values such as blank dates, invalid dates, or technical codes create confusion\nif shown directly.\n7. Case updates depend heavily on manual communication.\n8. Attachments, remarks, clarification history, and closure responses are not easily\naccessible in one place.\n9. Auto closure can create risk if SAP/API data is incorrect or not synchronized.\n10. Consignment status is not visible.\n11. Email-based case generation requires more discussion before scope finalization.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "2.4",
+    "title": "Solution Direction",
+    "text": "The proposed portal/mobile solution will address the above challenges by providing:\n1. My Cases listing for easy tracking.\n2. Case detail page with full case summary.\n3. Current status and latest update at the top of the page.\n4. Chronological case timeline.\n5. Order summary for order-related cases.\n6. Part-wise delivery status with ordered, delivered, and pending quantity.\n7. Expected delivery / EDA visibility wherever available.\n8. Scan-assisted invoice/barcode capture where available.\n9. Consignment tracking where logistics API is available.\n10. User-friendly handling of missing, invalid, or unavailable backend values.\n11. Notifications for key case and order events.\n12. Customer feedback capture after case completion.\n13. Attachment and comment visibility based on access rights.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "3.1",
+    "title": "Solution Summary",
+    "text": "The proposed PQMP Mobile Case Tracking Solution will act as a single digital window for users\nto create, view, and track cases.\nUsers will be able to:\n1. Log in securely.\n2. View dashboard and case analytics.\n3. Create a new case through a structured form.\n4. Track existing cases from My Cases.\n5. Open case details and view latest status.\n6. View order-level information for order-related cases.\n7. View part-wise delivery status and pending quantity.\n8. Use invoice/barcode scan-assisted capture where available.\n9. View consignment tracking where logistics data is available.\n10. Upload and view attachments.\n11. Add comments or clarifications where permitted.\n12. Receive notifications on important case events.\n13. View final closure remarks once the case is closed.\n14. Provide simple feedback/rating after case completion.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "3.2",
+    "title": "Proposed User Journey",
+    "text": "1. User logs in using the approved authentication method.\n2. System validates the user and applies role/data access mapping.\n3. User lands on the dashboard.\n4. Dashboard displays case summary, recent updates, and quick actions.\n5. User can either create a new case or open My Cases.\n6. While creating a case, user selects category and sub-category.\n7. System displays relevant fields based on selected category.\n8. User enters case details, remarks, order/PO/part details where applicable, and uploads\nattachments if required.\n9. Where applicable, user scans invoice/barcode to capture available details.\n10. System displays scanned details for review.\n11. User selects relevant part/parts for which the case is being raised.\n12. System validates the entered information.\n13. System creates the case in PQMP / EGP and returns the case number.\n14. Case becomes visible under My Cases.\n\n\n15. Backend system assigns the case to the relevant support desk based on case\nassignment matrix.\n16. For order-related cases, system fetches or displays ECC / SAP-linked details where\nintegration is available.\n17. User opens the case detail page to see status, timeline, order status, part-wise status,\ncomments, attachments, consignment status where available, and closure response.\n18. Notifications are sent for important updates.\n19. Case is resolved and closed with final remarks.\n20. User provides feedback/rating where enabled.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "3.3",
+    "title": "Proposed Capabilities",
+    "text": "Capability Updated Description\nSecure Login and\nAccess Control\nUsers will access the portal/mobile app through approved login.\nData will be shown based on role and mapped access.\nDashboard Users will see total cases, open cases, in-progress cases, closed\ncases, recently updated cases, and order-related cases. Dashboard\nis part of current scope.\nCase Creation Users will create cases through a structured form with category,\nsub-category, issue details, order references, part details, remarks,\nscan support, and attachments.\nMy Cases Users will view all cases created by or mapped to them.\nCase Detail and Live\nTracking\nUsers will see case summary, current status, latest update, timeline,\ncomments, attachments, and closure details.\nOrder Status Visibility Order-related cases will show order number, PO details, delivery\nstatus, pending status, and last refreshed time.\nPart-Wise Status\nVisibility\nUsers will view part number, description, ordered quantity, delivered\nquantity, pending quantity, invoice reference, delivery reference,\nexpected date, and part status.\nInvoice/Barcode Scan User scan invoice/barcode to capture available order, invoice,\nGST, HSN, and part details. User must review/select relevant\ndetails.\n\n\nConsignment\nTracking\nDelivery/consignment status be shown where logistics API is\navailable.\nCustomer Feedback Simple 1–5 rating and optional remarks will be captured against the\ncase ID.\nAssignment and\nAdmin Control\nBackend assignment should support balanced distribution and\nadmin transfer.\nNotifications and\nAlerts\nUsers will receive alerts based on configured events and approved\nchannels.\nAudit and\nGovernance\nImportant user, support, admin, and system actions will be logged.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "3.4",
+    "title": "Key Business Benefits",
+    "text": "1. Improved visibility of case progress.\n2. Reduced manual follow-up between users and support teams.\n3. Clear order-level and part-level information for order-related cases.\n4. Better user confidence through latest update and timeline visibility.\n5. Reduced confusion by converting backend values into simple business labels.\n6. Better support governance through status tracking, ownership, audit, and escalation\nvisibility.\n7. Better workload management through balanced support desk assignment.\n8. Improved customer experience through a single customer-facing support identity.\n9. Faster case creation through scan-assisted capture where available.\n10. Better service quality tracking through customer feedback.\n11. Improved closure governance through review-based closure handling.\n12. Scalable structure for future case categories, reports, integrations, and role expansion.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "3.5",
+    "title": "Solution Boundaries",
+    "text": "The current solution will include structured mobile case creation and tracking.\nCurrent phase will include dashboard/customer analytics and core case tracking. Separate\nescalation management portal integration and approval workflow are parked for Phase 2 as per\n\n\ndiscussion.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "4.1",
+    "title": "Dealer / Customer User",
+    "text": "This is the primary user of the portal/mobile case tracking solution.\nThe user will be able to:\n1. Log in to the system.\n2. View dashboard summary.\n3. Create a new case.\n4. View own or mapped cases.\n5. Track case progress.\n6. View order and part status where applicable.\n7. Scan invoice/barcode where supported.\n8. View consignment status where available.\n9. Upload attachments.\n10. Add comments or clarification responses where allowed.\n11. Receive notifications.\n12. View closure remarks.\n13. Provide feedback/rating after case completion.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "4.2",
+    "title": "Customer-Facing Support Persona",
+    "text": "A single external customer-facing support persona should be shown to the user.\nThe customer should not see backend labels such as:\n1. EGP Desk 1.\n2. EGP Desk 1.\n3. EGP Desk 3.\n4. Internal support desk user names, unless approved.\nExpected behavior:\n1. Customer raises the case through one common support interface.\n2. Customer tracks the case through one case ID.\n3. Customer receives updates through one customer-facing support identity.\n4. Backend assignment remains internal.\n5. Internal desk transfer should not create confusion for the customer.\n6. Technical discussions with VECV would be required.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "4.3",
+    "title": "PQMP / EGP Support User",
+    "text": "Support users will handle cases through the existing support process or approved access route.\nSupport users be able to:\n1. View assigned cases.\n2. Review case details.\n3. Add remarks or updates.\n4. Update case status where permitted.\n5. View order and part details where required.\n6. Check SAP/ECC details where needed.\n7. Respond to clarification requests.\n8. Upload supporting details.\n9. Close or resolve cases as per workflow.\n10. Receive cases through balanced assignment.\n11. Receive transferred cases from admin.\nMobile access for support users should be enabled only if approved by VECV.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "4.4",
+    "title": "Admin / Configuration User",
+    "text": "Admin users will manage configuration, master data, and backend assignment controls where\napplicable.\nAdmin users manage:\n1. Case categories.\n2. Case sub-categories.\n3. Dynamic field rules.\n4. Status mapping.\n5. Part status rules.\n6. Notification templates.\n7. Attachment policy.\n8. User/dealer/location mappings.\n9. Priority values.\n10. SLA and escalation configuration, if included.\n11. Support desk user mapping.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "4.5",
+    "title": "Management User",
+    "text": "Management users access reports and dashboards based on approved data scope.\nThey view:\n1. Case summary.\n2. Category-wise case count.\n3. Status-wise case count.\n4. Pending order cases.\n5. SLA and ageing summary, if applicable.\n6. Feedback/rating summary.\n7. Support desk workload.\n8. Closure summary.\n9. Integration failure/exception summary.\n10. Audit and operational reports, if approved.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "4.6",
+    "title": "System / Integration Layer",
+    "text": "The system/integration layer is not a human user, but it is required for solution execution.\nIt will support:\n1. Case creation and retrieval from PQMP / EGP.\n2. Order and part data fetch from ECC / SAP.\n3. Authentication and session validation.\n4. Notification triggering.\n5. Attachment handling.\n6. Scan-assisted data capture from invoice/barcode.\n7. Consignment tracking integration where API is available.\n8. Assignment rule execution.\n9. Audit logging.\n10. Error handling and system monitoring.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "5",
+    "title": "Role and Access Rules",
+    "text": "The system will follow role-based and data-level access control:\n1. Users will see only those cases that are created by them or mapped to their authorized\ndealer code\n2. Users will not be allowed to view cases outside their permitted scope.\n3. Customers will not see internal support desk labels unless explicitly approved.\n4. Attachments and comments will be visible only as per access policy.\n\n\n5. Internal support remarks will not be shown to case creators unless marked as user-\nfacing.\n6. Admin/configuration access will be restricted to authorized users only.\n7. Management reports will respect hierarchy, dealer, location, region, category, and role-\nlevel visibility.\n8. Access control must be enforced at backend level and not only through the user\ninterface.\n9. Unauthorized users must receive a clear message and must not be able to access\nrestricted data.\n10. Admin assignment and transfer rights must be configurable or controlled by role.\n11. Feedback visibility must be role-controlled.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "6.1",
+    "title": "Overall Flow",
+    "text": "1. User logs in to the mobile application.\n2. System authenticates the user and loads permitted access.\n3. User lands on the dashboard.\n4. User selects My Cases or Create Case.\n5. For new case creation, user selects category and sub-category.\n6. System displays required fields based on selected category.\n7. User enters case details, issue description, remarks, order/PO/part information where\napplicable, and uploads attachments.\n8. User scan invoice/barcode where applicable.\n9. System extracts available details from the scan and displays them for user review.\n10. User selects relevant part/parts where scan data contains multiple parts.\n11. System validates the information.\n12. System creates the case in PQMP / EGP.\n13. Case number is generated or returned by the backend system.\n14. Case appears in My Cases.\n15. Case is assigned to the relevant owner/team/support desk based on confirmed\nassignment logic.\n16. Case moves through review, progress, clarification, resolution, and closure stages as\napplicable.\n17. For order-related cases, system fetches order and part details from ECC / SAP or\napproved backend source.\n18. User views order summary and part-wise delivery status.\n19. User views consignment status where API is available.\n20. User receives notifications for important updates.\n21. Case is closed after resolution or based on approved closure rule.\n22. User views closure remarks and final status.\n23. User submits feedback/rating where enabled.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "6.2",
+    "title": "Case Creation Flow",
+    "text": "1. User opens Create Case.\n2. User selects case category.\n3. User selects sub-category.\n4. System displays relevant fields.\n5. User enters issue title and issue description.\n6. User enters contact details and preferred contact mode where required.\n7. For order-related cases, user enters order number, PO number, part number, invoice\nnumber, delivery number, chassis number, plant, or quantity details where applicable.\n8. User scans invoice/barcode where supported.\n9. System reads available invoice/order/part data.\n10. User reviews scanned data.\n11. User selects applicable part/parts for which the case needs to be created.\n12. User corrects or enters missing details manually where required.\n13. User uploads supporting documents if required.\n14. System validates mandatory fields, format rules, and attachment policy.\n15. System creates the case in PQMP / EGP.\n16. System displays success confirmation with case number.\n17. System triggers notification as per configured event rules.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "6.3",
+    "title": "Case Assignment Flow",
+    "text": "1. After case creation, the case is assigned to the relevant support team or owner.\n2. Assignment happen through existing PQMP / EGP case assignment matrix\n3. If Desk 1 has more pending cases and Desk 2 has fewer pending cases, new cases\nshould be routed toward the lower-load desk until distribution becomes balanced.\n4. Admin should be able to assign or transfer cases manually.\n5. Customer see a generic support identity but not internal desk allocation.\n6. If assignment is pending, the case show a status such as Submitted or Awaiting\nAssignment, based on final status mapping.\n7. Final rules for assignment, reassignment and rerouting logics need to be\ndiscussed with VECV.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "6.4",
+    "title": "Case Processing Flow",
+    "text": "The case move through the following status:\n1. Assigned - Case is assigned to the relevant team and is being reviewed.\n2. Escalated - Case is created and escalated to higher level\n3. In Progress - Support team is actively working on the case.\n4. Hold - Due to the valid reason the ticket has been put on hold.\n5. Inprogress - If the ticket resolution is in active state then it is put in progress status\n6. New - Case which are not yet assigned to the owner are generally in this status\n7. Reassigned - If the owner of the case changes then case show s the mentioned status.\n\n\n8. Resume - Support team provides the required response or resolution.\n9. Close - Case is completed and closed.\n10. Reopened - Case is reopened for further review, if allowed by business rules.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "6.5",
+    "title": "ECC / SAP Order Tracking Flow",
+    "text": "1. System identifies the type of the case & it’s sub type.\n2. System checks whether required order/PO/part reference is available.\n3. System fetches or receives order-level and part-level data from ECC / SAP or approved\nbackend source.\n4. System validates quantities, status consistency, dates, and data availability.\n5. System maps backend values into user-friendly display labels.\n6. System displays order summary and part-wise status.\n7. System shows Last Refreshed On timestamp for backend data.\n8. If data is unavailable, system displays a clear fallback message.\n9. Technical errors are logged internally and not shown directly to the user.\n10. If SAP/API data mismatch is identified, the case is marked for review instead of showing\nmisleading information.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "6.6",
+    "title": "Invoice / Barcode Scan Flow",
+    "text": "1. User can selects scan option during case creation or order capture.\n2. User scans the invoice/barcode.\n3. System captures available values such as invoice number, GST number, seller GST\ndetails, HSN code, invoice reference number, and part details where available.\n4. System displays extracted values for user review.\n5. User selects the part/parts for which the case is being created.\n6. User enters missing details manually if scan output is incomplete.\n7. System validates final details before case submission.\n8. Scan failure should not block case creation if manual entry is possible.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "6.7",
+    "title": "Consignment Tracking Flow",
+    "text": "1. System identifies whether consignment tracking is applicable for the order/part only if it\nis related to specific case type\n2. System checks required tracking reference.\n3. System calls logistics provider API where available.\n4. System displays tracking status in user-friendly format.\n5. System shows last refreshed timestamp.\n6. If tracking data is unavailable, system shows a fallback message.\n7. Technical API errors are logged internally.\n8. Third - Party APIs will be provided by VECV.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "7.1",
+    "title": "Login and Access Management",
+    "text": "This module will allow secure access to the portal/mobile application.\nKey capabilities:\n1. User authentication through approved login method.\n2. Role-based access control.\n3. User/dealer/location mapping.\n4. Secure session management.\n5. Unauthorized access handling.\n6. Inactive user restriction.\n7. Logout and session expiry handling.\n8. Backend-level data restriction.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "7.2",
+    "title": "Dashboard and Workbench",
+    "text": "This module will provide quick visibility of cases and important updates.\nKey capabilities:\n1. Total cases.\n2. Open cases.\n3. In-progress cases.\n4. Closed cases.\n5. Recently updated cases.\n6. Cases awaiting user response.\n7. Pending order-related cases.\n8. Cases pending backend/SAP update.\n9. Cases eligible for closure review, if approved.\n10. Feedback pending cases.\n11. Support desk workload for internal users.\n12. Quick access to Create Case and My Cases.\nDashboard and customer analytics are confirmed as part of the current phase, while separate\nescalation management portal integration and approval workflow are Phase 2 items.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "7.3",
+    "title": "Case Creation Module",
+    "text": "This module will allow users to create new cases through a structured form.\nKey capabilities:\n1. Category selection.\n2. Sub-category selection.\n3. Dynamic field display.\n4. Issue title and issue description.\n5. Contact details.\n6. Remarks.\n7. Order/PO/part fields where applicable.\n8. Invoice/barcode scan-assisted capture where supported.\n9. Attachment upload.\n10. Mandatory field validation.\n11. Case submission.\n12. Case number confirmation.\n13. Email-based case creation is open for confirmation and not confirmed in this module yet.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "7.4",
+    "title": "My Cases and Case Listing",
+    "text": "This module will allow users to view and track their cases.\nKey capabilities:\n1. Case cards/listing.\n2. Case ID.\n3. Category and sub-category.\n4. Current status.\n5. Priority.\n6. Created date.\n7. Last updated date.\n8. Order number where applicable.\n9. Consignment/tracking indicator where applicable.\n10. Feedback pending indicator where applicable.\n11. Search by case number or order number.\n12. Filters by status, category, priority, date range, and case type.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "7.5",
+    "title": "Case Detail and Live Tracking",
+    "text": "This module will show complete case information.\nKey capabilities:\n1. Case summary.\n2. Current status.\n\n\n3. Latest update.\n4. Case timeline.\n5. Assigned team/owner where permitted.\n6. Issue details.\n7. Attachments.\n8. Comments and clarification history.\n9. Order status section.\n10. Part-wise status section.\n11. Consignment tracking section where available.\n12. Closure remarks.\n13. Feedback/rating section.\n14. Reopen option where allowed.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "7.6",
+    "title": "Order Status Tracking",
+    "text": "This module will display order-level information for order-related cases.\nKey capabilities:\n1. Order number.\n2. Order type.\n3. PO number.\n4. PO date.\n5. Dealer/customer reference.\n6. Plant.\n7. Sold-to party where applicable.\n8. Total parts.\n9. Delivered parts.\n10. Pending parts.\n11. Overall order status.\n12. Last refreshed date/time.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "7.7",
+    "title": "Part-Wise Status Visibility",
+    "text": "This module will display line-level part information.\nKey capabilities:\n1. Part number.\n2. Part description.\n3. Ordered quantity.\n4. Delivered quantity.\n5. Pending quantity.\n6. Delivery number.\n7. Invoice number.\n\n\n8. Invoice date.\n9. Expected delivery / EDA date.\n10. Part status.\n11. Remarks where available.\n12. Consignment status where available.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "7.8",
+    "title": "Workflow and SLA Management",
+    "text": "This module already exists in the web portal which will support our mobile app for status\nmovement and tracking.\nKey capabilities:\n1. Status transitions.\n2. Owner/team assignment.\n3. Balanced support desk assignment, if approved.\n4. Admin assignment/transfer.\n5. Stage ageing.\n6. SLA tracking, if confirmed.\n7. Escalation tracking within existing PQMP provisions, if applicable.\n8. Separate escalation management portal integration as Phase 1.\n9. Closure and reopen rules.\n10. Timeline event creation.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "7.9",
+    "title": "Notifications and Alerts",
+    "text": "This module already exists in the web portal which will support our mobile app as well to inform\nusers about important case updates.\nKey capabilities:\n1. In-app notification center.\n2. Case creation alert.\n3. Assignment alert.\n4. Status update alert.\n5. Clarification required alert.\n6. Order update alert.\n7. Part status update alert.\n8. EDA update alert.\n9. Consignment status update alert.\n10. Closure alert.\n11. Reopen alert.\n12. Feedback request alert.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "7.10",
+    "title": "Attachments and Comments",
+    "text": "This module will support evidence upload and clarification exchange.\nKey capabilities:\n1. Attachment upload.\n2. File type validation.\n3. File size validation.\n4. Attachment viewing/download as per access.\n5. Comment submission.\n6. Clarification response.\n7. Reopen remarks.\n8. Attachment audit trail.\n9. Scan/invoice attachment reference where applicable.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "7.11",
+    "title": "Masters and Configuration",
+    "text": "Below are the masters which already exist & maintained in the web portal managed by the\nadmin.\nKey capabilities:\n1. Case category master.\n2. Case sub-category master.\n3. Field configuration master.\n4. Status mapping master.\n5. Part status rule configuration.\n6. Notification template master.\n7. Attachment policy master.\n8. User/dealer/location mapping.\n9. Priority master.\n10. SLA/escalation master, if included.\n11. Display label mapping.\n12. Support desk user mapping.\n13. Assignment rule configuration.\n14. Closure rule configuration.\n15. Feedback rating master.\n16. Integration mapping.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "7.12",
+    "title": "Customer Feedback section",
+    "text": "This module will capture customer feedback after case completion.\nKey capabilities:\n\n\n1. Feedback capture against case ID.\n2. Simple 1 to 5 rating.\n3. Optional remarks box.\n4. Feedback submission after completion/closure.\n5. Feedback visibility in case detail where permitted.\n6. Feedback summary in dashboard/reporting.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "7.13",
+    "title": "Invoice / Barcode Scan feature",
+    "text": "This module will support scan-assisted capture.\nKey capabilities:\n1. Scan invoice/barcode.\n2. Capture invoice number where available.\n3. Capture GST number where available.\n4. Capture seller GST details where available.\n5. Capture HSN code where available.\n6. Capture invoice reference where available.\n7. Capture part details where available.\n8. Allow user review and correction.\n9. Allow user to select applicable parts.\n10. Allow manual entry if scan output is incomplete.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "7.14",
+    "title": "Consignment Tracking feature",
+    "text": "This module will show delivery/consignment tracking where API is available.\nKey capabilities:\n1. Fetch consignment status.\n2. Show delivery movement/status.\n3. Show last updated timestamp.\n4. Show fallback message if data is unavailable.\n5. Log API failure.\n6. Support future integration with multiple logistics providers.\n7. API would be needed from third Parties from the different vendors",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "7.15",
+    "title": "Backend Assignment and Admin Workbench",
+    "text": "This module will support internal case distribution and control.\n\n\nKey capabilities:\n1. View unassigned cases.\n2. View assigned cases by support desk.\n3. View support desk workload.\n4. Assign cases manually.\n5. Transfer cases between desks.\n6. Apply balanced assignment rules.\n7. View old/pending queries.\n8. Review closure-eligible cases.\n9. Audit assignment and transfer actions.\nNote:- It is an architecture level change , it will need technical discussion.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "7.16",
+    "title": "Auto Case Registration from Email",
+    "text": "Narendra raised a requirement for automatic case generation from emails sent to a specific\nemail ID.\nThe expected behaviour discussed was:\n● Customer sends an email to a dedicated support email ID.\n● System reads the mail body.\n● System identifies the customer query/problem statement.\n● If part number or order information is available, system captures it.\n● If part details are missing or unclear, the case should still be registered.\n● EGP Support Desk can then ask the customer/originator for additional information.\n● The purpose is to ensure that no customer query remains unattended\nNote:- Technical discussion is required before finalizing this as part of scope.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "8.1",
+    "title": "Login and Authentication",
+    "text": "1. System shall allow only authenticated users to access the portal/mobile application.\n2. System shall map the logged-in user to role, dealer/location/user code, and data scope.\n3. System shall maintain secure sessions.\n4. System shall expire inactive sessions as per approved policy.\n5. System shall restrict inactive or unauthorized users.\n6. System shall redirect users to the appropriate dashboard based on their role and\naccess.\n7. Final authentication method shall be confirmed by VECV.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "8.2",
+    "title": "Dashboard",
+    "text": "1. System shall show case summary cards based on user access.\n2. Dashboard shall show total cases, open cases, in-progress cases, closed cases, and\nrecently updated cases.\n3. System shall show cases awaiting user response where applicable.\n4. Dashboard metrics shall match the data available in case listing.\n5. User shall be able to navigate from summary cards to relevant case lists.\n6. Customer dashboard shall not expose internal desk allocation.\n7. Internal dashboard show support desk workload where access is permitted.\n8. Dashboard shall support customer analytics in the current phase.\n9. Feedback summary be shown where feedback module is enabled.\n10. Closure review count be shown for admin/support users where closure review is\napproved.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "8.3",
+    "title": "My Cases",
+    "text": "1. System shall display only cases created by or mapped to the logged-in user.\n2. User shall be able to search by case number and order number.\n3. User shall be able to filter cases by status, category, sub-category, priority, date range,\nand order-related case type.\n4. Each case card shall show case number, category, sub-category, status, priority,\ncreated date, last updated date, order reference, and short description.\n5. User shall be able to open full case detail from the listing.\n6. User-facing list shall not show internal EGP desk names.\n7. Feedback pending cases be indicated after closure/completion.\n8. Consignment tracking indicator be shown where applicable.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "8.4",
+    "title": "Case Creation",
+    "text": "1. System shall provide a structured portal/mobile case creation form.\n2. User shall select case category and sub-category.\n3. System shall show dynamic fields based on selected category/sub-category.\n4. User shall enter issue title, issue description, remarks, contact details, and preferred\ncontact mode where required.\n5. For order-related cases, user shall enter order number, PO number, part number,\ninvoice number, delivery number, chassis number, plant, or quantity details where\napplicable.\n6. System shall support invoice/barcode scan-assisted capture where enabled.\n7. System shall show scanned values for user review.\n8. User shall select relevant part/parts before submission where scanned data contains\nmultiple parts.\n\n\n9. System shall validate mandatory fields before submission.\n10. System shall validate attachment requirements where applicable.\n11. System shall create the case in PQMP / EGP only after successful validation.\n12. System shall display the generated or returned case number after successful case\ncreation.\n13. System shall save the case under My Cases after creation.\n14. Email-based automatic case creation shall remain an open scope item pending\nconfirmation.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "8.5",
+    "title": "Case Detail",
+    "text": "1. System shall show case ID, category, sub-category, current status, priority, assigned\nteam where permitted, created date, last updated date, and issue details.\n2. System shall show the latest update at the top of the case detail page.\n3. System shall show case timeline in chronological order.\n4. System shall show comments and attachments based on user access.\n5. System shall show closure remarks once case is closed.\n6. System shall hide sensitive internal information from case creators unless marked as\nuser-facing.\n7. System shall show order and part sections only for applicable order-related cases.\n8. System shall show consignment tracking only where data is available.\n9. System shall show feedback/rating section after completion/closure where enabled.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "8.6",
+    "title": "Order Status",
+    "text": "1. System shall show order status section only for order-related cases.\n2. System shall display order number, order type, PO number, PO date, dealer/customer,\nplant, overall order status, delivered count, pending count, and last refreshed time where\navailable.\n3. System shall show a clear message if order data is not available.\n4. System shall not show raw technical backend values to the user.\n5. System shall log integration errors internally.\n6. System shall mark mismatch cases for review where SAP/API values conflict with case\nstate.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "8.7",
+    "title": "Part-Wise Status",
+    "text": "1. System shall display part number, part description, ordered quantity, delivered quantity,\npending quantity, delivery reference, invoice reference, expected date, and part status.\n\n\n2. System shall calculate pending quantity as ordered quantity minus delivered quantity.\n3. If delivered quantity equals ordered quantity, status shall be shown as Fully Delivered.\n4. If delivered quantity is greater than zero but less than ordered quantity, status shall be\nshown as Partially Delivered.\n5. If delivered quantity is zero, status shall be shown as Not Delivered.\n6. If backend quantity and status are contradictory, system shall show Under Review and\nlog the mismatch internally.\n7. If expected date is blank, invalid, or unavailable, system shall show Awaiting Update or\nNot Available.\n8. Consignment tracking be linked at part level where data is available.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "8.8",
+    "title": "Comments and Clarifications",
+    "text": "1. User shall be able to add comments where case status allows.\n2. User shall be able to respond to clarification requests.\n3. User shall be able to upload additional attachments where allowed.\n4. Reopen request shall require mandatory remarks if reopen is enabled.\n5. All comments and clarification actions shall be captured in audit logs.\n6. Internal comments shall not be shown to customers unless marked as customer-facing.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "8.9",
+    "title": "Notifications",
+    "text": "1. System will generate notifications for configured case events.\n2. Notifications will be user-specific.\n3. Notification message will include case number and business-readable update.\n4. Notification shall open the relevant case detail where supported.\n5. Failed notifications shall be logged internally.\n6. Notification channels shall be finalized by VECV.\n7. Feedback notification will be sent after case completion.\n8. Consignment update notification be sent where tracking is enabled.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "8.10",
+    "title": "Audit and Error Handling",
+    "text": "1. System shall record audit logs for case creation, updates, status changes, comments,\nattachments, order refresh, notifications, closure, and reopen actions.\n2. System shall also record assignment, transfer, scan-assisted capture, feedback,\nconsignment refresh, and bulk closure actions where applicable.\n3. System shall show user-friendly error messages.\n4. System shall not show technical errors, raw API responses, stack traces, or database\nmessages to end users.\n5. System shall log technical errors internally with relevant identifiers for troubleshooting.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "8.11",
+    "title": "Customer Feedback",
+    "text": "1. System shall allow customer feedback after case completion or closure.\n2. Feedback shall be linked to the case ID.\n3. Rating shall be captured in a simple 1 to 5 format.\n4. Remarks field shall be optional.\n5. Feedback shall not block closure unless business confirms otherwise.\n6. Feedback data shall be available for authorized reporting users.\n7. Feedback shall be auditable.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "8.12",
+    "title": "Bulk Closure",
+    "text": "1. The system already supports manual closure after resolution.\n2. System support closure review for fully delivered cases.\n3. System support bulk closure after authorized user review.\n4. Closure remarks/reason is captured.\n5. If SAP/API data indicates delivery but the customer issue is still open, the case is\nreviewed before closure.\n6. API compatibility needs to be checked.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "9.1",
+    "title": "Case Creation Rules",
+    "text": "1. Case category is mandatory.\n2. Case sub-category is mandatory.\n3. Issue description is mandatory.\n4. Order/PO details be mandatory for order-related cases.\n5. Part number will be mandatory for part-specific cases.\n6. Attachments will be mandatory for selected categories.\n7. Case number shall be shown only after successful backend case creation.\n8. User shall receive a clear success message after case registration.\n9. Scanned values must be reviewed before submission.\n10. If scanned data contains multiple parts, user must select the relevant part/parts.\n11. If scan fails, user proceed with manual entry where allowed.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "9.2",
+    "title": "Order and Part Rules",
+    "text": "1. Order status section shall appear only for order-related cases.\n2. Part-wise status shall appear only where part-level data is available.\n3. Pending quantity shall be calculated as ordered quantity minus delivered quantity.\n4. Fully delivered status shall require delivered quantity to be equal to ordered quantity.\n5. Partially delivered status shall require delivered quantity to be greater than zero and less\nthan ordered quantity.\n6. Not delivered status shall apply when delivered quantity is zero.\n7. Status mismatch shall be displayed as Under Review.\n8. Backend status codes shall be converted into business-readable labels.\n9. Fully delivered cases become eligible for closure review, subject to final rules.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "9.3",
+    "title": "Data Display Rules",
+    "text": "1. Blank values shall not be shown as blank fields without explanation.\n2. Null, undefined, or invalid values shall not be shown to users.\n3. Invalid dates such as 0000-00-00 shall be shown as Awaiting Update.\n4. Empty quantity shall be shown as Not Available unless the value is confirmed as zero.\n5. API timeout shall be shown as Temporarily Unavailable.\n6. Unauthorized access shall show a clear no-access message.\n7. Customer-facing screens shall not show internal EGP desk names.\n8. Last refreshed timestamp shall be shown wherever backend data is displayed.\n9. Consignment API failure shall be shown as tracking unavailable, not as a technical error.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "9.4",
+    "title": "Closure and Reopen Rules",
+    "text": "1. Closure shall require final remarks or resolution response.\n2. Closed cases shall remain searchable.\n3. Closure date and closure remarks shall be visible to the user.\n4. Reopen shall be allowed only if approved by business rules.\n5. Reopen request shall require mandatory remarks.\n6. Reopen action shall create a timeline and audit entry.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "9.5",
+    "title": "Feedback Rules",
+    "text": "1. Feedback shall be linked to a case ID.\n2. Feedback shall be allowed only after case completion/closure or as per business rule.\n3. Rating value shall be simple, such as 1 to 5.\n4. Remarks shall be optional.\n5. Feedback shall be visible only to authorized users.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "10",
+    "title": "Case Lifecycle and Status Management",
+    "text": "Management",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "10.1",
+    "title": "Recommended Case Statuses",
+    "text": "The following statuses are considered:\n1. Assigned\n2. Escalated\n3. In Progress\n4. Hold\n5. Inprogress\n6. New\n7. Reassigned Resume\n8. Close\n9. Reopened",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "10.2",
+    "title": "Status Transition Rules",
+    "text": "1. Draft can move to Submitted after user submits the case.\n2. Submitted can move to Awaiting Assignment, Assigned, Under Review, or In Progress.\n3. Awaiting Assignment can move to Assigned.\n4. Assigned / Under Review can move to In Progress, Clarification Required, Awaiting\nBackend Update, Resolved, Closure Pending, or Closed.\n5. Clarification Required can move to Awaiting User Response.\n6. Awaiting User Response can move to In Progress after user response.\n7. Awaiting Backend Update can move to In Progress, Resolved, or Closure Pending after\ndata is received.\n8. Closure Pending can move to Closed after approved closure action.\n9. Resolved can move to Closed or Reopened.\n10. Closed cases shall not be editable except for reopen where permitted.\n11. Reopened cases shall return to review or in-progress stage.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "10.3",
+    "title": "Owner Change Rules",
+    "text": "1. Every assignment or reassignment shall be recorded.\n2. Previous ownership history shall not be overwritten.\n3. Current owner/team be shown to the user only where permitted.\n4. Internal support desk name should not be shown to customer unless approved.\n\n\n5. Escalation owner/team shall be logged separately where applicable.\n6. If owner information is unavailable, system shall show a user-friendly label such as\nSupport Team or Under Review.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "10.4",
+    "title": "SLA and Ageing Rules",
+    "text": "SLA and ageing capability will be supported where required data and rules are available.\nThe following areas require business confirmation:\n1. Case ageing formula.\n2. Stage ageing formula.\n3. Business calendar and working hours.\n4. Priority-wise SLA targets.\n5. Hold/pause/resume rule.\n6. Escalation thresholds.\n7. User-facing SLA display rules.\n8. SLA breach visibility.\n9. Whether current phase needs only ageing visibility or full SLA workflow.\n10. Whether separate escalation management portal integration remains Phase 1.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "11.1",
+    "title": "Integration Overview",
+    "text": "The solution will require integration with existing systems for case management, order status,\nauthentication, notification, file storage, master data, scan-assisted capture, and possible\nconsignment tracking.\nThe earlier document already included PQMP/EGP, ECC/SAP, authentication, notification, file\nstorage, and integration error handling as core integration areas.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "11.2",
+    "title": "PQMP / EGP Integration",
+    "text": "PQMP / EGP integration will support:\n1. Case creation.\n2. Case list retrieval.\n3. Case detail retrieval.\n4. Case status retrieval.\n\n\n5. Timeline retrieval.\n6. Remarks and comments retrieval.\n7. Attachment references.\n8. Closure details.\n9. Reopen eligibility, if applicable.\n10. Assignment and reassignment events where applicable.\n11. Old/pending query handling where approved.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "11.3",
+    "title": "ECC / SAP Integration",
+    "text": "ECC / SAP integration will support order-related data visibility.\nExpected data areas include:\n1. Order number.\n2. Order type.\n3. PO number.\n4. PO date.\n5. Dealer/customer reference.\n6. Sold-to party.\n7. Plant.\n8. Chassis number where applicable.\n9. Part number.\n10. Part description.\n11. Ordered quantity.\n12. Delivered quantity.\n13. Pending quantity.\n14. Delivery number.\n15. Delivery date.\n16. Invoice number.\n17. Invoice date.\n18. Expected delivery / EDA date.\n19. Last refreshed timestamp.\n20. Fully delivered indicator where available.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "11.4",
+    "title": "Authentication Integration",
+    "text": "Authentication be through approved enterprise login, SSO, OTP, user ID/password, or existing\nidentity provider.\nThe authentication layer shall provide:\n1. User identity.\n2. Role information.\n3. Dealer/location/user code mapping.\n\n\n4. Session or token information.\n5. Active/inactive user status.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "11.5",
+    "title": "Notification Integration",
+    "text": "Notification integration support:\n1. In-app notification.\n2. Push notification.\n3. Email notification.\n4. SMS notification.\n5. WhatsApp notification, if approved.\n6. Feedback request notification.\n7. Consignment update notification.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "11.6",
+    "title": "File Storage Integration",
+    "text": "File storage will support:\n1. Attachment upload.\n2. Secure file storage.\n3. File preview/download.\n4. File type validation.\n5. File size validation.\n6. Access-controlled file links.\n7. Retention policy.\n8. Attachment audit trail.\n9. Invoice/barcode scan image/document reference where applicable.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "11.7",
+    "title": "Invoice / Barcode Scan Integration",
+    "text": "This integration/capability will support:\n1. Barcode/QR/invoice scan.\n2. Extraction of available invoice details.\n3. Extraction of GST details where available.\n4. Extraction of HSN code where available.\n5. Extraction of part details where available.\n6. User review before submission.\n7. Manual correction of scanned data.\n8. Failure handling and fallback to manual entry.\n\n\nTechnical team would need below items in order to implement this functionality:\n1. Barcode/QR format.\n2. Exact fields available.\n3. Whether part-level details are always available.\n4. Whether OCR is required or only barcode scan is required.\n5. Whether scanned values can be edited by user.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "11.8",
+    "title": "Consignment Tracking Integration",
+    "text": "This integration will support:\n1. Logistics provider API connection.\n2. Consignment tracking status.\n3. Delivery status.\n4. Last updated timestamp.\n5. Error handling and fallback message.\n6. Multi-provider integration in future where required.\nTechnical team would need below items in order to implement this functionality:\n1. Logistics partner list.\n2. API documentation.\n3. Authentication method.\n4. Tracking reference mapping.\n5. Refresh frequency.\n6. Responsibility for API access and coordination.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "11.9",
+    "title": "Integration Error Handling",
+    "text": "1. Case detail should remain accessible even if ECC / SAP order data is temporarily\nunavailable.\n2. User shall see a clear fallback message for unavailable order data.\n3. Technical errors shall be logged internally.\n4. API response codes and raw error messages shall not be shown to users.\n5. Retry and fallback behavior shall be finalized during technical design.\n6. Last refreshed timestamp shall be shown wherever backend order/part data is displayed.\n7. SAP/API mismatch shall be routed for internal review.\n8. Integration failure should be analyzed with the relevant support/technical/SAP IT team.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "12.1",
+    "title": "Required Masters and Configurations",
+    "text": "The solution require the following masters which will be maintained by the Admin in the existing\nweb portal.\nMaster / Configuration Purpose\nCase Category Master To define available case categories\nCase Sub-Category Master To define sub-categories\nField Configuration Master To control dynamic fields\nStatus Mapping Master To define case statuses and display labels\nStatus Transition Configuration To control allowed movement\nPart Status Rule Configuration To derive part status from quantity/status\nNotification Template Master To configure notification content\nAttachment Policy Master To define file rules\nUser / Dealer / Location Mapping To control data access\nPriority Master To define priority values\nSLA / Escalation Master If SLA/escalation is included\n\n\nIntegration Mapping To map external fields\nDisplay Label Master To show business-readable labels\nSupport Desk User Mapping To map backend support users\nAssignment Rule Configuration To define balanced assignment rules\nClosure Rule Configuration To define manual/bulk/auto closure conditions\nFeedback Rating Master To define 1–5 rating values\nLogistics Partner Mapping If consignment tracking is enabled",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "12.2",
+    "title": "Master Governance Rules",
+    "text": "1. Only authorized users shall manage master data.\n2. Active/inactive flags shall be available for master values.\n3. Master changes shall be audited.\n4. Existing cases shall not break due to master changes.\n5. Backend codes shall be mapped to business-readable labels.\n6. Category, sub-category, and dynamic fields shall be centrally configurable.\n7. Status mapping shall remain consistent across dashboard, listing, detail, timeline, and\nreports.\n8. Assignment rules shall be controlled to avoid operational imbalance.\n9. Closure rule changes shall be audited due to business impact.\n10. Feedback rating scale shall remain simple unless business confirms additional\nquestions.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "12.3",
+    "title": "Category and Field Dependency",
+    "text": "Depending on different case types and case sub type there can be multiple required fields.\nExamples:\nCase Type Required Fields\n\n\nOrder Status Case Order number, PO number, part number, issue details\nExecution / EDA Required\nCase\nOrder number, part number, quantity, expected date\nreference\nOrder Cancellation Case Order number, PO number, reason, supporting document\nNorms Modification Case Issue details, affected reference, remarks, supporting\ndocuments\nInvoice Query Invoice number, order number, part number, attachment\nDelivery / Consignment\nQuery\nDelivery number, invoice number, consignment reference\nwhere available\nGeneral Case Issue description, remarks, attachment where applicable",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "13.1",
+    "title": "Login Screen",
+    "text": "The login screen will allow authorized users to access the portal/mobile app.\nKey elements:\n1. User ID / mobile / email.\n2. Password / OTP / SSO option, as approved.\n3. Login button.\n4. Forgot password/help option, if applicable.\n5. Error message for invalid login.\n6. Session and security handling.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "13.2",
+    "title": "Home Dashboard",
+    "text": "The dashboard will provide quick case visibility.\nKey elements:\n\n\n1. Total cases.\n2. Open cases.\n3. In-progress cases.\n4. Closed cases.\n5. Recently updated cases.\n6. Cases awaiting user response.\n7. Quick Create Case action.\n8. Quick My Cases action.\n9. Feedback pending cases.\n10. Order/delivery update cards where applicable.\nFor internal users, dashboard additionally show:\n1. Unassigned cases.\n2. Cases by support desk.\n3. Workload distribution.\n4. Old/pending queries.\n5. Closure review cases.\n6. Integration failure cases.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "13.3",
+    "title": "My Cases Screen",
+    "text": "The My Cases screen will show user-specific cases.\nKey elements:\n1. Case search.\n2. Status filter.\n3. Category filter.\n4. Priority filter.\n5. Date range filter.\n6. Case cards.\n7. Status badge.\n8. Last updated date.\n9. Order reference where applicable.\n10. Latest update summary.\n11. Feedback pending indicator where applicable.\n12. Consignment/tracking indicator where applicable.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "13.4",
+    "title": "Create Case Screen",
+    "text": "The Create Case screen will capture case information.\nKey elements:\n\n\n1. Category.\n2. Sub-category.\n3. Issue title.\n4. Issue description.\n5. Contact details.\n6. Order/PO/part fields where applicable.\n7. Invoice/barcode scan option where enabled.\n8. Scanned value review section.\n9. Part selection section where scanned data has multiple parts.\n10. Remarks.\n11. Attachment upload.\n12. Submit button.\n13. Validation messages.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "13.5",
+    "title": "Case Detail Screen",
+    "text": "The Case Detail screen will show complete case progress.\nKey elements:\n1. Case summary.\n2. Current status.\n3. Latest update.\n4. Timeline.\n5. Generic support identity for customer view.\n6. Assigned team/owner only where permitted.\n7. Order status section.\n8. Part-wise status section.\n9. Consignment tracking section where available.\n10. Attachments.\n11. Comments.\n12. Closure remarks.\n13. Feedback/rating section after completion.\n14. Reopen option where allowed.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "13.6",
+    "title": "Order Status Section",
+    "text": "This section will appear only for order-related cases.\nKey elements:\n1. Order number.\n2. PO number.\n3. Plant.\n4. Dealer/customer.\n\n\n5. Overall order status.\n6. Delivered/pending summary.\n7. Last refreshed timestamp.\n8. Fallback message if data is unavailable.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "13.7",
+    "title": "Part-Wise Status Section",
+    "text": "This section will show line-level part information.\nKey elements:\n1. Part number.\n2. Part description.\n3. Ordered quantity.\n4. Delivered quantity.\n5. Pending quantity.\n6. Delivery number.\n7. Invoice number.\n8. Expected delivery date.\n9. Part status.\n10. Remarks.\n11. Tracking/consignment status where available.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "13.8",
+    "title": "Timeline Section",
+    "text": "The timeline will show the complete case journey.\nKey elements:\n1. Status name.\n2. Event date/time.\n3. Team/owner where permitted.\n4. Remarks.\n5. Elapsed time or SLA information where available.\n6. Event type such as created, assigned, in progress, clarification requested, response\nreceived, backend update received, resolved, closure pending, closed, or reopened.\n7. Assignment/transfer entries for internal users.\n8. Closure review/bulk closure entry where applicable.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "13.9",
+    "title": "Notification Screen",
+    "text": "The notification screen will show case-related alerts.\n\n\nKey elements:\n1. Notification title.\n2. Case number.\n3. Message.\n4. Date/time.\n5. Read/unread status.\n6. Link to case detail.\n7. Notification type such as case update, order update, feedback request, or consignment\nupdate.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "13.10",
+    "title": "Attachment Viewer",
+    "text": "The attachment viewer will allow users to view permitted documents.\nKey elements:\n1. File name.\n2. File type.\n3. Uploaded by.\n4. Uploaded date/time.\n5. Preview/download action.\n6. Access control.\n7. Source indicator where applicable, such as user upload, support upload, or scanned\ninvoice.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "13.11",
+    "title": "Feedback Screen / Section",
+    "text": "The feedback section will allow simple feedback capture.\nKey elements:\n1. Case number.\n2. Rating from 1 to 5.\n3. Optional remarks.\n4. Submit a feedback button.\n5. Confirmation message.\n6. Validation to avoid duplicate feedback, if required.\n7. Need to discuss if this will be mandatory.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "13.12",
+    "title": "Admin Assignment Workbench",
+    "text": "This screen will be available only to authorized internal users.\nKey elements:\n1. Case list.\n2. Current assigned desk.\n3. Current status.\n4. Ageing.\n5. Assignment action.\n6. Transfer action.\n7. Support desk workload.\n8. Filters for unassigned, assigned, overdue, old/pending, and closure-eligible cases.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "13.13",
+    "title": "Closure Review Screen",
+    "text": "This screen will be available only if closure review/bulk closure is approved.\nKey elements:\n1. Cases eligible for closure.\n2. Delivery completion indicator.\n3. Last SAP refresh time.\n4. Case status.\n5. Customer response status.\n6. Select cases for closure.\n7. Closure remarks.\n8. Submit closure action.\n9. Audit confirmation.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "14.1",
+    "title": "User Case Summary",
+    "text": "This view will show:\n1. Total cases.\n2. Open cases.\n3. Closed cases.\n4. Pending order cases.\n5. Cases updated today.\n6. High-priority cases.\n\n\n7. Cases awaiting user response.\n8. Feedback pending cases.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "14.2",
+    "title": "Category Summary",
+    "text": "This view will show case count by:\n1. Order Status.\n2. EDA Required.\n3. Order Cancellation.\n4. Norms Modification.\n5. Delivery/Consignment.\n6. Invoice Query.\n7. Other categories.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "14.3",
+    "title": "Status Summary",
+    "text": "This view will show case count by:\n1. Submitted.\n2. Awaiting Assignment.\n3. Assigned.\n4. In Progress.\n5. Clarification Required.\n6. Awaiting Backend Update.\n7. Closure Pending.\n8. Resolved.\n9. Closed.\n10. Reopened.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "14.4",
+    "title": "Pending Order Cases",
+    "text": "This view will show cases where order or part information is pending.\nPossible filters:\n1. Order-related category.\n2. Status.\n3. Date range.\n4. Dealer/location.\n5. Part number.\n6. Order number.\n\n\n7. SAP/API data availability.\n8. Pending quantity.\n9. Expected delivery date availability.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "14.5",
+    "title": "SLA / Ageing Summary",
+    "text": "This report will be included if SLA rules are confirmed.\nPossible metrics:\n1. Case ageing.\n2. Stage ageing.\n3. SLA breach.\n4. Escalation pending.\n5. Priority-wise delay.\n6. Owner/team-wise pending cases.\n7. Support desk ageing.\n8. Awaiting backend data ageing.\n9. Awaiting user response ageing.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "14.6",
+    "title": "Audit Trail Report",
+    "text": "This report in existing web portal will show important case activities such as:\n1. Case creation.\n2. Status update.\n3. Assignment.\n4. Transfer.\n5. Remarks.\n6. Attachment upload.\n7. Scan-assisted capture.\n8. Order refresh.\n9. Consignment refresh.\n10. Notification trigger.\n11. Closure.\n12. Bulk closure.\n13. Feedback submission.\n14. Reopen.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "14.7",
+    "title": "Feedback Summary",
+    "text": "This report will show:\n\n\n1. Case-wise rating.\n2. Average rating.\n3. Rating by category.\n4. Rating by support desk/internal owner where permitted.\n5. Low-rating cases.\n6. Feedback remarks.\n7. Feedback pending cases.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "14.8",
+    "title": "Support Desk Workload Summary",
+    "text": "This report will show:\n1. Cases assigned to each desk.\n2. Open cases by desk.\n3. Closed cases by desk.\n4. Ageing cases by desk.\n5. Transferred cases.\n6. Reassigned cases.\n7. Workload imbalance.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "14.9",
+    "title": "Closure Review Summary",
+    "text": "This report will show:\n1. Fully delivered cases.\n2. Cases eligible for closure.\n3. Cases closed manually.\n4. Cases closed through bulk action.\n5. Cases blocked due to data mismatch.\n6. Cases where SAP/API status does not match application status.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "15.1",
+    "title": "Notification Events",
+    "text": "The system generate notifications for the following events:\n1. Case created.\n2. Case assigned.\n3. Status updated.\n\n\n4. Clarification required.\n5. User response received.\n6. Order status updated.\n7. Part status updated.\n8. Expected delivery date updated.\n9. Consignment status updated.\n10. Response added.\n11. Case moved to closure pending.\n12. Case closed.\n13. Feedback requested.\n14. Feedback submitted.\n15. Case reopened.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "15.2",
+    "title": "Notification Rules",
+    "text": "1. Notifications shall be user-specific.\n2. Notifications shall not expose restricted case information.\n3. Notification templates shall be configurable.\n4. Each notification shall include case number and readable message.\n5. Tapping a notification should open the related case detail where supported.\n6. Failed notifications shall be logged.\n7. Final channels shall be approved by VECV.\n8. Internal assignment notifications should not be sent to customers unless approved.\n9. Feedback notification should be simple and linked to case completion.\n10. Consignment update notifications should be sent only where tracking is enabled.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "15.3",
+    "title": "Notification Channels",
+    "text": "Possible channels include:\n1. In-app notification.\n2. Push notification.\n3. Email notification.\n4. SMS.\n5. WhatsApp, if approved.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "16",
+    "title": "Non-Functional Requirements",
+    "text": "• Performance\n• Availability\n• Scalability\n• Usability\n• Maintainability\n• Security\n• Auditability",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "17.1",
+    "title": "High-Level Architecture",
+    "text": "The solution include the following logical layers:\n1. Mobile / Portal Frontend Layer\nProvides login, dashboard, case creation, My Cases, case detail, scan capture,\nfeedback, and notifications.\n2. Application / API Layer\nHandles business rules, case submission, role access, validation, assignment, timeline,\nfeedback, and closure handling.\n3. Integration Layer\nConnects with PQMP / EGP, ECC / SAP, notification gateways, file storage, logistics\nAPIs, and authentication system.\n4. Data and Audit Layer\nStores case references, user mappings, audit logs, attachment metadata, notification\nlogs, scan metadata, feedback, and integration logs.\n5. Admin / Configuration Layer\nManages masters, mappings, assignment rules, notification templates, status rules, and\nclosure rules.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "17.2",
+    "title": "Technical Principles",
+    "text": "1. Backend complexity should not be exposed to users.\n2. All APIs should return business-readable errors to the app layer.\n3. Raw SAP/API errors should be logged internally.\n4. Case detail should be available even if order/part data fails temporarily.\n5. Last refreshed timestamp should be shown for external data.\n6. User-entered data should be preserved where submission fails.\n7. Assignment and closure actions should be auditable.\n\n\n8. Integration failures should be traceable.\n9. External logistics APIs should be integrated only after API availability and mapping\nconfirmation.\n10. Email-based case creation should be technically assessed separately before\ncommitment.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "17.3",
+    "title": "Suggested Data Flow",
+    "text": "1. User logs in.\n2. Authentication validates the user.\n3. Role/access mapping is loaded.\n4. User creates or views cases.\n5. Application layer validates input.\n6. Case is created/retrieved from PQMP / EGP.\n7. Order and part data is fetched from ECC / SAP where applicable.\n8. Scan-assisted data is captured and reviewed where enabled.\n9. Consignment data is fetched from logistics API where available.\n10. Notifications are triggered for configured events.\n11. Audit logs are created for key actions.\n12. Reports and dashboards consume authorized data views.\n13. Feedback is captured after case completion.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "18.1",
+    "title": "Case-Level Data",
+    "text": "Case-level data include:\n1. Case number.\n2. Case category.\n3. Case sub-category.\n4. Issue title.\n5. Issue description.\n6. Customer/dealer reference.\n7. Created by.\n8. Created date.\n9. Current status.\n10. Latest update.\n11. Priority.\n12. Assigned team/owner where permitted.\n13. Closure remarks.\n14. Reopen remarks where applicable.\n15. Feedback rating.\n\n\n16. Feedback remarks.\n17. Source channel, if needed.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "18.2",
+    "title": "Order-Level Data",
+    "text": "Order-level data include:\n1. Order number.\n2. Order type.\n3. PO number.\n4. PO date.\n5. Dealer/customer reference.\n6. Sold-to party.\n7. Plant.\n8. Chassis number where applicable.\n9. Overall order status.\n10. Delivered parts.\n11. Pending parts.\n12. Last refreshed timestamp.\n13. Delivery completion flag where available.\n14. Consignment reference where available.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "18.3",
+    "title": "Part-Level Data",
+    "text": "Part-level data include:\n1. Part number.\n2. Part description.\n3. Ordered quantity.\n4. Delivered quantity.\n5. Pending quantity.\n6. Delivery number.\n7. Delivery date.\n8. Invoice number.\n9. Invoice date.\n10. Expected delivery / EDA date.\n11. Part status.\n12. Remarks.\n13. HSN code where available from scan.\n14. GST/invoice reference where available from scan.\n15. Consignment tracking status where available.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "18.4",
+    "title": "Audit Trail Requirements",
+    "text": "Audit trail shall capture:\n1. Case creation.\n2. Case update.\n3. Status change.\n4. Owner/team assignment.\n5. Assignment transfer.\n6. Comment addition.\n7. Attachment upload.\n8. Attachment view/download where required.\n9. Scan-assisted capture.\n10. Order data refresh.\n11. Consignment data refresh.\n12. Notification trigger.\n13. Closure.\n14. Bulk closure.\n15. Reopen.\n16. Feedback submission.\n17. Integration error.\n18. Access denial events where required.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "18.5",
+    "title": "Exception Handling",
+    "text": "The system shall handle the following scenarios with clear messages:\n1. Mandatory field missing.\n2. Invalid order number.\n3. Order data not found.\n4. Part data not found.\n5. Attachment upload failure.\n6. Unsupported file type.\n7. File size exceeded.\n8. API timeout.\n9. SAP/ECC data unavailable.\n10. Consignment data unavailable.\n11. Scan failed.\n12. Barcode data incomplete.\n13. Unauthorized access.\n14. Session expired.\n15. Case creation failure.\n16. Notification failure.\n17. Assignment failure.\n18. Closure failure.\n19. Feedback submission failure.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "18.6",
+    "title": "SAP / API Mismatch Handling",
+    "text": "1. Systems shall not show misleading information when SAP/API data is inconsistent.\n2. Mismatch should be logged internally.\n3. Case be marked as Under Review or Awaiting Backend Update.\n4. Support/technical team should analyze whether the issue is from SAP, API, integration,\nor application logic.\n5. Customers should see only a simple message such as “The latest order information is\nbeing updated.”\n6. Incorrect data should not trigger automatic closure without confirmation.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "19.1",
+    "title": "Dependencies",
+    "text": "The solution depends on:\n1. PQMP / EGP API availability.\n2. ECC / SAP data availability.\n3. Authentication mechanism confirmation.\n4. User/dealer/location mapping availability.\n5. Notification gateway availability.\n6. Attachment storage policy.\n7. Final case category and sub-category list.\n8. Final status mapping.\n9. Final SLA and escalation rules, if applicable.\n10. Confirmation of mobile access for support users, if required.\n11. Barcode/QR/invoice scan format.\n12. Logistics partner API availability.\n13. Assignment rule confirmation.\n14. Closure rule confirmation.\n15. Feedback visibility/reporting confirmation.\n16. Email intake scope decision.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "19.2",
+    "title": "Key Risks and Mitigation",
+    "text": "1. Risk: ECC / SAP data not available in real time.\nMitigation: Show Last Refreshed On and clear fallback messages.\n2. Risk: Backend status and quantity not match.\nMitigation: Display Under Review and log mismatch internally.\n3. Risk: User access unauthorized cases.\nMitigation: Enforce access control at backend and frontend.\n4. Risk: Case creation fail due to integration issue.\nMitigation: Show clear error and preserve entered data.\n\n\n5. Risk: Notification delivery fail.\nMitigation: Log failed attempts and apply retry policy if approved.\n6. Risk: Master data changes affect existing cases.\nMitigation: Audit master changes and preserve historical case values.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  },
+  {
+    "number": "20",
+    "title": "Out of Scope",
+    "text": "The following items are not included in the confirmed current scope unless formally approved:\n1. Excel-template-based case creation.\n2. Full AI-based case classification.\n3. Advanced predictive analytics.\n4. Redesign of ECC / SAP transaction screens.\n5. Full SAP process automation.\n6. Separate escalation management portal integration in Mobile Application\n7. CSM Approval workflow.\n8. Direct auto closure without business approval and data validation.\n9. Full multi-logistics integration unless APIs are made available and confirmed.\n10. Any feature not explicitly included in the confirmed functional scope.",
+    "document": "VECV_PQMP Case Tracking Mobile App.pdf"
+  }
+]

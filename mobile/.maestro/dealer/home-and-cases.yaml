@@ -1,0 +1,35 @@
+appId: com.vecv.pqmp
+name: Dealer - home KPIs drill into My Cases, search and filters
+tags: [DASH-01, DASH-02, DASH-03, DASH-04, LIST-01, LIST-02, LIST-03, LIST-04, LIST-05, LIST-07, LIST-08, LIST-09]
+---
+- runFlow: ../common/sign-in-dealer.yaml
+- assertVisible:
+    id: home.awaitingReply
+- assertVisible:
+    id: home.feedbackPending
+- runFlow: ../common/assert-no-raw-values.yaml
+- tapOn:
+    id: home.kpi.closed
+- assertVisible:
+    id: cases.item.0
+- assertVisible: "PD261015106702"
+- tapOn:
+    id: cases.group.all
+- tapOn:
+    id: cases.search
+- inputText: "4100231876"
+- hideKeyboard
+- extendedWaitUntil:
+    notVisible:
+      id: cases.item.1
+    timeout: 5000
+- assertVisible: "EUR261024106958"
+- tapOn:
+    id: cases.filter
+- tapOn:
+    id: filters.orderRelated
+- tapOn:
+    id: filters.apply
+- assertVisible:
+    id: cases.item.0
+- runFlow: ../common/assert-no-raw-values.yaml

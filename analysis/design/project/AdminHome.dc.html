@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Admin home</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="/_blob/0197031cd7cfeb6dd68aec3fd9f1230f">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>body{margin:0}a{color:#1f4e8c}a:hover{color:#163a69}</style>
+</helmet>
+<main class="app" style="width: 390px; height: 1040px">
+  <div class="page">
+    <header class="top">
+      <span class="avatar" style="background: #141b2d">AD</span>
+      <div style="flex: 1; min-width: 0"><div class="cap">Admin</div><div style="font-size: 18px; font-weight: 800">Case assignment</div></div>
+      <a class="iconbtn" href="Notifications.dc.html" aria-label="Updates"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg></a>
+    </header>
+
+    <a href="Workbench.dc.html" class="card pad" style="display: flex; align-items: center; gap: 14px; background: #fdeeee; border-color: #f3c3c3; color: #141b2d !important">
+      <span style="font-size: 34px; font-weight: 800; color: #b42318; letter-spacing: -.02em">14</span>
+      <div style="flex: 1"><div style="font-size: 15px; font-weight: 800">Unassigned cases</div><div class="cap">Assign them to a desk</div></div>
+      <svg class="i" viewBox="0 0 24 24" aria-hidden="true" style="color: #b42318"><path d="m9 6 6 6-6 6"/></svg>
+    </a>
+
+    <section class="stats" aria-label="Case summary">
+      <a href="CaseList.dc.html" class="stat"><b>1,240</b><span>Total cases</span></a>
+      <a href="CaseList.dc.html" class="stat"><b style="color: #1d4ed8">101</b><span>Open</span></a>
+      <a href="CaseList.dc.html" class="stat"><b style="color: #865000">64</b><span>In progress</span></a>
+      <a href="CaseList.dc.html" class="stat"><b style="color: #1b6b34">1,139</b><span>Closed</span></a>
+    </section>
+
+    <section class="card pad" style="display: flex; flex-direction: column; gap: 14px" aria-label="Workload by desk">
+      <h2 class="h2" style="font-size: 16px">Open cases by desk</h2>
+      <div class="bars">
+        <div class="bar"><div class="l">Support Desk 1<span>42</span></div><div class="t"><i style="width: 100%"></i></div></div>
+        <div class="bar"><div class="l">Support Desk 2<span>18</span></div><div class="t"><i style="width: 43%"></i></div></div>
+        <div class="bar"><div class="l">Support Desk 3<span>27</span></div><div class="t"><i style="width: 64%"></i></div></div>
+      </div>
+      <a class="btn ghost sm" href="Workbench.dc.html" style="align-self: flex-start">Rebalance in workbench</a>
+    </section>
+
+    <section class="card" style="overflow: hidden">
+      <a href="Workbench.dc.html" class="row"><span class="ico" style="background: #eceff3; color: #475569"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 2v4M16 2v4M3 9h18M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/></svg></span>
+        <div class="tx"><b>Old / pending · 31</b><span>Open the longest, oldest first</span></div><svg class="i" viewBox="0 0 24 24" aria-hidden="true" style="color: #5b6475"><path d="m9 6 6 6-6 6"/></svg></a>
+      <a href="CaseList.dc.html" class="row"><span class="ico" style="background: #fdecea; color: #b42318"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 2 20h20zM12 10v4M12 17v.01"/></svg></span>
+        <div class="tx"><b>Integration failures · 5</b><span>SAP 3 · Logistics 2</span></div><svg class="i" viewBox="0 0 24 24" aria-hidden="true" style="color: #5b6475"><path d="m9 6 6 6-6 6"/></svg></a>
+      <a href="CaseList.dc.html" class="row"><span class="ico"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12"/></svg></span>
+        <div class="tx"><b>Awaiting dealer reply · 11</b><span>Across all desks</span></div><svg class="i" viewBox="0 0 24 24" aria-hidden="true" style="color: #5b6475"><path d="m9 6 6 6-6 6"/></svg></a>
+    </section>
+  </div>
+
+  <nav class="tabbar" aria-label="Main">
+    <a href="AdminHome.dc.html" class="tab on" aria-current="page"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>Home</a>
+    <a href="Workbench.dc.html" class="tab"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M17 3l4 4-4 4M21 7H9M7 21l-4-4 4-4M3 17h12"/></svg>Assign</a>
+    <a href="CaseList.dc.html" class="tab"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>Cases</a>
+    <a href="Account.dc.html" class="tab"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>Account</a>
+  </nav>
+</main>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":1040}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

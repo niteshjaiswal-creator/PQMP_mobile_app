@@ -1,0 +1,25 @@
+appId: com.vecv.pqmp
+name: Dealer - case detail, order and parts, tracking fallback, reply to clarification
+tags: [DETAIL-01, DETAIL-02, DETAIL-03, DETAIL-04, DETAIL-06, DETAIL-07, DETAIL-09, DETAIL-10, DETAIL-11, ORDER-01, ORDER-02, ORDER-03, ORDER-04, PART-01, PART-02, PART-03, PART-04, CONSIGN-01, CONSIGN-02, CONSIGN-03, ATTACH-03, ATTACH-04, DATA-02]
+---
+- runFlow: ../common/sign-in-dealer.yaml
+- tapOn:
+    id: home.reply
+- assertVisible:
+    id: caseDetail.handledBy
+    text: ".*PQMP Support.*"
+- tapOn:
+    id: messages.input
+- inputText: "Address is the Indore workshop."
+- tapOn:
+    id: messages.send
+- assertVisible: "Address is the Indore workshop."
+- tapOn:
+    id: caseDetail.tab.order
+- assertVisible:
+    id: orderParts.order.refreshed
+- assertVisible: "Partially Delivered"
+- scrollUntilVisible:
+    element:
+      id: orderParts.consignment.1.fallback
+- runFlow: ../common/assert-no-raw-values.yaml

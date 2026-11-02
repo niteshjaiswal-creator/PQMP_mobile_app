@@ -1,0 +1,938 @@
+[
+  {
+    "id": "AUTH-01",
+    "module": "Login and Access Management",
+    "featureGroup": "Authentication",
+    "requirement": "Login using approved method such as User ID/Password, Mobile/Email Login, or existing identity provider",
+    "source": "task-list",
+    "sourceRow": 2,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "AUTH-02",
+    "module": "Login and Access Management",
+    "featureGroup": "Inactive User Handling",
+    "requirement": "Block inactive or unauthorized users with a clear message",
+    "source": "task-list",
+    "sourceRow": 3,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "AUTH-03",
+    "module": "Login and Access Management",
+    "featureGroup": "Session Management",
+    "requirement": "Secure session, token handling, session timeout, logout, and session expiry message",
+    "source": "task-list",
+    "sourceRow": 4,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "AUTH-04",
+    "module": "Login and Access Management",
+    "featureGroup": "Error Handling",
+    "requirement": "Show user-friendly login errors without exposing technical details",
+    "source": "task-list",
+    "sourceRow": 5,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "DASH-01",
+    "module": "Home Dashboard and Analytics",
+    "featureGroup": "Summary KPIs",
+    "requirement": "Total cases, open cases, in-progress cases, closed cases, and recently updated cases",
+    "source": "task-list",
+    "sourceRow": 6,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "DASH-02",
+    "module": "Home Dashboard and Analytics",
+    "featureGroup": "User Action Indicators",
+    "requirement": "Cases awaiting user response, feedback pending cases, and order/delivery update cards where applicable",
+    "source": "task-list",
+    "sourceRow": 7,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "DASH-03",
+    "module": "Home Dashboard and Analytics",
+    "featureGroup": "Quick Actions",
+    "requirement": "Create Case, My Cases, and Recent Updates",
+    "source": "task-list",
+    "sourceRow": 8,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "DASH-04",
+    "module": "Home Dashboard and Analytics",
+    "featureGroup": "Drill-Down Navigation",
+    "requirement": "Clicking a KPI opens the related filtered case list",
+    "source": "task-list",
+    "sourceRow": 9,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "CREATE-01",
+    "module": "Case Creation",
+    "featureGroup": "Create Case Form",
+    "requirement": "Structured form for new case creation",
+    "source": "task-list",
+    "sourceRow": 10,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "CREATE-02",
+    "module": "Case Creation",
+    "featureGroup": "Category Selection",
+    "requirement": "Select case category",
+    "source": "task-list",
+    "sourceRow": 11,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "CREATE-03",
+    "module": "Case Creation",
+    "featureGroup": "Sub-Category Selection",
+    "requirement": "Select case sub-category",
+    "source": "task-list",
+    "sourceRow": 12,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "CREATE-04",
+    "module": "Case Creation",
+    "featureGroup": "Dynamic Fields",
+    "requirement": "Show fields based on selected category/sub-category",
+    "source": "task-list",
+    "sourceRow": 13,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "CREATE-05",
+    "module": "Case Creation",
+    "featureGroup": "Issue Details",
+    "requirement": "Capture issue title, issue description, remarks, contact details, and preferred contact mode where required",
+    "source": "task-list",
+    "sourceRow": 14,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "CREATE-06",
+    "module": "Case Creation",
+    "featureGroup": "Order/PO/Part Fields",
+    "requirement": "Capture order number, PO number, part number, invoice number, delivery number, chassis number, plant, and quantity details where applicable",
+    "source": "task-list",
+    "sourceRow": 15,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "CREATE-07",
+    "module": "Case Creation",
+    "featureGroup": "Attachment Upload",
+    "requirement": "Upload supporting documents or images",
+    "source": "task-list",
+    "sourceRow": 16,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "CREATE-08",
+    "module": "Case Creation",
+    "featureGroup": "Scan-Assisted Capture",
+    "requirement": "Scan invoice, barcode, or QR where supported",
+    "source": "task-list",
+    "sourceRow": 17,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "CREATE-09",
+    "module": "Case Creation",
+    "featureGroup": "Scanned Value Review",
+    "requirement": "Display scanned values for user review and correction",
+    "source": "task-list",
+    "sourceRow": 18,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "CREATE-10",
+    "module": "Case Creation",
+    "featureGroup": "Multi-Part Selection",
+    "requirement": "If scanned data has multiple parts, user selects relevant part/parts",
+    "source": "task-list",
+    "sourceRow": 19,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "CREATE-11",
+    "module": "Case Creation",
+    "featureGroup": "Case Submission",
+    "requirement": "Submit validated case to PQMP/EGP",
+    "source": "task-list",
+    "sourceRow": 20,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "CREATE-12",
+    "module": "Case Creation",
+    "featureGroup": "Success Confirmation",
+    "requirement": "Show generated or returned case number",
+    "source": "task-list",
+    "sourceRow": 21,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "CREATE-13",
+    "module": "Case Creation",
+    "featureGroup": "Preserve Entered Data",
+    "requirement": "Preserve user-entered data if submission fails",
+    "source": "task-list",
+    "sourceRow": 22,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "LIST-01",
+    "module": "My Cases and Case Listing",
+    "featureGroup": "Case Listing",
+    "requirement": "View all cases created by or mapped to logged-in user",
+    "source": "task-list",
+    "sourceRow": 23,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "LIST-02",
+    "module": "My Cases and Case Listing",
+    "featureGroup": "Case Card Details",
+    "requirement": "Show Case ID, category, sub-category, status, priority, created date, last updated date, order reference, and short description",
+    "source": "task-list",
+    "sourceRow": 24,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "LIST-03",
+    "module": "My Cases and Case Listing",
+    "featureGroup": "Search",
+    "requirement": "Search by case number and order number",
+    "source": "task-list",
+    "sourceRow": 25,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "LIST-04",
+    "module": "My Cases and Case Listing",
+    "featureGroup": "Filters",
+    "requirement": "Filter by status, category, sub-category, priority, date range, and order-related case type",
+    "source": "task-list",
+    "sourceRow": 26,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "LIST-05",
+    "module": "My Cases and Case Listing",
+    "featureGroup": "Status Badge",
+    "requirement": "Display user-friendly current status",
+    "source": "task-list",
+    "sourceRow": 27,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "LIST-06",
+    "module": "My Cases and Case Listing",
+    "featureGroup": "Latest Update Summary",
+    "requirement": "Show latest update on case card",
+    "source": "task-list",
+    "sourceRow": 28,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "LIST-07",
+    "module": "My Cases and Case Listing",
+    "featureGroup": "Feedback Pending Indicator",
+    "requirement": "Show indicator after closure where feedback is pending",
+    "source": "task-list",
+    "sourceRow": 29,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "LIST-08",
+    "module": "My Cases and Case Listing",
+    "featureGroup": "Consignment Indicator",
+    "requirement": "Show tracking/consignment indicator where applicable",
+    "source": "task-list",
+    "sourceRow": 30,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "LIST-09",
+    "module": "My Cases and Case Listing",
+    "featureGroup": "Access Restriction",
+    "requirement": "Hide internal desk names and cases outside user scope",
+    "source": "task-list",
+    "sourceRow": 31,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "DETAIL-01",
+    "module": "Case Detail and Live Tracking",
+    "featureGroup": "Case Summary",
+    "requirement": "Show Case ID, category, sub-category, status, priority, created date, last updated date, and issue details",
+    "source": "task-list",
+    "sourceRow": 32,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "DETAIL-02",
+    "module": "Case Detail and Live Tracking",
+    "featureGroup": "Latest Update",
+    "requirement": "Display latest case update at the top",
+    "source": "task-list",
+    "sourceRow": 33,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "DETAIL-03",
+    "module": "Case Detail and Live Tracking",
+    "featureGroup": "Timeline",
+    "requirement": "Show chronological movement of case events",
+    "source": "task-list",
+    "sourceRow": 34,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "DETAIL-04",
+    "module": "Case Detail and Live Tracking",
+    "featureGroup": "Support Identity",
+    "requirement": "Show generic support identity to customers",
+    "source": "task-list",
+    "sourceRow": 35,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "DETAIL-05",
+    "module": "Case Detail and Live Tracking",
+    "featureGroup": "Issue Details",
+    "requirement": "Show description, remarks, order/PO/part references",
+    "source": "task-list",
+    "sourceRow": 36,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "DETAIL-06",
+    "module": "Case Detail and Live Tracking",
+    "featureGroup": "Comments",
+    "requirement": "View or add comments based on access/status",
+    "source": "task-list",
+    "sourceRow": 37,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "DETAIL-07",
+    "module": "Case Detail and Live Tracking",
+    "featureGroup": "Clarification History",
+    "requirement": "Show clarification requested and response received events",
+    "source": "task-list",
+    "sourceRow": 38,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "DETAIL-08",
+    "module": "Case Detail and Live Tracking",
+    "featureGroup": "Attachments",
+    "requirement": "View or download permitted attachments",
+    "source": "task-list",
+    "sourceRow": 39,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "DETAIL-09",
+    "module": "Case Detail and Live Tracking",
+    "featureGroup": "Order Section",
+    "requirement": "Show order summary for order-related cases only",
+    "source": "task-list",
+    "sourceRow": 40,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "DETAIL-10",
+    "module": "Case Detail and Live Tracking",
+    "featureGroup": "Part-Wise Section",
+    "requirement": "Show part-level details where data exists",
+    "source": "task-list",
+    "sourceRow": 41,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "DETAIL-11",
+    "module": "Case Detail and Live Tracking",
+    "featureGroup": "Consignment Section",
+    "requirement": "Show tracking status where API/reference exists",
+    "source": "task-list",
+    "sourceRow": 42,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "DETAIL-12",
+    "module": "Case Detail and Live Tracking",
+    "featureGroup": "Closure Remarks",
+    "requirement": "Show final resolution or closure remarks once closed",
+    "source": "task-list",
+    "sourceRow": 43,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "DETAIL-13",
+    "module": "Case Detail and Live Tracking",
+    "featureGroup": "Feedback Section",
+    "requirement": "Show rating and optional remarks after closure/completion",
+    "source": "task-list",
+    "sourceRow": 44,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "DETAIL-14",
+    "module": "Case Detail and Live Tracking",
+    "featureGroup": "Reopen Option",
+    "requirement": "Allow reopen where permitted with mandatory remarks",
+    "source": "task-list",
+    "sourceRow": 45,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "FLOW-01",
+    "module": "Workflow, Assignment and SLA",
+    "featureGroup": "Case Status Lifecycle",
+    "requirement": "Support statuses such as New, Assigned, In Progress, Hold, Resume, Escalated, Reassigned, Closed, and Reopened",
+    "source": "task-list",
+    "sourceRow": 46,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "FLOW-02",
+    "module": "Workflow, Assignment and SLA",
+    "featureGroup": "Additional Recommended Statuses",
+    "requirement": "Submitted, Awaiting Assignment, Under Review, Clarification Required, Awaiting User Response, Awaiting Backend Update, Resolved, and Closure Pending",
+    "source": "task-list",
+    "sourceRow": 47,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "FLOW-03",
+    "module": "Workflow, Assignment and SLA",
+    "featureGroup": "Clarification",
+    "requirement": "Support can request clarification and user can respond",
+    "source": "task-list",
+    "sourceRow": 48,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "FLOW-04",
+    "module": "Workflow, Assignment and SLA",
+    "featureGroup": "Reopen",
+    "requirement": "Closed or resolved case may be reopened where allowed with mandatory remarks",
+    "source": "task-list",
+    "sourceRow": 49,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "ORDER-01",
+    "module": "Order Status Visibility",
+    "featureGroup": "Order Header Details",
+    "requirement": "Show order number, order type, PO number, PO date, dealer/customer reference, sold-to party, plant, and chassis number where applicable",
+    "source": "task-list",
+    "sourceRow": 50,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "ORDER-02",
+    "module": "Order Status Visibility",
+    "featureGroup": "Order Delivery Summary",
+    "requirement": "Show total parts, delivered parts, pending parts, overall order status, and delivery completion flag where available",
+    "source": "task-list",
+    "sourceRow": 51,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "ORDER-03",
+    "module": "Order Status Visibility",
+    "featureGroup": "Last Refreshed Timestamp",
+    "requirement": "Show last refreshed date/time wherever backend data is displayed",
+    "source": "task-list",
+    "sourceRow": 52,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "ORDER-04",
+    "module": "Order Status Visibility",
+    "featureGroup": "Fallback Message",
+    "requirement": "Show Not Available, Awaiting Update, or Temporarily Unavailable where data is missing or error occurs",
+    "source": "task-list",
+    "sourceRow": 53,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "PART-01",
+    "module": "Part-Wise Status Visibility",
+    "featureGroup": "Part Details",
+    "requirement": "Show part number, part description, and HSN code where available",
+    "source": "task-list",
+    "sourceRow": 54,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "PART-02",
+    "module": "Part-Wise Status Visibility",
+    "featureGroup": "Quantity Details",
+    "requirement": "Show ordered quantity, delivered quantity, and pending quantity",
+    "source": "task-list",
+    "sourceRow": 55,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "PART-03",
+    "module": "Part-Wise Status Visibility",
+    "featureGroup": "Delivery Details",
+    "requirement": "Show delivery number, delivery date, invoice number, and invoice date",
+    "source": "task-list",
+    "sourceRow": 56,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "PART-04",
+    "module": "Part-Wise Status Visibility",
+    "featureGroup": "Expected Delivery / EDA",
+    "requirement": "Show expected delivery date where available",
+    "source": "task-list",
+    "sourceRow": 57,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "PART-05",
+    "module": "Part-Wise Status Visibility",
+    "featureGroup": "Remarks",
+    "requirement": "Show backend/support remarks where available and permitted",
+    "source": "task-list",
+    "sourceRow": 58,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "PART-06",
+    "module": "Part-Wise Status Visibility",
+    "featureGroup": "Consignment Status",
+    "requirement": "Show tracking status at part level where available",
+    "source": "task-list",
+    "sourceRow": 59,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "SCAN-01",
+    "module": "Invoice / Barcode / Scan-Assisted Capture",
+    "featureGroup": "Scan Option",
+    "requirement": "Scan invoice, barcode, or QR where supported",
+    "source": "task-list",
+    "sourceRow": 60,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "SCAN-02",
+    "module": "Invoice / Barcode / Scan-Assisted Capture",
+    "featureGroup": "Review and Correction",
+    "requirement": "User can review and correct scanned values",
+    "source": "task-list",
+    "sourceRow": 61,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "SCAN-03",
+    "module": "Invoice / Barcode / Scan-Assisted Capture",
+    "featureGroup": "Part Selection",
+    "requirement": "User selects applicable part/parts if multiple parts are scanned",
+    "source": "task-list",
+    "sourceRow": 62,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "SCAN-04",
+    "module": "Invoice / Barcode / Scan-Assisted Capture",
+    "featureGroup": "Manual Entry Fallback",
+    "requirement": "Manual entry allowed if scan output is incomplete or scan fails",
+    "source": "task-list",
+    "sourceRow": 63,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "CONSIGN-01",
+    "module": "Consignment Tracking",
+    "featureGroup": "Display Status",
+    "requirement": "Show delivery movement/status in user-friendly format",
+    "source": "task-list",
+    "sourceRow": 64,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "CONSIGN-02",
+    "module": "Consignment Tracking",
+    "featureGroup": "Last Updated Timestamp",
+    "requirement": "Show tracking last refreshed or updated time",
+    "source": "task-list",
+    "sourceRow": 65,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "CONSIGN-03",
+    "module": "Consignment Tracking",
+    "featureGroup": "Fallback Message",
+    "requirement": "Show tracking unavailable if API/data is not available",
+    "source": "task-list",
+    "sourceRow": 66,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "ATTACH-01",
+    "module": "Attachments and Comments",
+    "featureGroup": "Upload Attachment",
+    "requirement": "Upload documents/images during or after case creation where allowed",
+    "source": "task-list",
+    "sourceRow": 67,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "ATTACH-02",
+    "module": "Attachments and Comments",
+    "featureGroup": "View / Download",
+    "requirement": "View or download permitted attachments",
+    "source": "task-list",
+    "sourceRow": 68,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "ATTACH-03",
+    "module": "Attachments and Comments",
+    "featureGroup": "Add Comment",
+    "requirement": "Add comment where case status allows",
+    "source": "task-list",
+    "sourceRow": 69,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "ATTACH-04",
+    "module": "Attachments and Comments",
+    "featureGroup": "Clarification Response",
+    "requirement": "User responds to support clarification",
+    "source": "task-list",
+    "sourceRow": 70,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "ATTACH-05",
+    "module": "Attachments and Comments",
+    "featureGroup": "Reopen Remarks",
+    "requirement": "Mandatory remarks for reopen where enabled",
+    "source": "task-list",
+    "sourceRow": 71,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "NOTIF-01",
+    "module": "Notifications and Alerts",
+    "featureGroup": "Notification Center",
+    "requirement": "In-app notification list",
+    "source": "task-list",
+    "sourceRow": 72,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "NOTIF-02",
+    "module": "Notifications and Alerts",
+    "featureGroup": "Case Creation Alert",
+    "requirement": "Alert after case registration",
+    "source": "task-list",
+    "sourceRow": 73,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "NOTIF-03",
+    "module": "Notifications and Alerts",
+    "featureGroup": "Assignment Alert",
+    "requirement": "Alert when case is assigned where approved",
+    "source": "task-list",
+    "sourceRow": 74,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "NOTIF-04",
+    "module": "Notifications and Alerts",
+    "featureGroup": "Status Update Alert",
+    "requirement": "Alert when case status changes",
+    "source": "task-list",
+    "sourceRow": 75,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "NOTIF-05",
+    "module": "Notifications and Alerts",
+    "featureGroup": "Clarification Required Alert",
+    "requirement": "Alert when support requests user input",
+    "source": "task-list",
+    "sourceRow": 76,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "NOTIF-06",
+    "module": "Notifications and Alerts",
+    "featureGroup": "Order / Part Update Alert",
+    "requirement": "Alert when order/part status changes",
+    "source": "task-list",
+    "sourceRow": 77,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "NOTIF-07",
+    "module": "Notifications and Alerts",
+    "featureGroup": "EDA Update Alert",
+    "requirement": "Alert when expected date changes",
+    "source": "task-list",
+    "sourceRow": 78,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "NOTIF-08",
+    "module": "Notifications and Alerts",
+    "featureGroup": "Consignment Update Alert",
+    "requirement": "Alert for delivery tracking updates",
+    "source": "task-list",
+    "sourceRow": 79,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "NOTIF-09",
+    "module": "Notifications and Alerts",
+    "featureGroup": "Closure Alert",
+    "requirement": "Alert after case closure",
+    "source": "task-list",
+    "sourceRow": 80,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "NOTIF-10",
+    "module": "Notifications and Alerts",
+    "featureGroup": "Reopen Alert",
+    "requirement": "Alert when case is reopened",
+    "source": "task-list",
+    "sourceRow": 81,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "NOTIF-11",
+    "module": "Notifications and Alerts",
+    "featureGroup": "Feedback Request",
+    "requirement": "Alert after closure/completion",
+    "source": "task-list",
+    "sourceRow": 82,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "FEEDBACK-01",
+    "module": "Customer Feedback",
+    "featureGroup": "Rating",
+    "requirement": "Simple 1 to 5 rating",
+    "source": "task-list",
+    "sourceRow": 83,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "FEEDBACK-02",
+    "module": "Customer Feedback",
+    "featureGroup": "Remarks",
+    "requirement": "Optional remarks box",
+    "source": "task-list",
+    "sourceRow": 84,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "DATA-01",
+    "module": "Data Display, Audit and Error Handling",
+    "featureGroup": "Unauthorized Access Message",
+    "requirement": "Show clear no-access message for restricted data",
+    "source": "task-list",
+    "sourceRow": 85,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "DATA-02",
+    "module": "Data Display, Audit and Error Handling",
+    "featureGroup": "Last Refreshed Display",
+    "requirement": "Show timestamp wherever backend order, part, or tracking data is displayed",
+    "source": "task-list",
+    "sourceRow": 86,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "DASH-05",
+    "module": "Dashboard",
+    "featureGroup": "Additional Prototype Screen",
+    "requirement": "Campaign Highlights carousel/banner",
+    "source": "prototype",
+    "sourceRow": 87,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "DASH-06",
+    "module": "Dashboard",
+    "featureGroup": "Additional Prototype Screen",
+    "requirement": "Top 10 Dealer Snapshot with live filter",
+    "source": "prototype",
+    "sourceRow": 88,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "DASH-07",
+    "module": "Dashboard",
+    "featureGroup": "Additional Prototype Screen",
+    "requirement": "Performance Summary metrics (Avg Closure/Hold Time)",
+    "source": "prototype",
+    "sourceRow": 89,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "DASH-08",
+    "module": "Dashboard",
+    "featureGroup": "Additional Prototype Screen",
+    "requirement": "Top Dealers by Volume bar chart",
+    "source": "prototype",
+    "sourceRow": 90,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "DASH-09",
+    "module": "Dashboard",
+    "featureGroup": "Additional Prototype Screen",
+    "requirement": "Dashboard Filters panel (date/dealer type/region/dealer)",
+    "source": "prototype",
+    "sourceRow": 91,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "LIST-10",
+    "module": "Case Listing",
+    "featureGroup": "Additional Prototype Screen",
+    "requirement": "Export CSV functionality",
+    "source": "prototype",
+    "sourceRow": 92,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "LIST-11",
+    "module": "Case Listing",
+    "featureGroup": "Additional Prototype Screen",
+    "requirement": "Priority level badges L1-L5 display and filter",
+    "source": "prototype",
+    "sourceRow": 93,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "PROFILE-01",
+    "module": "Profile",
+    "featureGroup": "Additional Prototype Screen",
+    "requirement": "User Settings modal (Name, Email, Mobile)",
+    "source": "prototype",
+    "sourceRow": 94,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "DETAIL-15",
+    "module": "Case Detail",
+    "featureGroup": "Additional Prototype Screen",
+    "requirement": "Case Detail modal: Details Overview — Region, Level, Created, status badges",
+    "source": "prototype",
+    "sourceRow": 95,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "DETAIL-16",
+    "module": "Case Detail",
+    "featureGroup": "Additional Prototype Screen",
+    "requirement": "SLA Risk badge (Critical/Warning/OK) on case detail header",
+    "source": "prototype",
+    "sourceRow": 96,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "DETAIL-17",
+    "module": "Case Detail",
+    "featureGroup": "Additional Prototype Screen",
+    "requirement": "Escalate Case section — move level L3→L4, mandatory escalation comment",
+    "source": "prototype",
+    "sourceRow": 97,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "ALERT-01",
+    "module": "Alert",
+    "featureGroup": "Additional Prototype Screen",
+    "requirement": "Live Alert Feed screen — CRITICAL / WARNING / INFO summary counts",
+    "source": "prototype",
+    "sourceRow": 98,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "ALERT-02",
+    "module": "Alert",
+    "featureGroup": "Additional Prototype Screen",
+    "requirement": "Alert cards with deep-link chips (Case No→, type, level, status badges)",
+    "source": "prototype",
+    "sourceRow": 99,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "ALERT-03",
+    "module": "Alert",
+    "featureGroup": "Additional Prototype Screen",
+    "requirement": "Filter Alerts panel (by type, severity, date range)",
+    "source": "prototype",
+    "sourceRow": 100,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "ALERT-04",
+    "module": "Alert",
+    "featureGroup": "Additional Prototype Screen",
+    "requirement": "Alert → Case navigation (tap Case No chip opens case detail modal)",
+    "source": "prototype",
+    "sourceRow": 101,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "PROFILE-02",
+    "module": "Profile",
+    "featureGroup": "Additional Prototype Screen",
+    "requirement": "Profile screen — avatar, name, role, email + mobile display rows",
+    "source": "prototype",
+    "sourceRow": 102,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "PROFILE-03",
+    "module": "Profile",
+    "featureGroup": "Additional Prototype Screen",
+    "requirement": "Role & Access section — fine-grained permissions list (RBAC display)",
+    "source": "prototype",
+    "sourceRow": 103,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "LIST-12",
+    "module": "Case Listing",
+    "featureGroup": "Additional Prototype Screen",
+    "requirement": "Case card expand / collapse toggle (Hide Details / Overview button)",
+    "source": "prototype",
+    "sourceRow": 104,
+    "document": "Nitesh_Task_Lists.xlsx"
+  },
+  {
+    "id": "LIST-13",
+    "module": "Case Listing",
+    "featureGroup": "Additional Prototype Screen",
+    "requirement": "Expanded card fields — User ID, SAP Dealer Code, Modified Date, Role, Elapsed",
+    "source": "prototype",
+    "sourceRow": 105,
+    "document": "Nitesh_Task_Lists.xlsx"
+  }
+]

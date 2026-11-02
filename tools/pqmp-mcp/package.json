@@ -1,0 +1,18 @@
+{
+  "name": "pqmp-mcp",
+  "version": "0.1.0",
+  "private": true,
+  "description": "MCP server exposing PQMP requirements, SRS sections and traceability to Claude Code",
+  "type": "module",
+  "bin": { "pqmp-mcp": "src/server.js" },
+  "scripts": {
+    "import-docs": "node src/import-docs.js",
+    "start": "node src/server.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "1.32.2",
+    "exceljs": "4.4.0",
+    "pdf-parse": "2.4.5",
+    "zod": "3.25.76"
+  }
+}

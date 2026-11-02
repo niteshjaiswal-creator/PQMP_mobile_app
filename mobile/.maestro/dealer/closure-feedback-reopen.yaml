@@ -1,0 +1,31 @@
+appId: com.vecv.pqmp
+name: Dealer - closure remarks, feedback 1-5, reopen with mandatory remarks
+tags: [DETAIL-12, DETAIL-13, DETAIL-14, FEEDBACK-01, FEEDBACK-02, ATTACH-05, FLOW-04]
+---
+- runFlow: ../common/sign-in-dealer.yaml
+- tapOn:
+    id: home.feedbackPending
+- tapOn:
+    id: cases.item.0
+- assertVisible:
+    id: caseDetail.closure
+- tapOn:
+    id: feedback.star.4
+- tapOn:
+    id: feedback.submit
+- assertVisible:
+    id: feedback.given
+- tapOn:
+    id: reopen.open
+- tapOn:
+    id: reopen.submit
+- assertVisible: "Please add a reason to reopen the case."
+- tapOn:
+    id: reopen.remarks
+- inputText: "Cartons damaged again on the next order."
+- hideKeyboard
+- tapOn:
+    id: reopen.submit
+- assertVisible:
+    id: caseDetail.status
+    text: ".*Reopened.*"

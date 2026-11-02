@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Assign case</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="/_blob/0197031cd7cfeb6dd68aec3fd9f1230f">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>body{margin:0}a{color:#1f4e8c}a:hover{color:#163a69}</style>
+</helmet>
+<main class="app" style="width: 390px; height: 844px">
+  <div class="page">
+    <h1 class="h1">Assign cases</h1>
+    <div class="card" style="height: 140px"></div>
+  </div>
+  <a href="Workbench.dc.html" class="scrim" aria-label="Cancel"></a>
+  <section class="sheet" aria-label="Assign case">
+    <span class="grab" aria-hidden="true"></span>
+    <div><h2 class="h2" style="font-size: 19px">Assign ICR261102107012</h2><div class="cap" style="margin-top: 4px">Invoice Cancellation Request · Balaji Auto</div></div>
+    <section class="card" style="overflow: hidden" role="radiogroup" aria-label="Support desk">
+      <label class="row"><span class="radio"></span><div class="tx"><b>Support Desk 1</b><span>42 open</span></div></label>
+      <label class="row" style="background: #f7f9fd"><span class="radio on"></span><div class="tx"><b>Support Desk 2</b><span>18 open · lowest workload</span></div></label>
+      <label class="row"><span class="radio"></span><div class="tx"><b>Support Desk 3</b><span>27 open</span></div></label>
+    </section>
+    <label class="field"><span>Note</span><textarea class="input" placeholder="Optional for a new case, required for a transfer" aria-label="Assignment note" style="height: 72px"></textarea></label>
+    <a class="btn" href="Workbench.dc.html">Assign to Support Desk 2</a>
+    <span class="hint" style="text-align: center">The dealer is not told which desk handles the case.</span>
+  </section>
+</main>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

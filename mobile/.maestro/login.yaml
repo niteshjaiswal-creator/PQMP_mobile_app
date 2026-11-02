@@ -1,0 +1,27 @@
+appId: com.vecv.pqmp
+name: Login - validation and layout (AUTH-01, AUTH-04)
+tags:
+  - auth
+---
+- launchApp:
+    clearState: true
+- assertVisible:
+    id: login.title
+    text: Parts Query Management Portal
+- tapOn:
+    id: login.submit
+- assertVisible:
+    id: login.userIdError
+- assertVisible:
+    id: login.passwordError
+- tapOn:
+    id: login.userId
+- inputText: D1234
+- tapOn:
+    id: login.password
+- inputText: wrong-password
+- tapOn:
+    id: login.togglePassword
+- assertVisible: wrong-password
+- takeScreenshot: login-filled
+- runFlow: common/assert-no-raw-values.yaml

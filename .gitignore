@@ -1,0 +1,12 @@
+node_modules/
+.env
+.env.*
+!.env.example
+
+# Playwright MCP browser profile holds the portal login session - never commit
+.playwright-profile/
+# Raw Playwright output (traces, auto-named screenshots); curated notes live in analysis/portal/
+analysis/portal/raw/
+
+# Editor settings
+.idea/

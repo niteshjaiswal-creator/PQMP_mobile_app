@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>New case: category</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="/_blob/0197031cd7cfeb6dd68aec3fd9f1230f">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>body{margin:0}a{color:#1f4e8c}a:hover{color:#163a69}</style>
+</helmet>
+<main class="app" style="width: 390px; height: 900px">
+  <div class="page nobar">
+    <header class="top">
+      <a class="iconbtn" href="DealerHome.dc.html" aria-label="Cancel"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></a>
+      <div class="t">New case</div><span class="cap">Step 1 of 3</span>
+    </header>
+    <div class="steps" aria-hidden="true"><i class="on"></i><i></i><i></i></div>
+    <h1 class="h1">What is the case about?</h1>
+
+    <section class="card" style="overflow: hidden" aria-label="Category">
+      <label class="row"><span class="radio"></span><div class="tx"><b>Logistics Support</b></div></label>
+      <label class="row"><span class="radio"></span><div class="tx"><b>Order Cancellation</b></div></label>
+      <div style="background: #f7f9fd; border-top: 1px solid #eef1f6">
+        <label class="row" style="border: 0"><span class="radio on"></span><div class="tx"><b>Order Status</b></div></label>
+        <div style="padding: 0 16px 16px 50px; display: flex; flex-direction: column; gap: 8px">
+          <span class="cap">Sub-category <em style="color: #b42318; font-style: normal">*</em></span>
+          <div class="chips">
+            <a class="chip on" href="#">Execution/EDA Required</a>
+            <a class="chip" href="#">Dispatch Required – LR</a>
+            <a class="chip" href="#">Hand Pick up Required</a>
+            <a class="chip" href="#">Invoice Cancellation Request</a>
+            <a class="chip" href="#">Wrong Part Supply</a>
+            <a class="chip" href="#">Order Block Reason Required</a>
+            <a class="chip" href="#">Advised part not available</a>
+          </div>
+        </div>
+      </div>
+      <label class="row"><span class="radio"></span><div class="tx"><b>Packaging</b></div></label>
+      <label class="row"><span class="radio"></span><div class="tx"><b>Part Pricing and Strategy</b></div></label>
+      <label class="row"><span class="radio"></span><div class="tx"><b>Perpetual Inventory</b></div></label>
+      <label class="row"><span class="radio"></span><div class="tx"><b>Project Poorti</b></div></label>
+    </section>
+    <a class="btn" href="CreateReference.dc.html">Continue</a>
+  </div>
+</main>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":900}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>
