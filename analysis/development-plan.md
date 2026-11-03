@@ -52,7 +52,7 @@ Date: 2026-11-03. Baseline: the SRS (`docs/VECV_PQMP Case Tracking Mobile App.pd
 | 1 Dealer | Done except step 1.7 camera scan and step 1.9 push. Check-details and part selection work from a typed order or invoice number. Unit and journey tests pass on the mock; device testing (`/test-mobile`) still to do |
 | 2 Management | Not started. Home currently shows dashboard counts |
 | 3 Support desk | Not started. Home already shows the internal dashboard items from `getDashboard` |
-| 4 Admin | Not started |
+| 4 Admin | Built: assignment workbench (Unassigned / Assigned / Old · pending queues with counts, desk filter, search, paging), assign sheet (desk workload, lowest-workload suggestion, note required on transfer, current desk blocked) and Assign/Transfer on case detail. Domain and journey (`__tests__/admin-journey.test.tsx`) tests pass on the mock; Maestro flow `.maestro/admin/assign.yaml` written, not yet run; device testing (`/test-mobile`) pending. SRS 7.15 technical discussion with VECV still needed before release; overdue and closure-eligible filters wait for SLA and closure review approval |
 
 Camera scan is deferred: `react-native-vision-camera` 5 moved code scanning out of the core package and needs Nitro modules, and the barcode format is still open (question 6). Decide between vision-camera 4.x (built-in scanner) and 5.x plus a barcode plugin once VECV shares the format.
 
