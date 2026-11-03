@@ -136,7 +136,9 @@ const TONE: Record<CaseStatus, StatusTone> = {
 export const statusTone = (status: CaseStatus | null): StatusTone => (status ? TONE[status] : 'hold');
 
 /** Business label for an API/portal status value; unknown values never show raw (SRS 9.3). */
-export function portalStatusLabel(value: string | null | undefined): string {
+export function portalStatusLabel(value: string | null | undefined, internalView = false): string {
   const s = fromPortalStatus(value);
+  // Internal users see re-routing; customers never do (4.2.5).
+  if (internalView && s === 'reassigned') return 'Reassigned';
   return s ? CASE_STATUS_LABEL[s] : 'Under Review';
 }

@@ -1,5 +1,11 @@
 // FLOW-01..04, LIST-09, DETAIL-05 — SRS 10.1-10.3, 4.2
 import { canComment, canTransition, customerFacingOwner, isFeedbackEligible, statusBucket, SUPPORT_IDENTITY } from './case-status';
+import * as status from './case-status';
+
+it('shows re-routing only to internal users (4.2.5)', () => {
+  expect(status.portalStatusLabel('Re-Assigned')).toBe('Assigned');
+  expect(status.portalStatusLabel('Re-Assigned', true)).toBe('Reassigned');
+});
 
 describe('canTransition (10.2)', () => {
   it.each([

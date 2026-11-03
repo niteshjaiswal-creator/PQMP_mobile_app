@@ -274,6 +274,8 @@ function dashboardOf(u: MockUser): DashboardSummary {
   };
 }
 
+const hasPendingParts = (c: MockCase) => !!c.partLines?.some(p => (p.orderedQty ?? 0) > (p.deliveredQty ?? 0));
+
 function reportOf(q: Record<string, string>): ReportSummary {
   const cases = db.cases.filter(c => (!q.caseTypeId || c.caseTypeId === q.caseTypeId) && (!q.from || c.createdAt >= q.from) && (!q.to || c.createdAt <= `${q.to}T23:59:59`));
   const open = cases.filter(isOpen);
@@ -286,7 +288,7 @@ function reportOf(q: Record<string, string>): ReportSummary {
       total: cases.length,
       open: open.length,
       closed: cases.length - open.length,
-      pendingOrder: open.filter(c => c.partLines?.some(p => (p.orderedQty ?? 0) > (p.deliveredQty ?? 0))).length,
+      pendingOrder: open.filter(hasPendingParts).length,
       updatedToday: cases.filter(c => c.updatedAt.slice(0, 10) === D.NOW.slice(0, 10)).length,
       highPriority: open.filter(c => c.priority?.code === 'P1').length,
       awaitingUserResponse: open.filter(c => needsAction(c) === 'reply').length,
@@ -325,6 +327,9 @@ function listCasesFor(u: MockUser, q: Record<string, string>) {
   if (q.priority) rows = rows.filter(c => c.priority?.code === q.priority);
   if (q.orderRelated === 'true') rows = rows.filter(isOrderRelated);
   if (q.needsAction) rows = rows.filter(c => needsAction(c) === q.needsAction);
+  if (q.pendingOrder === 'true') rows = rows.filter(c => isOpen(c) && hasPendingParts(c));
+  if (q.updatedFrom) rows = rows.filter(c => c.updatedAt >= q.updatedFrom);
+  if (q.maxRating) rows = rows.filter(c => !!c.feedback && c.feedback.rating <= Number(q.maxRating));
   if (q.createdFrom) rows = rows.filter(c => c.createdAt >= q.createdFrom);
   if (q.createdTo) rows = rows.filter(c => c.createdAt <= `${q.createdTo}T23:59:59`);
   if (q.deskId) rows = rows.filter(c => c.deskId === q.deskId);
@@ -333,7 +338,8 @@ function listCasesFor(u: MockUser, q: Record<string, string>) {
   if (q.assignment === 'old_pending') rows = rows.filter(c => isOpen(c) && daysOpen(c) > OLD_PENDING_DAYS);
   if (term && term.length >= 3) {
     rows = rows.filter(c =>
-      [c.caseNumber, ...c.references.map(r => r.value), ...c.parts.map(p => p.partNumber)].some(v => v.toLowerCase().includes(term)),
+      // Internal users can also search by dealer code or name (workbench, SRS 13.12).
+      [c.caseNumber, ...c.references.map(r => r.value), ...c.parts.map(p => p.partNumber), ...(isInternal(u) ? [c.dealerCode, D.DEALERS[c.dealerCode]?.name ?? ''] : [])].some(v => v.toLowerCase().includes(term)),
     );
   }
   const sort = q.sort ?? '-updatedAt';

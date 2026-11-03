@@ -65,7 +65,7 @@ export function CaseDetailScreen({ route, navigation }: RootScreenProps<'CaseDet
     >
       <View style={{ gap: spacing.sm }}>
         <View style={s.row}>
-          <StatusPill status={detail.status} testID="caseDetail.status" />
+          <StatusPill status={detail.status} internalView={internalView} testID="caseDetail.status" />
           {detail.priority ? <Tag label={`Priority ${displayText(detail.priority.label)}`} testID="caseDetail.priority" /> : null}
         </View>
         <Text style={s.h1} testID="caseDetail.title">
