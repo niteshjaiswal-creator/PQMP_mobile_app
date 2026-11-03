@@ -1,0 +1,100 @@
+# Admin assignment workbench (SRS 6.3.4, 6.3.5, 7.15, 8.10.2, 13.12; spec §16). Mock backend:
+# signs in as `admin` (src/mock/README.md), assigns ICR261102107012 to the suggested
+# (lowest-workload) desk, then transfers a case with the mandatory note.
+appId: com.vecv.pqmp
+name: Admin - assign and transfer cases
+tags:
+  - admin
+  - workbench
+---
+- launchApp:
+    clearState: true
+- tapOn:
+    id: login.userId
+- inputText: admin
+- tapOn:
+    id: login.password
+- inputText: test123
+- hideKeyboard
+- tapOn:
+    id: login.submit
+- extendedWaitUntil:
+    visible:
+      id: home.kpi.total
+    timeout: 10000
+- tapOn:
+    id: tabs.assign
+- extendedWaitUntil:
+    visible:
+      id: workbench.item.0
+    timeout: 10000
+- assertVisible:
+    id: workbench.queue.unassigned
+    text: "Unassigned · 2"
+- assertVisible: ICR261102107012
+- assertVisible: ITD261101106998
+- runFlow: ../common/assert-no-raw-values.yaml
+- takeScreenshot: admin-workbench-unassigned
+
+# Assign ICR261102107012 to the suggested desk (note optional).
+- tapOn:
+    id: workbench.search
+- inputText: ICR261102107012
+- hideKeyboard
+- extendedWaitUntil:
+    notVisible: ITD261101106998
+    timeout: 5000
+- tapOn:
+    id: workbench.item.0.assign
+- extendedWaitUntil:
+    visible: ".*lowest workload.*"
+    timeout: 5000
+- assertVisible: The dealer is not told which desk handles the case.
+- takeScreenshot: admin-assign-sheet
+- tapOn:
+    id: assign.submit
+- extendedWaitUntil:
+    visible:
+      id: workbench.done
+    timeout: 5000
+- assertVisible: "ICR261102107012 assigned to .*"
+
+# Transfer it: the note is required and the current desk can't be chosen.
+- tapOn:
+    id: workbench.queue.assigned
+- extendedWaitUntil:
+    visible:
+      id: workbench.item.0.transfer
+    timeout: 5000
+- tapOn:
+    id: workbench.item.0.transfer
+- extendedWaitUntil:
+    visible: ".*current desk.*"
+    timeout: 5000
+- tapOn:
+    id: assign.submit
+- assertVisible:
+    id: assign.noteError
+    text: Add a note explaining the transfer.
+- tapOn:
+    id: assign.note
+- inputText: Rebalancing workload
+- hideKeyboard
+- tapOn:
+    id: assign.submit
+- extendedWaitUntil:
+    visible: "ICR261102107012 transferred to .*"
+    timeout: 5000
+
+# Case detail shows the Transfer action for an assigned case.
+- tapOn:
+    id: workbench.item.0
+- extendedWaitUntil:
+    visible:
+      id: caseDetail.assign
+    timeout: 10000
+- assertVisible:
+    id: caseDetail.assign
+    text: Transfer
+- runFlow: ../common/assert-no-raw-values.yaml
+- takeScreenshot: admin-case-detail-transfer
