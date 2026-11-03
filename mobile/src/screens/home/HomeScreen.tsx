@@ -105,7 +105,7 @@ export function HomeScreen() {
           <Divider />
           <ListRow
             icon="truck" title={dash.orderUpdates === 1 ? '1 order or delivery update' : `${dash.orderUpdates} order and delivery updates`} subtitle="Expected dates and dispatches"
-            onPress={() => openCases('orderRelated')} testID="home.orderUpdates"
+            onPress={() => openCases('orderUpdates')} testID="home.orderUpdates"
           />
         </Card>
       ) : null}

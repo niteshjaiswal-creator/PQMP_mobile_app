@@ -14,6 +14,8 @@ export type CaseFilters = {
   dateRange: DateRange;
   orderRelated: boolean;
   needsAction?: 'reply' | 'feedback';
+  /** Open cases with an order/part/EDA update in the last 7 days (home "order and delivery updates", DASH-04). */
+  orderUpdated?: boolean;
   /** Open cases with order or part quantities still pending (SRS 14.4, management reports). */
   pendingOrder?: boolean;
   /** Cases updated since the start of today (SRS 14.1). */
@@ -42,6 +44,7 @@ export function filtersForPreset(preset: CasePreset | undefined): CaseFilters {
     case 'reply': return { ...DEFAULT_FILTERS, needsAction: 'reply' };
     case 'feedback': return { ...DEFAULT_FILTERS, statusGroup: 'closed', needsAction: 'feedback' };
     case 'orderRelated': return { ...DEFAULT_FILTERS, orderRelated: true };
+    case 'orderUpdates': return { ...DEFAULT_FILTERS, orderUpdated: true };
     case 'pendingOrder': return { ...DEFAULT_FILTERS, pendingOrder: true };
     case 'updatedToday': return { ...DEFAULT_FILTERS, statusGroup: 'all', updatedToday: true };
     case 'highPriority': return { ...DEFAULT_FILTERS, priority: HIGH_PRIORITY };
@@ -53,7 +56,7 @@ export function filtersForPreset(preset: CasePreset | undefined): CaseFilters {
 
 /** Number of filters beyond the status group, for the filter button badge. */
 export function activeFilterCount(f: CaseFilters): number {
-  return [f.statuses.length > 0, !!f.caseTypeId, !!f.subTypeId, !!f.priority, f.dateRange !== 'any', f.orderRelated, !!f.needsAction, !!f.pendingOrder, !!f.updatedToday, f.maxRating != null, !!f.assignment].filter(Boolean).length;
+  return [f.statuses.length > 0, !!f.caseTypeId, !!f.subTypeId, !!f.priority, f.dateRange !== 'any', f.orderRelated, !!f.needsAction, !!f.orderUpdated, !!f.pendingOrder, !!f.updatedToday, f.maxRating != null, !!f.assignment].filter(Boolean).length;
 }
 
 const DAYS: Record<DateRange, number | null> = { any: null, '7d': 7, '30d': 30, '90d': 90 };
@@ -74,6 +77,7 @@ export function toQuery(f: CaseFilters, search: string, now = new Date()): CaseL
     priority: f.priority,
     orderRelated: f.orderRelated || undefined,
     needsAction: f.needsAction,
+    orderUpdated: f.orderUpdated || undefined,
     pendingOrder: f.pendingOrder || undefined,
     updatedFrom: f.updatedToday ? isoDate(now) : undefined,
     maxRating: f.maxRating,

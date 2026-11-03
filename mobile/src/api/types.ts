@@ -251,6 +251,8 @@ export interface CaseListQuery {
   q?: string;
   needsAction?: 'reply' | 'feedback';
   orderRelated?: boolean;
+  /** Open cases with an order, part or EDA update in the last 7 days; matches dashboard `orderUpdates` (DASH-02/04). */
+  orderUpdated?: boolean;
   /** Open cases whose order or part quantities are still pending (SRS 14.4). */
   pendingOrder?: boolean;
   /** Cases updated on or after this date (SRS 14.1 "updated today"). */

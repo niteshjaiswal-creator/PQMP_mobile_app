@@ -244,3 +244,13 @@ describe('management (SRS 4.5, 14)', () => {
     expect((await api.getCase('106958')).actions.canComment).toBe(false);
   });
 });
+
+describe('dashboard tiles match their lists (DASH-04, SRS 8.2.4)', () => {
+  it('order/delivery updates count equals the orderUpdated list', async () => {
+    await signIn('dealer');
+    const d = await api.getDashboard();
+    const list = await api.listCases({ statusGroup: 'open', orderUpdated: true });
+    expect(list.totalItems).toBe(d.orderUpdates);
+    expect(d.orderUpdates).toBeGreaterThan(0);
+  });
+});

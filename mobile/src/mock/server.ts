@@ -66,6 +66,9 @@ const typeOf = (c: MockCase) => D.CASE_TYPES.find(t => t.id === c.caseTypeId)!;
 const subTypeOf = (c: MockCase) => typeOf(c).subTypes.find(s => s.id === c.subTypeId)!;
 const deskName = (id: string | null) => D.DESKS.find(d => d.id === id)?.name ?? null;
 const isOrderRelated = (c: MockCase) => D.ORDER_RELATED_TYPES.includes(c.caseTypeId);
+/** An order, part or EDA update in the last 7 days: the dashboard count and its list filter share it. */
+const hasRecentOrderUpdate = (c: MockCase) =>
+  c.timeline.some(e => e.type === 'order_update' && Date.parse(D.NOW) - Date.parse(e.at) < 7 * 86_400_000);
 const isInternal = (u: MockUser) => u.role !== 'dealer';
 const daysOpen = (c: MockCase) => (Date.parse(D.NOW) - Date.parse(c.createdAt)) / 86_400_000;
 const OLD_PENDING_DAYS = 7; // TODO(VECV): confirm the "old/pending" threshold (SRS 10.4)
@@ -258,7 +261,7 @@ function dashboardOf(u: MockUser): DashboardSummary {
     recentlyUpdated: mine.filter(c => Date.parse(D.NOW) - Date.parse(c.updatedAt) < 7 * 86_400_000).length,
     awaitingUserResponse: open.filter(c => needsAction(c) === 'reply').length,
     feedbackPending: mine.filter(c => needsAction(c) === 'feedback').length,
-    orderUpdates: open.filter(c => c.timeline.some(e => e.type === 'order_update')).length,
+    orderUpdates: open.filter(hasRecentOrderUpdate).length,
     byCategory: [...byCat.values()].sort((a, b) => b.count - a.count),
     unreadNotifications: (db.notifications[u.userId] ?? []).filter(n => !n.read).length,
     asOf: D.NOW,
@@ -326,6 +329,7 @@ function listCasesFor(u: MockUser, q: Record<string, string>) {
   if (q.subTypeId) rows = rows.filter(c => c.subTypeId === q.subTypeId);
   if (q.priority) rows = rows.filter(c => c.priority?.code === q.priority);
   if (q.orderRelated === 'true') rows = rows.filter(isOrderRelated);
+  if (q.orderUpdated === 'true') rows = rows.filter(c => isOpen(c) && hasRecentOrderUpdate(c));
   if (q.needsAction) rows = rows.filter(c => needsAction(c) === q.needsAction);
   if (q.pendingOrder === 'true') rows = rows.filter(c => isOpen(c) && hasPendingParts(c));
   if (q.updatedFrom) rows = rows.filter(c => c.updatedAt >= q.updatedFrom);

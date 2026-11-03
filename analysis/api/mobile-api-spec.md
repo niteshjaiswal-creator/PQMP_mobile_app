@@ -542,6 +542,7 @@ My Cases list and search (LIST-01…09).
 | `subTypeId` | string[] | — | |
 | `q` | string | — | Searches case no., SO no., SAP doc / invoice no., part no. (min 3 characters) |
 | `needsAction` | boolean | — | Home "Needs you" strip |
+| `orderUpdated` | boolean | — | Open cases with an order, part or EDA update in the last 7 days. Same rule as dashboard `orderUpdates`, so the home tile and its list match (DASH-02/04, SRS 8.2.4) |
 | `pendingOrder` | boolean | — | Open cases whose order or part quantities are still pending. Management "Pending order cases" drill-down (SRS 14.4) |
 | `updatedFrom` | date | — | Cases updated on or after this date. Management "Updated today" drill-down (SRS 14.1) |
 | `maxRating` | integer 1–5 | — | Closed cases rated at or below this value. Management "low ratings" drill-down (SRS 14.7; app sends `2`, threshold to confirm) |

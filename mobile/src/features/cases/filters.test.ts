@@ -11,6 +11,7 @@ it('maps every dashboard preset to a list query', () => {
   expect(toQuery(filtersForPreset('reply'), '', NOW)).toMatchObject({ needsAction: 'reply' });
   expect(toQuery(filtersForPreset('feedback'), '', NOW)).toMatchObject({ statusGroup: 'closed', needsAction: 'feedback' });
   expect(toQuery(filtersForPreset('orderRelated'), '', NOW)).toMatchObject({ orderRelated: true });
+  expect(toQuery(filtersForPreset('orderUpdates'), '', NOW)).toMatchObject({ statusGroup: 'open', orderUpdated: true });
 });
 
 it('maps every management report preset to a list query', () => {
