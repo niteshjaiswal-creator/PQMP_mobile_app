@@ -8,6 +8,7 @@ import type { CaseSummary, CaseType, Option } from '../../api/types';
 import { CaseCard } from '../../components/CaseCard';
 import { Icon } from '../../components/Icon';
 import { Screen } from '../../components/Screen';
+import { useRefreshOnFocus } from '../../components/useRefreshOnFocus';
 import { EmptyState, ErrorState, LoadingState } from '../../components/states';
 import { Chip, IconButton, L } from '../../components/ui';
 import { activeFilterCount, filtersForPreset, toQuery, type CaseFilters } from '../../features/cases/filters';
@@ -50,7 +51,7 @@ export function CaseListScreen() {
   }, []);
 
   const load = useCallback(
-    async (page: number, mode: 'initial' | 'refresh' | 'more') => {
+    async (page: number, mode: 'initial' | 'refresh' | 'more' | 'silent') => {
       if (mode === 'initial') setLoading(true);
       if (mode === 'refresh') setRefreshing(true);
       if (mode === 'more') setLoadingMore(true);
@@ -64,7 +65,7 @@ export function CaseListScreen() {
         }));
         setError(null);
       } catch (err) {
-        if (mode !== 'more') setError(userMessageFor(err));
+        if (mode === 'initial' || mode === 'refresh') setError(userMessageFor(err));
       } finally {
         setLoading(false);
         setRefreshing(false);
@@ -77,6 +78,7 @@ export function CaseListScreen() {
   useEffect(() => {
     load(1, 'initial');
   }, [load]);
+  useRefreshOnFocus(() => load(1, 'silent'));
 
   const count = activeFilterCount(filters);
   const setGroup = (statusGroup: CaseFilters['statusGroup']) => setFilters(f => ({ ...f, statusGroup, statuses: [], needsAction: undefined }));

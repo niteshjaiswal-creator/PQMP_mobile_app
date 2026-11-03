@@ -1,0 +1,52 @@
+appId: com.vecv.pqmp
+name: Dealer - Updates list, open and mark read, sign out and sign back in
+tags: [NOTIF-01, AUTH-01, AUTH-03, AUTH-04, DASH-03]
+---
+- runFlow: ../common/sign-in-dealer.yaml
+- tapOn:
+    id: tabs.updates
+- assertVisible:
+    id: updates.item.0
+- assertVisible:
+    id: updates.item.0.unread
+- tapOn:
+    id: updates.item.1
+- assertVisible:
+    id: orderParts.order.refreshed
+- back
+- tapOn:
+    id: updates.markAll
+- tapOn:
+    id: updates.filter.unread
+- assertVisible: "No unread updates"
+- runFlow: ../common/assert-no-raw-values.yaml
+- tapOn:
+    id: tabs.account
+- assertVisible:
+    id: account.dealerCode
+- tapOn:
+    id: account.signOut
+- tapOn: "SIGN OUT"
+- assertVisible:
+    id: login.submit
+- tapOn:
+    id: login.userId
+- inputText: dealer
+- tapOn:
+    id: login.password
+- inputText: wrong
+- hideKeyboard
+- tapOn:
+    id: login.submit
+- assertVisible: "The User ID or password is incorrect. Please try again."
+- tapOn:
+    id: login.password
+- eraseText
+- inputText: test123
+- hideKeyboard
+- tapOn:
+    id: login.submit
+- extendedWaitUntil:
+    visible:
+      id: home.kpi.total
+    timeout: 10000

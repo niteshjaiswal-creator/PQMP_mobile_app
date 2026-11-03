@@ -106,6 +106,24 @@ describe('dealer', () => {
     expect(list.items[0].caseNumber).toBe(created.caseNumber);
   });
 
+  it('links files uploaded during creation to the new case (CREATE-07, ATTACH-01)', async () => {
+    await signIn('dealer');
+    const up = await api.uploadAttachment({ uri: 'file:///photo.png', name: 'damaged_carton.png', type: 'image/png' }, 'case_create', 'gallery');
+    const created = await api.createCase({
+      subTypeId: '6',
+      dealerCode: '1S1148',
+      issueTitle: 'EDA needed',
+      problemStatement: 'Please share EDA.',
+      references: [{ type: 'sales_order', value: '4100239001', captureMethod: 'manual' }],
+      contact: { person: 'Rohit', phone: '9876543210' },
+      modeOfQuery: 'Call',
+      parts: [],
+      attachmentIds: [up.id],
+    });
+    const files = await api.getAttachments(created.id);
+    expect(files.map(f => f.id)).toEqual([up.id]);
+  });
+
   it('returns field errors and keeps nothing half-created on invalid input (CREATE-13)', async () => {
     const err = await fails(
       api.createCase({ subTypeId: '6', dealerCode: '1S1148', issueTitle: '', problemStatement: '', references: [], contact: { person: 'R', phone: '123' }, parts: [], attachmentIds: [] }),

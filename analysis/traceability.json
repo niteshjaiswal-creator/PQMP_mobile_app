@@ -1,14 +1,14 @@
 {
   "AUTH-01": {
     "status": "tested",
-    "updated": "2026-11-02T19:30:56.722Z",
+    "updated": "2026-11-03T01:01:46.953Z",
     "openQuestions": [
       "Persona: SRS targets dealers, POC and provided QA login (egpsupportdesk1) are support desk. Need dealer QA login and confirmation of target persona(s).",
       "Portal auth mechanism and whether a mobile API layer exists (SRS 17.1) - portal unreachable 2026-10-26 (503 / VPN?).",
       "Portal has no mobile/JSON API (/api/* 404). Who provides token-based auth + case APIs for the app?",
       "Usernames may contain spaces or '@' (e.g. display name or email used as username). Must the mobile login accept them?"
     ],
-    "notes": "LoginScreen.tsx + api/auth.ts; signed in as dealer on emulator via mock (2026-11-03)",
+    "notes": "LoginScreen.tsx + api/auth.ts. Re-verified 2026-11-03 dealer phase: sign out, sign back in as dealer on Android 14 emulator (mock).",
     "portalEvidence": [
       "analysis/portal/sitemap.md",
       "analysis/portal/api-contracts.md",
@@ -24,16 +24,18 @@
       "mobile/src/screens/LoginScreen.test.tsx",
       "mobile/src/api/auth.test.ts",
       "mobile/src/api/api.test.ts",
-      "analysis/test-reports/2026-11-03-auth-emulator.md"
+      "analysis/test-reports/2026-11-03-auth-emulator.md",
+      "analysis/test-reports/2026-11-03-dealer-phase.md",
+      "mobile/.maestro/dealer/updates-account.yaml"
     ]
   },
   "CREATE-02": {
-    "status": "implemented",
-    "updated": "2026-11-02T20:18:54.455Z",
+    "status": "tested",
+    "updated": "2026-11-03T01:03:13.187Z",
     "openQuestions": [
       "Case taxonomy differs: SRS 12.3 generic case types vs POC type::sub-type matrix (7 types). Confirm live master and whether it is available via API; domain/case-validation.ts must be reworked to the matrix."
     ],
-    "notes": "Category list from masters API.",
+    "notes": "Emulator 2026-11-03: 7 categories from masters; Continue disabled until a sub-category is chosen.",
     "portalEvidence": [
       "analysis/portal/masters.md",
       "analysis/portal/case-create.md"
@@ -42,12 +44,13 @@
       "mobile/src/screens/create/CreateTypeScreen.tsx"
     ],
     "tests": [
-      "mobile/__tests__/dealer-journey.test.tsx"
+      "mobile/__tests__/dealer-journey.test.tsx",
+      "analysis/test-reports/2026-11-03-dealer-phase.md"
     ]
   },
   "CREATE-04": {
-    "status": "implemented",
-    "updated": "2026-11-02T20:18:54.489Z",
+    "status": "tested",
+    "updated": "2026-11-03T01:03:13.220Z",
     "openQuestions": [
       "Dynamic field rules: POC rule matrix (SAP doc single/multi, SO, invoice, support required, improvement, CSM/ASM approval, supplying plant, part-description file) - confirm against portal Field Configuration Master.",
       "SAP document / SO number lookup endpoint used to pre-fill the form is unknown."
@@ -55,14 +58,15 @@
     "portalEvidence": [
       "analysis/portal/case-create.md"
     ],
-    "notes": "Fields, references, parts and attachments driven by the sub-type form config; case-validation.ts reworked to it (visibleWhen supported).",
+    "notes": "Emulator 2026-11-03: EDA sub-type asks SO (mandatory), PO, invoice; details step shows its configured fields, parts and attachments.",
     "implementation": [
       "mobile/src/domain/case-validation.ts",
       "mobile/src/screens/create/CreateDetailsScreen.tsx",
       "mobile/src/screens/create/CreateReferenceScreen.tsx"
     ],
     "tests": [
-      "mobile/src/domain/case-validation.test.ts"
+      "mobile/src/domain/case-validation.test.ts",
+      "analysis/test-reports/2026-11-03-dealer-phase.md"
     ]
   },
   "FLOW-02": {
@@ -103,11 +107,11 @@
   },
   "AUTH-03": {
     "status": "implemented",
-    "updated": "2026-11-02T20:17:16.533Z",
+    "updated": "2026-11-03T01:01:29.055Z",
     "portalEvidence": [
       "analysis/portal/api-contracts.md"
     ],
-    "notes": "Tokens in Keychain, restored on launch, one refresh on 401 then sign-out with \"session expired\" notice, sign-out from Account. Inactivity timeout policy awaits VECV (SRS 8.1.4).",
+    "notes": "Emulator 2026-11-03: session restored after app restart/reload, sign-out with confirm returns to login, sign back in works. Session expiry message and inactivity timeout not exercised on device (needs token expiry from backend; timeout policy awaits VECV).",
     "implementation": [
       "mobile/src/api/auth.ts",
       "mobile/src/api/client.ts",
@@ -118,15 +122,17 @@
     ],
     "tests": [
       "mobile/src/api/client.test.ts",
-      "mobile/__tests__/dealer-journey.test.tsx"
+      "mobile/__tests__/dealer-journey.test.tsx",
+      "analysis/test-reports/2026-11-03-dealer-phase.md",
+      "mobile/.maestro/dealer/updates-account.yaml"
     ],
     "openQuestions": [
       "Session inactivity timeout policy (SRS 8.1.4) not yet defined by VECV."
     ]
   },
   "DASH-01": {
-    "status": "implemented",
-    "updated": "2026-11-02T20:17:16.551Z",
+    "status": "tested",
+    "updated": "2026-11-03T01:01:46.989Z",
     "portalEvidence": [
       "analysis/portal/sitemap.md",
       "analysis/portal/dashboard-dealer.md"
@@ -140,23 +146,24 @@
       "Official formulas for Total Logged / Open / Resolved / Avg Closure Time: production totals disagree (1,596 vs 1,623 vs 1,546).",
       "Default period for the mobile dashboard: month to date (portal) or all-time?"
     ],
-    "notes": "Home KPIs total/open/in progress/closed + recently updated (HomeScreen).",
+    "notes": "Emulator 2026-11-03: Total 5 / Open 3 / In progress 1 / Closed 2 match the dealer's mock cases; recently updated list. Home now refreshes on focus (counts update after a new case: 6/4).",
     "implementation": [
       "mobile/src/screens/home/HomeScreen.tsx"
     ],
     "tests": [
       "mobile/__tests__/dealer-journey.test.tsx",
-      "mobile/.maestro/dealer/home-and-cases.yaml"
+      "mobile/.maestro/dealer/home-and-cases.yaml",
+      "analysis/test-reports/2026-11-03-dealer-phase.md"
     ]
   },
   "DASH-04": {
     "status": "implemented",
-    "updated": "2026-11-02T20:17:16.618Z",
+    "updated": "2026-11-03T01:01:29.037Z",
     "portalEvidence": [
       "analysis/portal/case-list.md",
       "analysis/portal/dashboard-dealer.md"
     ],
-    "notes": "KPI tiles and rows open My Cases with a matching preset (features/cases/filters.ts).",
+    "notes": "Emulator 2026-11-03: Closed/Feedback KPI drill-down pass. Open defect: \"1 order or delivery update\" tile opens all open order-related cases (4), not the 1 counted (spec: open cases with order/part/EDA update in last 7 days). Needs a list filter for recent order updates in the API spec (analysis/test-reports/2026-11-03-dealer-phase.md, D-08).",
     "implementation": [
       "mobile/src/screens/home/HomeScreen.tsx",
       "mobile/src/features/cases/filters.ts",
@@ -164,17 +171,22 @@
     ],
     "tests": [
       "mobile/src/features/cases/filters.test.ts",
-      "mobile/__tests__/dealer-journey.test.tsx"
+      "mobile/__tests__/dealer-journey.test.tsx",
+      "analysis/test-reports/2026-11-03-dealer-phase.md",
+      "mobile/.maestro/dealer/home-and-cases.yaml"
+    ],
+    "openQuestions": [
+      "Order/delivery update tile count (dashboard.orderUpdates) and its drill-down list disagree; add a /cases filter for 'order update in last 7 days' to the API spec (SRS 8.2.4, 13.2.10)."
     ]
   },
   "CREATE-01": {
-    "status": "implemented",
-    "updated": "2026-11-02T20:18:54.435Z",
+    "status": "tested",
+    "updated": "2026-11-03T01:03:13.170Z",
     "portalEvidence": [
       "analysis/portal/case-create.md",
       "analysis/portal/screens/case-create.png"
     ],
-    "notes": "3-step create flow: category, order reference (+ check details), details.",
+    "notes": "Emulator 2026-11-03: 3-step flow (category -> order reference + check details -> details) completed; case EUR261103107102 registered.",
     "implementation": [
       "mobile/src/screens/create/CreateTypeScreen.tsx",
       "mobile/src/screens/create/CreateReferenceScreen.tsx",
@@ -184,12 +196,13 @@
     ],
     "tests": [
       "mobile/__tests__/dealer-journey.test.tsx",
-      "mobile/.maestro/dealer/raise-case.yaml"
+      "mobile/.maestro/dealer/raise-case.yaml",
+      "analysis/test-reports/2026-11-03-dealer-phase.md"
     ]
   },
   "CREATE-03": {
-    "status": "implemented",
-    "updated": "2026-11-02T20:18:54.472Z",
+    "status": "tested",
+    "updated": "2026-11-03T01:03:13.203Z",
     "portalEvidence": [
       "analysis/portal/masters.md",
       "analysis/portal/api-contracts.md"
@@ -198,66 +211,71 @@
       "Legacy sub-types (Buyback, Invoice Soft Copy, Non Transit Claims, Parts Pickup Not Done, Settlement Not Received, Approval Matrix - SRN Request): display-only on mobile?",
       "POC Order Cancellation sub-types (Alternate Parts, Higher Assembly, Others) don't exist in the portal (only Customer Order Cancellation). Older/planned taxonomy?"
     ],
-    "notes": "Creatable sub-categories under the chosen category.",
+    "notes": "Emulator 2026-11-03: Order Status expands to its 7 sub-categories; Execution/EDA Required selected.",
     "implementation": [
       "mobile/src/screens/create/CreateTypeScreen.tsx"
     ],
     "tests": [
-      "mobile/__tests__/dealer-journey.test.tsx"
+      "mobile/__tests__/dealer-journey.test.tsx",
+      "analysis/test-reports/2026-11-03-dealer-phase.md"
     ]
   },
   "CREATE-05": {
-    "status": "implemented",
-    "updated": "2026-11-02T20:18:54.506Z",
+    "status": "tested",
+    "updated": "2026-11-03T01:03:13.236Z",
     "portalEvidence": [
       "analysis/portal/case-create.md"
     ],
     "openQuestions": [
       "SRS asks for issue title + remarks + preferred contact mode; portal has only Problem Statement and Mode of Query. Add fields or map?"
     ],
-    "notes": "Issue title, description, remarks, contact person/number/email, preferred contact mode.",
+    "notes": "Emulator 2026-11-03: issue title, description (counter), contact person/number/email, contact mode, remarks; empty submit highlights each field. Fixed: contact-mode error read \"Choose how should we reach you?.\" (now \"Choose an option.\"); summary banner now clears once all fields are fixed.",
     "implementation": [
       "mobile/src/screens/create/CreateDetailsScreen.tsx",
       "mobile/src/domain/case-validation.ts"
     ],
     "tests": [
       "mobile/src/domain/case-validation.test.ts",
-      "mobile/__tests__/dealer-journey.test.tsx"
+      "mobile/__tests__/dealer-journey.test.tsx",
+      "analysis/test-reports/2026-11-03-dealer-phase.md"
     ]
   },
   "CREATE-06": {
-    "status": "implemented",
-    "updated": "2026-11-02T20:18:54.523Z",
+    "status": "tested",
+    "updated": "2026-11-03T01:03:13.253Z",
     "portalEvidence": [
       "analysis/portal/case-create.md",
       "analysis/portal/api-contracts.md"
     ],
-    "notes": "SO/SAP document/invoice/PO references with format checks and lookup; part rows with quantity.",
+    "notes": "Emulator 2026-11-03: SO and PO captured (PO prefilled from SO lookup), invoice field, parts with quantity from lookup plus manual \"Add part\" (A1100457 qty 5 validated against part master).",
     "implementation": [
       "mobile/src/screens/create/CreateReferenceScreen.tsx",
       "mobile/src/screens/create/CreateDetailsScreen.tsx"
     ],
     "tests": [
       "mobile/src/domain/case-validation.test.ts",
-      "mobile/__tests__/dealer-journey.test.tsx"
+      "mobile/__tests__/dealer-journey.test.tsx",
+      "analysis/test-reports/2026-11-03-dealer-phase.md"
     ],
     "openQuestions": [
       "openCase in lookups carries only the case number; GET /cases/{id} must accept it (TODO(api-contract) in CreateReferenceScreen)."
     ]
   },
   "CREATE-07": {
-    "status": "implemented",
-    "updated": "2026-11-02T20:18:54.539Z",
+    "status": "tested",
+    "updated": "2026-11-03T01:03:13.269Z",
     "portalEvidence": [
       "analysis/portal/case-create.md"
     ],
-    "notes": "Attach photos/files on step 3 with remove.",
+    "notes": "Emulator 2026-11-03: \"Add photo or file\" -> Camera/Photos/Files; gallery photo uploaded and listed with size and remove button. Mock defect fixed: uploaded files were not linked to the created case.",
     "implementation": [
       "mobile/src/screens/create/CreateDetailsScreen.tsx",
       "mobile/src/features/attachments/pickFile.ts"
     ],
     "tests": [
-      "mobile/src/domain/attachment-policy.test.ts"
+      "mobile/src/domain/attachment-policy.test.ts",
+      "analysis/test-reports/2026-11-03-dealer-phase.md",
+      "mobile/src/api/api.test.ts"
     ]
   },
   "CREATE-08": {
@@ -269,37 +287,40 @@
     "notes": "Same as SCAN-01: camera scan deferred until the barcode format is known."
   },
   "CREATE-10": {
-    "status": "implemented",
-    "updated": "2026-11-02T20:18:54.572Z",
+    "status": "tested",
+    "updated": "2026-11-03T01:03:13.301Z",
     "portalEvidence": [
       "analysis/portal/case-create.md"
     ],
-    "notes": "Select the parts the case is about.",
+    "notes": "Emulator 2026-11-03: 3 parts found, 2 selected, both carried into the details step and the created case.",
     "implementation": [
       "mobile/src/screens/create/ScanReviewScreen.tsx"
     ],
     "tests": [
       "mobile/__tests__/dealer-journey.test.tsx",
-      "mobile/.maestro/dealer/raise-case.yaml"
+      "mobile/.maestro/dealer/raise-case.yaml",
+      "analysis/test-reports/2026-11-03-dealer-phase.md"
     ]
   },
   "CREATE-12": {
-    "status": "implemented",
-    "updated": "2026-11-02T20:18:54.604Z",
+    "status": "tested",
+    "updated": "2026-11-03T01:03:20.380Z",
     "portalEvidence": [
       "analysis/portal/masters.md"
     ],
-    "notes": "Case registered screen shows only the server-returned number.",
+    "notes": "Emulator 2026-11-03: \"Case registered\" screen shows the server case number (EUR261103107102 / EUR261103107101); case appears in My Cases and home counts.",
     "implementation": [
       "mobile/src/screens/create/CaseCreatedScreen.tsx"
     ],
     "tests": [
-      "mobile/__tests__/dealer-journey.test.tsx"
+      "mobile/__tests__/dealer-journey.test.tsx",
+      "analysis/test-reports/2026-11-03-dealer-phase.md",
+      "mobile/.maestro/dealer/raise-case.yaml"
     ]
   },
   "LIST-01": {
-    "status": "implemented",
-    "updated": "2026-11-02T20:17:16.637Z",
+    "status": "tested",
+    "updated": "2026-11-03T01:01:47.046Z",
     "portalEvidence": [
       "analysis/portal/case-list.md",
       "analysis/portal/screens/case-list.png"
@@ -307,7 +328,7 @@
     "openQuestions": [
       "Only a desk account was available; need a dealer test account to verify dealer-scoped listing."
     ],
-    "notes": "My Cases list with paging, pull-to-refresh, empty/error states; scope enforced by API.",
+    "notes": "Emulator 2026-11-03: dealer sees only Shree Motors cases (5 of 8 mock cases); Open/Closed/All groups correct; list refreshes on focus.",
     "implementation": [
       "mobile/src/screens/cases/CaseListScreen.tsx",
       "mobile/src/components/CaseCard.tsx"
@@ -315,30 +336,32 @@
     "tests": [
       "mobile/__tests__/dealer-journey.test.tsx",
       "mobile/__tests__/screen-states.test.tsx",
-      "mobile/.maestro/dealer/home-and-cases.yaml"
+      "mobile/.maestro/dealer/home-and-cases.yaml",
+      "analysis/test-reports/2026-11-03-dealer-phase.md"
     ]
   },
   "LIST-02": {
-    "status": "implemented",
-    "updated": "2026-11-02T20:17:16.657Z",
+    "status": "tested",
+    "updated": "2026-11-03T01:01:47.065Z",
     "portalEvidence": [
       "analysis/portal/case-list.md"
     ],
-    "notes": "Case card: number, category/sub-category, status, priority, order reference, latest update, created and updated dates.",
+    "notes": "Emulator 2026-11-03: card shows case no., category · sub-category, status pill, priority, order reference (SO/SAP doc), latest update text, raised and updated dates.",
     "implementation": [
       "mobile/src/components/CaseCard.tsx"
     ],
     "tests": [
-      "mobile/__tests__/dealer-journey.test.tsx"
+      "mobile/__tests__/dealer-journey.test.tsx",
+      "analysis/test-reports/2026-11-03-dealer-phase.md"
     ]
   },
   "LIST-03": {
-    "status": "implemented",
-    "updated": "2026-11-02T20:17:16.674Z",
+    "status": "tested",
+    "updated": "2026-11-03T01:01:47.082Z",
     "portalEvidence": [
       "analysis/portal/case-list.md"
     ],
-    "notes": "Debounced search by case or order number (min 3 characters).",
+    "notes": "Emulator 2026-11-03: search SO 4100231876 -> EUR261024106958 only; partial case no. DRLR2610 -> DRLR261022106911; ZZZ999 -> \"No cases found\" empty state.",
     "implementation": [
       "mobile/src/screens/cases/CaseListScreen.tsx",
       "mobile/src/features/cases/filters.ts"
@@ -346,35 +369,37 @@
     "tests": [
       "mobile/src/features/cases/filters.test.ts",
       "mobile/__tests__/dealer-journey.test.tsx",
-      "mobile/.maestro/dealer/home-and-cases.yaml"
+      "mobile/.maestro/dealer/home-and-cases.yaml",
+      "analysis/test-reports/2026-11-03-dealer-phase.md"
     ]
   },
   "LIST-04": {
     "status": "implemented",
-    "updated": "2026-11-02T20:17:16.692Z",
+    "updated": "2026-11-03T01:01:29.072Z",
     "portalEvidence": [
       "analysis/portal/case-list.md"
     ],
-    "notes": "Filter sheet: status, category, sub-category, priority, raised date range, order-related only.",
+    "notes": "Emulator 2026-11-03: filter sheet shows status, category, sub-category (after category), priority, raised date range and order-related; category+sub-category+priority and order-related applied and correct. Status and date-range chips not applied on device (unit-tested in filters.test.ts).",
     "implementation": [
       "mobile/src/features/cases/FilterSheet.tsx",
       "mobile/src/features/cases/filters.ts"
     ],
     "tests": [
       "mobile/src/features/cases/filters.test.ts",
-      "mobile/.maestro/dealer/home-and-cases.yaml"
+      "mobile/.maestro/dealer/home-and-cases.yaml",
+      "analysis/test-reports/2026-11-03-dealer-phase.md"
     ]
   },
   "LIST-09": {
-    "status": "implemented",
-    "updated": "2026-11-02T20:17:16.784Z",
+    "status": "tested",
+    "updated": "2026-11-03T01:02:03.666Z",
     "portalEvidence": [
       "analysis/portal/case-list.md",
       "analysis/portal/roles-and-access.md",
       "analysis/portal/role-analysis-phase1.md",
       "analysis/portal/users-by-role.md"
     ],
-    "notes": "Dealer cards never show desk names (assignedDesk only for internal roles); scope enforced by API.",
+    "notes": "Emulator 2026-11-03: no desk names anywhere on list, detail, timeline, messages or files (\"PQMP Support\" only); other dealers' cases not listed or searchable.",
     "openQuestions": [
       "Users can hold several roles (107 users). Should mobile show a role switcher or the union of scopes?",
       "Mobile API must expose the user's roles and mapped dealer codes at login; the portal has no such JSON."
@@ -385,7 +410,8 @@
     ],
     "tests": [
       "mobile/__tests__/dealer-journey.test.tsx",
-      "mobile/src/api/api.test.ts"
+      "mobile/src/api/api.test.ts",
+      "analysis/test-reports/2026-11-03-dealer-phase.md"
     ]
   },
   "LIST-10": {
@@ -414,14 +440,14 @@
     "notes": "Prototype only, not in SRS; left out of the final design. Needs VECV approval"
   },
   "DETAIL-01": {
-    "status": "implemented",
-    "updated": "2026-11-02T20:18:05.445Z",
+    "status": "tested",
+    "updated": "2026-11-03T01:02:03.682Z",
     "portalEvidence": [
       "analysis/portal/case-detail.md",
       "analysis/portal/screens/case-detail-closed.png",
       "analysis/portal/role-analysis-phase1.md"
     ],
-    "notes": "Case header: number, status, priority, title, category/sub-category, raised/updated, issue details.",
+    "notes": "Emulator 2026-11-03: case no., status, priority (when set), title, category · sub-category, raised/last updated and description on EUR/DRLR/PD cases.",
     "openQuestions": [
       "Some roles (e.g. Business Head) redirect to the production host eicheregp.vecv.net on UAT login - is that intended, and which roles are mobile Phase 1?"
     ],
@@ -430,27 +456,29 @@
     ],
     "tests": [
       "mobile/__tests__/dealer-journey.test.tsx",
-      "mobile/.maestro/dealer/case-tracking.yaml"
+      "mobile/.maestro/dealer/case-tracking.yaml",
+      "analysis/test-reports/2026-11-03-dealer-phase.md"
     ]
   },
   "DETAIL-03": {
-    "status": "implemented",
-    "updated": "2026-11-02T20:18:05.480Z",
+    "status": "tested",
+    "updated": "2026-11-03T01:02:03.716Z",
     "portalEvidence": [
       "analysis/portal/case-detail.md"
     ],
-    "notes": "Timeline from GET /timeline; wording in features/case-detail/timeline.ts.",
+    "notes": "Emulator 2026-11-03: timeline newest first with date and actor (You / PQMP Support), including reopen and feedback events.",
     "implementation": [
       "mobile/src/features/case-detail/timeline.ts",
       "mobile/src/components/Timeline.tsx"
     ],
     "tests": [
-      "mobile/src/features/case-detail/timeline.test.ts"
+      "mobile/src/features/case-detail/timeline.test.ts",
+      "analysis/test-reports/2026-11-03-dealer-phase.md"
     ]
   },
   "DETAIL-04": {
-    "status": "implemented",
-    "updated": "2026-11-02T20:18:05.499Z",
+    "status": "tested",
+    "updated": "2026-11-03T01:02:03.733Z",
     "portalEvidence": [
       "analysis/portal/case-detail.md",
       "analysis/portal/roles-and-access.md",
@@ -459,7 +487,7 @@
     "openQuestions": [
       "History descriptions embed desk names ('Case assigned to X'). Will backend provide customer-safe descriptions or should the app rewrite them?"
     ],
-    "notes": "Dealers see \"PQMP Support\" via customerFacingOwner() in header, timeline, messages and files. Final name awaits VECV.",
+    "notes": "Emulator 2026-11-03: \"Handled by PQMP Support\" on every case; messages and files from support show \"PQMP Support\".",
     "implementation": [
       "mobile/src/screens/case-detail/CaseDetailScreen.tsx",
       "mobile/src/features/case-detail/timeline.ts",
@@ -467,194 +495,212 @@
     ],
     "tests": [
       "mobile/src/features/case-detail/timeline.test.ts",
-      "mobile/__tests__/dealer-journey.test.tsx"
+      "mobile/__tests__/dealer-journey.test.tsx",
+      "analysis/test-reports/2026-11-03-dealer-phase.md"
     ]
   },
   "DETAIL-06": {
-    "status": "implemented",
-    "updated": "2026-11-02T20:18:05.534Z",
+    "status": "tested",
+    "updated": "2026-11-03T01:02:03.766Z",
     "portalEvidence": [
       "analysis/portal/case-detail.md"
     ],
-    "notes": "Messages tab: view and add comments while open; read-only notice when closed or for management.",
+    "notes": "Emulator 2026-11-03: message box on open cases; closed case shows \"This case is closed. Reopen it to send a message.\" and no input.",
     "implementation": [
       "mobile/src/features/case-detail/MessagesTab.tsx"
     ],
     "tests": [
       "mobile/__tests__/dealer-journey.test.tsx",
-      "mobile/.maestro/dealer/case-tracking.yaml"
+      "mobile/.maestro/dealer/case-tracking.yaml",
+      "analysis/test-reports/2026-11-03-dealer-phase.md"
     ]
   },
   "DETAIL-07": {
-    "status": "implemented",
-    "updated": "2026-11-02T20:18:05.553Z",
+    "status": "tested",
+    "updated": "2026-11-03T01:02:03.782Z",
     "portalEvidence": [],
     "openQuestions": [
       "Clarification request/response does not exist in portal workflow — backend change needed for FLOW-03/DETAIL-07/ATTACH-04/NOTIF-05."
     ],
-    "notes": "Clarification requested / response received in timeline and highlighted in messages.",
+    "notes": "Emulator 2026-11-03: clarification message highlighted (\"question for you\" after fix), reply sent with \"Replying to\" context, response appears in messages and latest update; dealer-facing label fixed (was \"question for the dealer\").",
     "implementation": [
       "mobile/src/features/case-detail/timeline.ts",
       "mobile/src/features/case-detail/MessagesTab.tsx"
     ],
     "tests": [
-      "mobile/src/features/case-detail/timeline.test.ts"
+      "mobile/src/features/case-detail/timeline.test.ts",
+      "analysis/test-reports/2026-11-03-dealer-phase.md",
+      "mobile/.maestro/dealer/case-tracking.yaml"
     ]
   },
   "DETAIL-08": {
     "status": "implemented",
-    "updated": "2026-11-02T20:18:05.571Z",
+    "updated": "2026-11-03T01:01:29.089Z",
     "portalEvidence": [
       "analysis/portal/case-detail.md"
     ],
-    "notes": "Files list with source, uploader, date, size; opens a signed download URL.",
+    "notes": "Emulator 2026-11-03: Files list with source, uploader, date and size shown; tapping a file requests a download URL and opens it (mock URL is a placeholder, so the real file open/download is unverified until the backend exists).",
     "implementation": [
       "mobile/src/features/case-detail/MessagesTab.tsx"
     ],
     "tests": [
-      "mobile/__tests__/dealer-journey.test.tsx"
+      "mobile/__tests__/dealer-journey.test.tsx",
+      "analysis/test-reports/2026-11-03-dealer-phase.md",
+      "mobile/.maestro/dealer/offline-and-attachments.yaml"
     ]
   },
   "DETAIL-09": {
-    "status": "implemented",
-    "updated": "2026-11-02T20:18:05.589Z",
+    "status": "tested",
+    "updated": "2026-11-03T01:02:20.827Z",
     "portalEvidence": [
       "analysis/portal/case-detail.md"
     ],
     "openQuestions": [
       "Source for order header/delivery summary (ORDER-01/02) and part quantities (PART-02) — not present in portal."
     ],
-    "notes": "Order & parts tab only when sections.order/parts/consignment apply.",
+    "notes": "Emulator 2026-11-03: \"Order & parts\" tab only on order-related cases (EUR, DRLR); absent on PD (packaging) and OQ. DRLR order section unavailable fallback while overview, timeline and messages still load.",
     "implementation": [
       "mobile/src/features/case-detail/OrderPartsTab.tsx",
       "mobile/src/screens/case-detail/CaseDetailScreen.tsx"
     ],
     "tests": [
-      "mobile/__tests__/dealer-journey.test.tsx"
+      "mobile/__tests__/dealer-journey.test.tsx",
+      "analysis/test-reports/2026-11-03-dealer-phase.md",
+      "mobile/.maestro/dealer/offline-and-attachments.yaml"
     ]
   },
   "DETAIL-11": {
-    "status": "implemented",
-    "updated": "2026-11-02T20:18:05.624Z",
+    "status": "tested",
+    "updated": "2026-11-03T01:02:20.861Z",
     "portalEvidence": [
       "analysis/portal/case-detail.md"
     ],
     "openQuestions": [
       "Consignment tracking API/source not present in portal — which logistics system?"
     ],
-    "notes": "Tracking cards per consignment with events or a fallback.",
+    "notes": "Emulator 2026-11-03: Tracking section with LR 552019 (carrier, mode, events, last refreshed, expected delivery) and LR 551877 \"Tracking unavailable right now\" fallback.",
     "implementation": [
       "mobile/src/features/case-detail/OrderPartsTab.tsx"
     ],
     "tests": [
-      "mobile/__tests__/dealer-journey.test.tsx"
+      "mobile/__tests__/dealer-journey.test.tsx",
+      "analysis/test-reports/2026-11-03-dealer-phase.md"
     ]
   },
   "DETAIL-12": {
-    "status": "implemented",
-    "updated": "2026-11-02T20:18:05.641Z",
+    "status": "tested",
+    "updated": "2026-11-03T01:02:20.879Z",
     "portalEvidence": [
       "analysis/portal/case-detail.md"
     ],
-    "notes": "Resolution card with closure remarks and date.",
+    "notes": "Emulator 2026-11-03: PD261015106702 and OQ261010106650 show \"Resolution · Closed <date>\" card with closure remarks at the top.",
     "implementation": [
       "mobile/src/features/case-detail/Closure.tsx"
     ],
     "tests": [
       "mobile/__tests__/dealer-journey.test.tsx",
-      "mobile/.maestro/dealer/closure-feedback-reopen.yaml"
+      "mobile/.maestro/dealer/closure-feedback-reopen.yaml",
+      "analysis/test-reports/2026-11-03-dealer-phase.md"
     ]
   },
   "DETAIL-13": {
-    "status": "implemented",
-    "updated": "2026-11-02T20:18:05.659Z",
+    "status": "tested",
+    "updated": "2026-11-03T01:02:20.897Z",
     "portalEvidence": [],
     "openQuestions": [
       "Feedback (rating + remarks) has no backend in portal — where is it stored?"
     ],
-    "notes": "Feedback card after closure; shows given rating and remarks.",
+    "notes": "Emulator 2026-11-03: 1-5 stars with labels, optional remarks, submit without rating -> \"Choose a rating from 1 to 5.\"; 4 stars + remark submitted, \"Your feedback\" shown read-only with timestamp; given feedback shown on OQ261010106650.",
     "implementation": [
       "mobile/src/features/case-detail/Closure.tsx",
       "mobile/src/domain/closure-rules.ts"
     ],
     "tests": [
       "mobile/src/domain/closure-rules.test.ts",
-      "mobile/__tests__/dealer-journey.test.tsx"
+      "mobile/__tests__/dealer-journey.test.tsx",
+      "analysis/test-reports/2026-11-03-dealer-phase.md"
     ]
   },
   "DETAIL-14": {
-    "status": "implemented",
-    "updated": "2026-11-02T20:18:05.678Z",
+    "status": "tested",
+    "updated": "2026-11-03T01:02:20.917Z",
     "portalEvidence": [
       "analysis/portal/case-list.md",
       "analysis/portal/api-contracts.md"
     ],
-    "notes": "Reopen sheet with mandatory remarks, only when actions.canReopen.",
+    "notes": "Emulator 2026-11-03: Reopen sheet; empty -> \"Please add a reason to reopen the case.\", 3 chars -> \"at least 10 characters\" error; valid reason -> status Reopened, timeline \"Case reopened\" with the reason, Messages input enabled.",
     "implementation": [
       "mobile/src/features/case-detail/Closure.tsx",
       "mobile/src/domain/closure-rules.ts"
     ],
     "tests": [
       "mobile/src/domain/closure-rules.test.ts",
-      "mobile/__tests__/dealer-journey.test.tsx"
+      "mobile/__tests__/dealer-journey.test.tsx",
+      "analysis/test-reports/2026-11-03-dealer-phase.md"
     ]
   },
   "FLOW-01": {
     "status": "implemented",
-    "updated": "2026-11-02T20:18:05.695Z",
+    "updated": "2026-11-03T01:01:29.120Z",
     "portalEvidence": [
       "analysis/portal/masters.md"
     ],
-    "notes": "Portal statuses shown as business labels everywhere (StatusPill, timeline).",
+    "notes": "Emulator 2026-11-03: New, Assigned, In Progress, Closed and Reopened shown with friendly labels; Hold (On Hold) present in filters. Hold/Resume/Escalated/Reassigned not reachable as dealer with mock data (covered by case-status.test.ts).",
     "implementation": [
       "mobile/src/domain/case-status.ts",
       "mobile/src/components/ui.tsx"
     ],
     "tests": [
-      "mobile/src/domain/case-status.test.ts"
+      "mobile/src/domain/case-status.test.ts",
+      "analysis/test-reports/2026-11-03-dealer-phase.md"
     ]
   },
   "ORDER-03": {
-    "status": "implemented",
-    "updated": "2026-11-02T20:18:05.784Z",
+    "status": "tested",
+    "updated": "2026-11-03T01:02:37.218Z",
     "portalEvidence": [],
-    "notes": "LastRefreshed on order, parts and each consignment.",
+    "notes": "Emulator 2026-11-03: \"Last refreshed\" on order card, parts section and each tracking card (EUR), and on the DRLR fallback.",
     "implementation": [
       "mobile/src/components/states.tsx",
       "mobile/src/features/case-detail/OrderPartsTab.tsx"
     ],
     "tests": [
-      "mobile/__tests__/dealer-journey.test.tsx"
+      "mobile/__tests__/dealer-journey.test.tsx",
+      "analysis/test-reports/2026-11-03-dealer-phase.md"
     ]
   },
   "ORDER-04": {
-    "status": "implemented",
-    "updated": "2026-11-02T20:18:05.801Z",
+    "status": "tested",
+    "updated": "2026-11-03T01:02:37.236Z",
     "portalEvidence": [
       "analysis/portal/case-detail.md"
     ],
-    "notes": "Per-section fallback (unavailable/pending/not applicable/error with retry); rest of case still loads.",
+    "notes": "Emulator 2026-11-03: invoice date 0000-00-00 shown as \"Awaiting Update\", empty remarks \"Not Available\", DRLR order outage \"The latest order information is being updated.\", tracking feed down \"Tracking unavailable right now\". No raw values.",
     "implementation": [
       "mobile/src/features/case-detail/OrderPartsTab.tsx",
       "mobile/src/components/states.tsx"
     ],
     "tests": [
-      "mobile/__tests__/dealer-journey.test.tsx"
+      "mobile/__tests__/dealer-journey.test.tsx",
+      "analysis/test-reports/2026-11-03-dealer-phase.md",
+      "mobile/.maestro/dealer/offline-and-attachments.yaml"
     ]
   },
   "NOTIF-01": {
-    "status": "implemented",
-    "updated": "2026-11-02T20:18:54.381Z",
+    "status": "tested",
+    "updated": "2026-11-03T01:02:55.816Z",
     "portalEvidence": [],
     "openQuestions": [
       "No notification events in portal — what backend emits case events for FCM push?"
     ],
-    "notes": "Updates screen: all/unread, mark one/all read, tap opens the case on the right tab. Push not built.",
+    "notes": "Emulator 2026-11-03: Updates list with unread dots and Unread count; opening an item marks it read and opens the case on the related tab; Mark all read -> \"No unread updates\". Offline shows retry. List refreshes on focus.",
     "implementation": [
       "mobile/src/screens/notifications/NotificationsScreen.tsx"
     ],
     "tests": [
-      "mobile/__tests__/dealer-journey.test.tsx"
+      "mobile/__tests__/dealer-journey.test.tsx",
+      "analysis/test-reports/2026-11-03-dealer-phase.md",
+      "mobile/.maestro/dealer/updates-account.yaml"
     ]
   },
   "ALERT-01": {
@@ -664,22 +710,23 @@
     "notes": "Prototype only, not in SRS; left out of the final design. Needs VECV approval"
   },
   "PART-02": {
-    "status": "implemented",
-    "updated": "2026-11-02T20:18:05.837Z",
+    "status": "tested",
+    "updated": "2026-11-03T01:02:37.274Z",
     "portalEvidence": [
       "analysis/portal/case-detail.md"
     ],
     "openQuestions": [
       "Which SAP API provides part-level ordered/delivered/pending qty and EDA date (assumed by POC, absent in portal)?"
     ],
-    "notes": "Ordered/delivered/pending with pendingQuantity and derivePartStatus.",
+    "notes": "Emulator 2026-11-03: ordered/delivered/pending 4/2/2 -> Partially Delivered; 10/10/0 -> Fully Delivered (derivePartStatus).",
     "implementation": [
       "mobile/src/features/case-detail/OrderPartsTab.tsx",
       "mobile/src/domain/part-status.ts"
     ],
     "tests": [
       "mobile/src/domain/part-status.test.ts",
-      "mobile/__tests__/dealer-journey.test.tsx"
+      "mobile/__tests__/dealer-journey.test.tsx",
+      "analysis/test-reports/2026-11-03-dealer-phase.md"
     ]
   },
   "DASH-09": {
@@ -692,34 +739,37 @@
     "notes": "Prototype only, not in SRS; left out of the final design. Needs VECV approval"
   },
   "DASH-02": {
-    "status": "implemented",
-    "updated": "2026-11-02T20:17:16.569Z",
+    "status": "tested",
+    "updated": "2026-11-03T01:01:47.008Z",
     "portalEvidence": [
       "analysis/portal/dashboard-dealer.md"
     ],
-    "notes": "Awaiting-your-response card, feedback pending and order/delivery update rows on dealer home.",
+    "notes": "Emulator 2026-11-03: Awaiting-your-response card with Reply, feedback pending row and order/delivery update row shown; awaiting card disappears after replying (refresh on focus fix). Order-update drill-down mismatch tracked under DASH-04.",
     "implementation": [
       "mobile/src/screens/home/HomeScreen.tsx"
     ],
     "tests": [
       "mobile/__tests__/dealer-journey.test.tsx",
-      "mobile/.maestro/dealer/home-and-cases.yaml"
+      "mobile/.maestro/dealer/home-and-cases.yaml",
+      "analysis/test-reports/2026-11-03-dealer-phase.md"
     ]
   },
   "DASH-03": {
-    "status": "implemented",
-    "updated": "2026-11-02T20:17:16.588Z",
+    "status": "tested",
+    "updated": "2026-11-03T01:01:47.026Z",
     "portalEvidence": [
       "analysis/portal/dashboard-dealer.md",
       "analysis/portal/screens/dealer-landing.png"
     ],
-    "notes": "Create case (tab bar +), My Cases tab, recently updated list on home.",
+    "notes": "Emulator 2026-11-03: + (raise case) in tab bar, Cases tab, See all, Updates tab and bell all navigate correctly.",
     "implementation": [
       "mobile/src/screens/home/HomeScreen.tsx",
       "mobile/src/navigation/TabBar.tsx"
     ],
     "tests": [
-      "mobile/__tests__/dealer-journey.test.tsx"
+      "mobile/__tests__/dealer-journey.test.tsx",
+      "analysis/test-reports/2026-11-03-dealer-phase.md",
+      "mobile/.maestro/dealer/updates-account.yaml"
     ]
   },
   "AUTH-02": {
@@ -738,7 +788,7 @@
   },
   "AUTH-04": {
     "status": "tested",
-    "updated": "2026-11-02T19:30:56.774Z",
+    "updated": "2026-11-03T01:01:46.972Z",
     "implementation": [
       "mobile/src/api/auth.ts",
       "mobile/src/api/client.ts",
@@ -747,216 +797,251 @@
     "tests": [
       "mobile/src/api/auth.test.ts",
       "mobile/src/screens/LoginScreen.test.tsx",
-      "analysis/test-reports/2026-11-03-auth-emulator.md"
+      "analysis/test-reports/2026-11-03-auth-emulator.md",
+      "analysis/test-reports/2026-11-03-dealer-phase.md",
+      "mobile/.maestro/dealer/updates-account.yaml"
     ],
-    "notes": "Friendly errors (api/auth.ts, client.ts); verified on emulator: empty fields, wrong password"
+    "notes": "Friendly errors (api/auth.ts, client.ts). Re-verified 2026-11-03: wrong password shows \"The User ID or password is incorrect. Please try again.\" with no technical detail."
   },
   "CREATE-09": {
-    "status": "implemented",
-    "updated": "2026-11-02T20:18:54.556Z",
-    "notes": "Check details screen: document no., GST, seller GST, invoice ref editable (from lookup today; scan will feed the same screen).",
+    "status": "tested",
+    "updated": "2026-11-03T01:03:13.285Z",
+    "notes": "Emulator 2026-11-03: looked-up values shown for review and correction on Check details (manual entry path; camera scan not built).",
     "implementation": [
       "mobile/src/screens/create/ScanReviewScreen.tsx"
     ],
     "tests": [
-      "mobile/__tests__/dealer-journey.test.tsx"
+      "mobile/__tests__/dealer-journey.test.tsx",
+      "analysis/test-reports/2026-11-03-dealer-phase.md"
     ]
   },
   "CREATE-11": {
-    "status": "implemented",
-    "updated": "2026-11-02T20:18:54.589Z",
-    "notes": "Validated submit with idempotency key; server field errors mapped to fields.",
+    "status": "tested",
+    "updated": "2026-11-03T01:03:20.364Z",
+    "notes": "Emulator 2026-11-03: client validation blocks empty submit; valid case submitted to the (mock) API and opens on \"View case\" with references, parts, contact and description.",
     "implementation": [
       "mobile/src/screens/create/CreateDetailsScreen.tsx",
       "mobile/src/domain/case-validation.ts"
     ],
     "tests": [
       "mobile/src/domain/case-validation.test.ts",
-      "mobile/__tests__/dealer-journey.test.tsx"
+      "mobile/__tests__/dealer-journey.test.tsx",
+      "analysis/test-reports/2026-11-03-dealer-phase.md"
     ]
   },
   "CREATE-13": {
-    "status": "implemented",
-    "updated": "2026-11-02T20:18:54.630Z",
-    "notes": "Draft held in CreateCaseContext above the screens; failure keeps every value.",
+    "status": "tested",
+    "updated": "2026-11-03T01:03:20.397Z",
+    "notes": "Emulator 2026-11-03: description FAIL -> \"Temporarily Unavailable. Please try again in a moment. Your details are saved here, so you can try again.\" with title, description, contact, mode and parts kept; corrected and resubmitted successfully.",
     "implementation": [
       "mobile/src/features/create/CreateCaseContext.tsx",
       "mobile/src/screens/create/CreateDetailsScreen.tsx"
     ],
     "tests": [
       "mobile/__tests__/dealer-journey.test.tsx",
-      "mobile/.maestro/dealer/raise-case.yaml"
+      "mobile/.maestro/dealer/raise-case.yaml",
+      "analysis/test-reports/2026-11-03-dealer-phase.md"
     ]
   },
   "LIST-05": {
-    "status": "implemented",
-    "updated": "2026-11-02T20:17:16.712Z",
-    "notes": "StatusPill via portalStatusLabel/statusTone; unknown codes show Under Review.",
+    "status": "tested",
+    "updated": "2026-11-03T01:01:47.101Z",
+    "notes": "Emulator 2026-11-03: friendly status labels (New, Assigned, In Progress, Closed, Reopened); no portal codes shown.",
     "implementation": [
       "mobile/src/components/ui.tsx",
       "mobile/src/domain/case-status.ts"
     ],
     "tests": [
-      "mobile/src/domain/case-status.test.ts"
+      "mobile/src/domain/case-status.test.ts",
+      "analysis/test-reports/2026-11-03-dealer-phase.md"
     ]
   },
   "LIST-06": {
-    "status": "implemented",
-    "updated": "2026-11-02T20:17:16.732Z",
-    "notes": "Latest update text on each card (falls back to summary).",
+    "status": "tested",
+    "updated": "2026-11-03T01:01:47.119Z",
+    "notes": "Emulator 2026-11-03: latest update text on every card (e.g. clarification question, \"Case registered\").",
     "implementation": [
       "mobile/src/components/CaseCard.tsx"
     ],
     "tests": [
-      "mobile/__tests__/dealer-journey.test.tsx"
+      "mobile/__tests__/dealer-journey.test.tsx",
+      "analysis/test-reports/2026-11-03-dealer-phase.md"
     ]
   },
   "LIST-07": {
-    "status": "implemented",
-    "updated": "2026-11-02T20:17:16.750Z",
-    "notes": "\"Rate this case\" tag when feedback is pending after closure.",
+    "status": "tested",
+    "updated": "2026-11-03T01:02:03.630Z",
+    "notes": "Emulator 2026-11-03: \"Rate this case\" chip on closed PD261015106702 until feedback is given; not on OQ261010106650 (already rated).",
     "implementation": [
       "mobile/src/components/CaseCard.tsx"
     ],
     "tests": [
-      "mobile/__tests__/dealer-journey.test.tsx"
+      "mobile/__tests__/dealer-journey.test.tsx",
+      "analysis/test-reports/2026-11-03-dealer-phase.md"
     ]
   },
   "LIST-08": {
-    "status": "implemented",
-    "updated": "2026-11-02T20:17:16.767Z",
-    "notes": "\"Tracking\" tag when the case has consignments.",
+    "status": "tested",
+    "updated": "2026-11-03T01:02:03.648Z",
+    "notes": "Emulator 2026-11-03: \"Tracking\" chip on EUR261024106958 (has consignments), absent on cases without tracking.",
     "implementation": [
       "mobile/src/components/CaseCard.tsx"
     ],
     "tests": [
-      "mobile/__tests__/dealer-journey.test.tsx"
+      "mobile/__tests__/dealer-journey.test.tsx",
+      "analysis/test-reports/2026-11-03-dealer-phase.md"
     ]
   },
   "DETAIL-02": {
-    "status": "implemented",
-    "updated": "2026-11-02T20:18:05.462Z",
-    "notes": "Latest update card at the top (red with Reply when a clarification is open).",
+    "status": "tested",
+    "updated": "2026-11-03T01:02:03.699Z",
+    "notes": "Emulator 2026-11-03: \"Latest update\" card at the top (red with Reply when a clarification is pending; resolution card when closed).",
     "implementation": [
       "mobile/src/screens/case-detail/CaseDetailScreen.tsx"
     ],
     "tests": [
-      "mobile/__tests__/dealer-journey.test.tsx"
+      "mobile/__tests__/dealer-journey.test.tsx",
+      "analysis/test-reports/2026-11-03-dealer-phase.md"
     ]
   },
   "DETAIL-05": {
-    "status": "implemented",
-    "updated": "2026-11-02T20:18:05.516Z",
-    "notes": "Details card: references, contact, sub-type fields, parts, description, remarks (fallbacks via display.ts).",
+    "status": "tested",
+    "updated": "2026-11-03T01:02:03.750Z",
+    "notes": "Emulator 2026-11-03: description, remarks (\"Not Available\" when empty), SO/PO/SAP document references and parts shown in Overview details.",
     "implementation": [
       "mobile/src/screens/case-detail/CaseDetailScreen.tsx"
     ],
     "tests": [
-      "mobile/__tests__/dealer-journey.test.tsx"
+      "mobile/__tests__/dealer-journey.test.tsx",
+      "analysis/test-reports/2026-11-03-dealer-phase.md"
     ]
   },
   "DETAIL-10": {
-    "status": "implemented",
-    "updated": "2026-11-02T20:18:05.606Z",
-    "notes": "Part cards when part data exists.",
+    "status": "tested",
+    "updated": "2026-11-03T01:02:20.844Z",
+    "notes": "Emulator 2026-11-03: EUR261024106958 shows 2 part cards with quantities, delivery/invoice data, remarks and part-level LR.",
     "implementation": [
       "mobile/src/features/case-detail/OrderPartsTab.tsx"
     ],
     "tests": [
-      "mobile/__tests__/dealer-journey.test.tsx"
+      "mobile/__tests__/dealer-journey.test.tsx",
+      "analysis/test-reports/2026-11-03-dealer-phase.md"
     ]
   },
   "FLOW-03": {
-    "status": "in-progress",
-    "updated": "2026-11-02T20:18:05.712Z",
-    "notes": "Dealer reply to clarification implemented (MessagesTab, inReplyTo). Support \"ask dealer\" screen is Phase 3.",
+    "status": "implemented",
+    "updated": "2026-11-03T00:33:59.712Z",
+    "notes": "Support can request clarification (Ask dealer -> POST /cases/{id}/updates action=clarify, a comment with isClarificationRequest) and the dealer replies from Messages (inReplyTo). Phase 3 desk update sheet also covers Add update (allowedStatuses only, internal remark option, SRS 5) and Close with final remarks (SRS 9.4.1). Built on the mock; device test pending; release needs VECV approval of support desk mobile access (SRS 4.3).",
     "implementation": [
-      "mobile/src/features/case-detail/MessagesTab.tsx"
+      "mobile/src/features/case-detail/MessagesTab.tsx",
+      "mobile/src/features/desk/DeskActions.tsx",
+      "mobile/src/features/desk/UpdateCaseSheet.tsx",
+      "mobile/src/domain/desk-update.ts"
     ],
     "tests": [
-      "mobile/__tests__/dealer-journey.test.tsx"
+      "mobile/__tests__/dealer-journey.test.tsx",
+      "mobile/src/domain/desk-update.test.ts",
+      "mobile/__tests__/desk-journey.test.tsx",
+      "mobile/.maestro/desk/update-case.yaml"
+    ],
+    "openQuestions": [
+      "VECV approval of support desk mobile access (SRS 4.3) before release",
+      "Will SRS 10.2 statuses (Clarification Required / Awaiting User Response) be added? Until then a clarification is a flagged comment",
+      "No list filter exists for 'Dealer replied' (API spec has no query for it), so that home item is not tappable"
     ]
   },
   "FLOW-04": {
-    "status": "implemented",
-    "updated": "2026-11-02T20:18:05.729Z",
-    "notes": "Reopen with mandatory remarks when allowed by the server.",
+    "status": "tested",
+    "updated": "2026-11-03T01:02:20.934Z",
+    "notes": "Emulator 2026-11-03: closed PD261015106702 reopened only with mandatory remarks (empty and too-short rejected); status Reopened.",
     "implementation": [
       "mobile/src/features/case-detail/Closure.tsx"
     ],
     "tests": [
-      "mobile/__tests__/dealer-journey.test.tsx"
+      "mobile/__tests__/dealer-journey.test.tsx",
+      "analysis/test-reports/2026-11-03-dealer-phase.md"
     ]
   },
   "ORDER-01": {
-    "status": "implemented",
-    "updated": "2026-11-02T20:18:05.748Z",
-    "notes": "Order number, type label, PO, PO date, plant, dealer, sold-to, chassis when present.",
+    "status": "tested",
+    "updated": "2026-11-03T01:02:37.181Z",
+    "notes": "Emulator 2026-11-03: EUR261024106958 order card shows order no. 4100231876, order type, PO no./date, plant, dealer (code), sold-to party; chassis hidden when not applicable.",
     "implementation": [
       "mobile/src/features/case-detail/OrderPartsTab.tsx"
     ],
     "tests": [
-      "mobile/__tests__/dealer-journey.test.tsx"
+      "mobile/__tests__/dealer-journey.test.tsx",
+      "analysis/test-reports/2026-11-03-dealer-phase.md"
     ]
   },
   "ORDER-02": {
-    "status": "implemented",
-    "updated": "2026-11-02T20:18:05.766Z",
-    "notes": "Parts/delivered/pending counts and overall status.",
+    "status": "tested",
+    "updated": "2026-11-03T01:02:37.201Z",
+    "notes": "Emulator 2026-11-03: Parts 2 / Delivered 1 / Pending 1 and overall status pill. Fixed: pill now coloured by status code (was always amber) and mock label casing aligned (\"Partially Delivered\").",
     "implementation": [
       "mobile/src/features/case-detail/OrderPartsTab.tsx"
     ],
     "tests": [
-      "mobile/__tests__/dealer-journey.test.tsx"
+      "mobile/__tests__/dealer-journey.test.tsx",
+      "analysis/test-reports/2026-11-03-dealer-phase.md"
     ]
   },
   "PART-01": {
-    "status": "implemented",
-    "updated": "2026-11-02T20:18:05.819Z",
-    "notes": "Part number, description, HSN when available.",
+    "status": "tested",
+    "updated": "2026-11-03T01:02:37.254Z",
+    "notes": "Emulator 2026-11-03: F8210300 \"Clutch plate assembly · HSN 87089300\", E4410021 \"Brake lining set · HSN 68138100\".",
     "implementation": [
       "mobile/src/features/case-detail/OrderPartsTab.tsx"
     ],
     "tests": [
-      "mobile/__tests__/dealer-journey.test.tsx"
+      "mobile/__tests__/dealer-journey.test.tsx",
+      "analysis/test-reports/2026-11-03-dealer-phase.md"
     ]
   },
   "PART-03": {
-    "status": "implemented",
-    "updated": "2026-11-02T20:18:05.852Z",
-    "notes": "Delivery number/date, invoice number/date (invalid dates show Awaiting Update).",
+    "status": "tested",
+    "updated": "2026-11-03T01:02:37.291Z",
+    "notes": "Emulator 2026-11-03: delivery no./date and invoice no./date per part; invalid invoice date shows \"Awaiting Update\".",
     "implementation": [
       "mobile/src/features/case-detail/OrderPartsTab.tsx"
     ],
     "tests": [
-      "mobile/__tests__/dealer-journey.test.tsx"
+      "mobile/__tests__/dealer-journey.test.tsx",
+      "analysis/test-reports/2026-11-03-dealer-phase.md"
     ]
   },
   "PART-04": {
-    "status": "implemented",
-    "updated": "2026-11-02T20:18:05.872Z",
-    "notes": "Expected delivery date for parts not fully delivered.",
+    "status": "tested",
+    "updated": "2026-11-03T01:02:37.307Z",
+    "notes": "Emulator 2026-11-03: \"Expected delivery 06 Nov 2026\" on the pending part; hidden on the fully delivered part.",
     "implementation": [
       "mobile/src/features/case-detail/OrderPartsTab.tsx"
     ],
     "tests": [
-      "mobile/__tests__/dealer-journey.test.tsx"
+      "mobile/__tests__/dealer-journey.test.tsx",
+      "analysis/test-reports/2026-11-03-dealer-phase.md"
     ]
   },
   "PART-05": {
-    "status": "implemented",
-    "updated": "2026-11-02T20:18:05.890Z",
-    "notes": "Part remarks when present.",
+    "status": "tested",
+    "updated": "2026-11-03T01:02:37.324Z",
+    "notes": "Emulator 2026-11-03: part remark \"Balance 2 in next dispatch\" shown; absent where none.",
     "implementation": [
       "mobile/src/features/case-detail/OrderPartsTab.tsx"
+    ],
+    "tests": [
+      "analysis/test-reports/2026-11-03-dealer-phase.md"
     ]
   },
   "PART-06": {
-    "status": "implemented",
-    "updated": "2026-11-02T20:18:05.907Z",
-    "notes": "Consignment reference and status on each part.",
+    "status": "tested",
+    "updated": "2026-11-03T01:02:37.341Z",
+    "notes": "Emulator 2026-11-03: per-part tracking chip \"LR 552019 · In transit\" and \"LR 551877 · Tracking unavailable\".",
     "implementation": [
       "mobile/src/features/case-detail/OrderPartsTab.tsx"
+    ],
+    "tests": [
+      "analysis/test-reports/2026-11-03-dealer-phase.md"
     ]
   },
   "SCAN-01": {
@@ -969,76 +1054,82 @@
     ]
   },
   "SCAN-02": {
-    "status": "implemented",
-    "updated": "2026-11-02T20:18:54.648Z",
-    "notes": "Review and correct values on Check details (fed by lookup until the camera step is built).",
+    "status": "tested",
+    "updated": "2026-11-03T01:02:55.849Z",
+    "notes": "Emulator 2026-11-03 (manual lookup path, camera not built): Check details screen shows document no., GST, seller GST, invoice reference as editable fields; edited invoice reference kept.",
     "implementation": [
       "mobile/src/screens/create/ScanReviewScreen.tsx"
     ],
     "tests": [
-      "mobile/__tests__/dealer-journey.test.tsx"
+      "mobile/__tests__/dealer-journey.test.tsx",
+      "analysis/test-reports/2026-11-03-dealer-phase.md"
     ]
   },
   "SCAN-03": {
-    "status": "implemented",
-    "updated": "2026-11-02T20:18:54.663Z",
-    "notes": "Select applicable parts from the document.",
+    "status": "tested",
+    "updated": "2026-11-03T01:02:55.865Z",
+    "notes": "Emulator 2026-11-03: SO 4100239001 -> 3 parts; checkbox selection count, \"Use 2 parts\" carries the selected parts with qty into details; \"Continue without parts\" available.",
     "implementation": [
       "mobile/src/screens/create/ScanReviewScreen.tsx"
     ],
     "tests": [
-      "mobile/__tests__/dealer-journey.test.tsx"
+      "mobile/__tests__/dealer-journey.test.tsx",
+      "analysis/test-reports/2026-11-03-dealer-phase.md"
     ]
   },
   "SCAN-04": {
-    "status": "implemented",
-    "updated": "2026-11-02T20:18:54.679Z",
-    "notes": "Manual entry always possible; lookup outage lets the user continue unverified.",
+    "status": "tested",
+    "updated": "2026-11-03T01:03:13.151Z",
+    "notes": "Emulator 2026-11-03: SO 0000000000 (SAP unavailable) -> \"We can't check this number right now. You can continue and support will verify it.\" with \"Continue without checking\"; empty SO -> \"Enter the Sales order (SO) number.\"",
     "implementation": [
       "mobile/src/screens/create/CreateReferenceScreen.tsx"
     ],
     "tests": [
-      "mobile/__tests__/dealer-journey.test.tsx"
+      "mobile/__tests__/dealer-journey.test.tsx",
+      "analysis/test-reports/2026-11-03-dealer-phase.md"
     ]
   },
   "CONSIGN-01": {
-    "status": "implemented",
-    "updated": "2026-11-02T20:18:05.923Z",
-    "notes": "Consignment status and movement events.",
+    "status": "tested",
+    "updated": "2026-11-03T01:02:55.717Z",
+    "notes": "Emulator 2026-11-03: LR 552019 Safe Express · Road, status \"In transit\", event list (In transit Indore hub, Dispatched RDC Binola) with dates, expected delivery.",
     "implementation": [
       "mobile/src/features/case-detail/OrderPartsTab.tsx"
     ],
     "tests": [
       "mobile/__tests__/dealer-journey.test.tsx",
-      "mobile/.maestro/dealer/case-tracking.yaml"
+      "mobile/.maestro/dealer/case-tracking.yaml",
+      "analysis/test-reports/2026-11-03-dealer-phase.md"
     ]
   },
   "CONSIGN-02": {
-    "status": "implemented",
-    "updated": "2026-11-02T20:18:05.942Z",
-    "notes": "Last updated time per consignment.",
+    "status": "tested",
+    "updated": "2026-11-03T01:02:55.733Z",
+    "notes": "Emulator 2026-11-03: \"Last refreshed: 03 Nov 2026, 08:05\" on the tracking card.",
     "implementation": [
       "mobile/src/features/case-detail/OrderPartsTab.tsx"
     ],
     "tests": [
-      "mobile/__tests__/dealer-journey.test.tsx"
+      "mobile/__tests__/dealer-journey.test.tsx",
+      "analysis/test-reports/2026-11-03-dealer-phase.md"
     ]
   },
   "CONSIGN-03": {
-    "status": "implemented",
-    "updated": "2026-11-02T20:18:05.960Z",
-    "notes": "\"Tracking unavailable\" fallback per consignment.",
+    "status": "tested",
+    "updated": "2026-11-03T01:02:55.750Z",
+    "notes": "Emulator 2026-11-03: LR 551877 feed down -> \"Tracking unavailable right now. Please check again later.\" while the rest of the tab renders.",
     "implementation": [
       "mobile/src/features/case-detail/OrderPartsTab.tsx"
     ],
     "tests": [
-      "mobile/__tests__/dealer-journey.test.tsx"
+      "mobile/__tests__/dealer-journey.test.tsx",
+      "analysis/test-reports/2026-11-03-dealer-phase.md"
     ]
   },
   "ATTACH-01": {
-    "status": "implemented",
-    "updated": "2026-11-02T20:18:54.257Z",
-    "notes": "Camera/photos/files picker, type and size checks, upload during create and after (Add file).",
+    "status": "tested",
+    "updated": "2026-11-03T01:02:55.766Z",
+    "notes": "Emulator 2026-11-03: photo picked from gallery (Android photo picker) during creation (listed in form with size) and on reopened PD case (Files · 1). Fixed mock: files uploaded during creation are now linked to the new case and keep their names (was Files · 0); covered by api.test.ts.",
     "implementation": [
       "mobile/src/features/attachments/pickFile.ts",
       "mobile/src/domain/attachment-policy.ts",
@@ -1046,7 +1137,10 @@
       "mobile/src/screens/create/CreateDetailsScreen.tsx"
     ],
     "tests": [
-      "mobile/src/domain/attachment-policy.test.ts"
+      "mobile/src/domain/attachment-policy.test.ts",
+      "analysis/test-reports/2026-11-03-dealer-phase.md",
+      "mobile/src/api/api.test.ts",
+      "mobile/.maestro/dealer/offline-and-attachments.yaml"
     ],
     "openQuestions": [
       "Attachment types, size and count per case (SRS 11.6) awaiting VECV; defaults PDF/JPG/PNG, 10 MB, 5 files."
@@ -1054,50 +1148,55 @@
   },
   "ATTACH-02": {
     "status": "implemented",
-    "updated": "2026-11-02T20:18:54.278Z",
-    "notes": "Open/download permitted files via signed URL.",
+    "updated": "2026-11-03T01:01:29.105Z",
+    "notes": "Emulator 2026-11-03: permitted files listed in Messages tab; tap opens signed download URL (placeholder in mock), real download unverified until backend exists.",
     "implementation": [
       "mobile/src/features/case-detail/MessagesTab.tsx"
     ],
     "tests": [
-      "mobile/__tests__/dealer-journey.test.tsx"
+      "mobile/__tests__/dealer-journey.test.tsx",
+      "analysis/test-reports/2026-11-03-dealer-phase.md",
+      "mobile/.maestro/dealer/offline-and-attachments.yaml"
     ]
   },
   "ATTACH-03": {
-    "status": "implemented",
-    "updated": "2026-11-02T20:18:54.297Z",
-    "notes": "Composer shown only when actions.canComment; failed send keeps text.",
+    "status": "tested",
+    "updated": "2026-11-03T01:02:55.784Z",
+    "notes": "Emulator 2026-11-03: message sent on open EUR case appears as \"You\" bubble; no input on closed case.",
     "implementation": [
       "mobile/src/features/case-detail/MessagesTab.tsx"
     ],
     "tests": [
       "mobile/__tests__/dealer-journey.test.tsx",
-      "mobile/.maestro/dealer/case-tracking.yaml"
+      "mobile/.maestro/dealer/case-tracking.yaml",
+      "analysis/test-reports/2026-11-03-dealer-phase.md"
     ]
   },
   "ATTACH-04": {
-    "status": "implemented",
-    "updated": "2026-11-02T20:18:54.314Z",
-    "notes": "Reply goes as response to the open clarification (inReplyTo).",
+    "status": "tested",
+    "updated": "2026-11-03T01:02:55.800Z",
+    "notes": "Emulator 2026-11-03: Reply from home card -> Messages with \"Replying to\" context; after send, home awaiting card and \"Needs your reply\" chip clear (after refresh-on-focus fix).",
     "implementation": [
       "mobile/src/features/case-detail/MessagesTab.tsx"
     ],
     "tests": [
       "mobile/__tests__/dealer-journey.test.tsx",
-      "mobile/.maestro/dealer/case-tracking.yaml"
+      "mobile/.maestro/dealer/case-tracking.yaml",
+      "analysis/test-reports/2026-11-03-dealer-phase.md"
     ]
   },
   "ATTACH-05": {
-    "status": "implemented",
-    "updated": "2026-11-02T20:18:54.331Z",
-    "notes": "Reopen requires 10–300 character remarks.",
+    "status": "tested",
+    "updated": "2026-11-03T01:02:20.951Z",
+    "notes": "Emulator 2026-11-03: reopen remarks mandatory (min 10 characters) with inline errors.",
     "implementation": [
       "mobile/src/features/case-detail/Closure.tsx",
       "mobile/src/domain/closure-rules.ts"
     ],
     "tests": [
       "mobile/src/domain/closure-rules.test.ts",
-      "mobile/.maestro/dealer/closure-feedback-reopen.yaml"
+      "mobile/.maestro/dealer/closure-feedback-reopen.yaml",
+      "analysis/test-reports/2026-11-03-dealer-phase.md"
     ]
   },
   "NOTIF-02": {
@@ -1151,55 +1250,61 @@
     "notes": "Event raised by backend and listed via NOTIF-01; push (@react-native-firebase/messaging) not built; channels need VECV (SRS 8.9.6)"
   },
   "FEEDBACK-01": {
-    "status": "implemented",
-    "updated": "2026-11-02T20:18:54.347Z",
-    "notes": "1–5 star rating with labels after closure.",
+    "status": "tested",
+    "updated": "2026-11-03T01:02:20.967Z",
+    "notes": "Emulator 2026-11-03: 1-5 star rating (accessible labels Poor..Excellent), rating required, submitted 4 stars on PD261015106702.",
     "implementation": [
       "mobile/src/features/case-detail/Closure.tsx",
       "mobile/src/domain/closure-rules.ts"
     ],
     "tests": [
       "mobile/src/domain/closure-rules.test.ts",
-      "mobile/__tests__/dealer-journey.test.tsx"
+      "mobile/__tests__/dealer-journey.test.tsx",
+      "analysis/test-reports/2026-11-03-dealer-phase.md"
     ],
     "openQuestions": [
       "Is feedback mandatory, and is there a time window (SRS 13.11.7)?"
     ]
   },
   "FEEDBACK-02": {
-    "status": "implemented",
-    "updated": "2026-11-02T20:18:54.365Z",
-    "notes": "Optional remarks up to 500 characters.",
+    "status": "tested",
+    "updated": "2026-11-03T01:02:20.983Z",
+    "notes": "Emulator 2026-11-03: optional remarks \"Anything to add? (optional)\"; submitted text shown in \"Your feedback\".",
     "implementation": [
       "mobile/src/features/case-detail/Closure.tsx"
     ],
     "tests": [
-      "mobile/src/domain/closure-rules.test.ts"
+      "mobile/src/domain/closure-rules.test.ts",
+      "analysis/test-reports/2026-11-03-dealer-phase.md"
     ]
   },
   "DATA-01": {
     "status": "implemented",
-    "updated": "2026-11-02T20:18:54.400Z",
-    "notes": "403 shows \"You do not have access to this information.\" via ErrorState; out-of-scope cases read as not found.",
+    "updated": "2026-11-03T01:01:29.137Z",
+    "notes": "Not exercised on device 2026-11-03: dealer UI only lists in-scope cases, so the no-access message cannot be reached without a deep link (contract-tested in api.test.ts). Offline negative passed: readable \"You appear to be offline\" with Try again on Cases and Updates, recovers after network restored.",
     "implementation": [
       "mobile/src/api/client.ts",
       "mobile/src/components/states.tsx"
     ],
     "tests": [
       "mobile/src/api/client.test.ts",
-      "mobile/__tests__/screen-states.test.tsx"
+      "mobile/__tests__/screen-states.test.tsx",
+      "analysis/test-reports/2026-11-03-dealer-phase.md",
+      "mobile/.maestro/dealer/offline-and-attachments.yaml"
     ]
   },
   "DATA-02": {
-    "status": "implemented",
-    "updated": "2026-11-02T20:18:54.418Z",
-    "notes": "LastRefreshed wherever order, part or tracking data shows.",
+    "status": "tested",
+    "updated": "2026-11-03T01:02:55.832Z",
+    "notes": "Emulator 2026-11-03: timestamps on order, parts and each tracking card; also on the DRLR order fallback. Offline negative passed (readable error + Try again; retry button centred after fix).",
     "implementation": [
       "mobile/src/components/states.tsx",
       "mobile/src/features/case-detail/OrderPartsTab.tsx"
     ],
     "tests": [
-      "mobile/__tests__/dealer-journey.test.tsx"
+      "mobile/__tests__/dealer-journey.test.tsx",
+      "analysis/test-reports/2026-11-03-dealer-phase.md",
+      "mobile/.maestro/dealer/offline-and-attachments.yaml"
     ]
   },
   "DASH-05": {

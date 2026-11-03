@@ -34,6 +34,7 @@ Any password works, except `wrong` (returns "incorrect password").
 | Open `DRLR261022106911` | Order section unavailable while the rest of the case loads |
 | Open `EUR261024106958` | Partial delivery, invalid invoice date (`0000-00-00`), one tracking feed down |
 | Open `PD261015106702` as `dealer` | Closed case, feedback pending, reopen allowed |
+| Turn on airplane mode (emulator) | Every call fails as offline, because the device can't reach the Metro dev server. Turn it off and tap Try again |
 
 ## Switch it on or off
 

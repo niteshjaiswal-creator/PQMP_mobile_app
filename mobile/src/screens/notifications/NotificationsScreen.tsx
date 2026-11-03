@@ -6,6 +6,7 @@ import { api, userMessageFor } from '../../api';
 import type { AppNotification, NotificationType } from '../../api/types';
 import { Icon, type IconName } from '../../components/Icon';
 import { Screen } from '../../components/Screen';
+import { useRefreshOnFocus } from '../../components/useRefreshOnFocus';
 import { EmptyState, ErrorState, LoadingState } from '../../components/states';
 import { Card, Chip, Divider, L } from '../../components/ui';
 import { displayDateTime, displayText } from '../../domain/display';
@@ -33,6 +34,7 @@ export function NotificationsScreen() {
   const [unreadOnly, setUnreadOnly] = useState(false);
   const [actionError, setActionError] = useState<string | null>(null);
   const q = useQuery(() => api.listNotifications({ unreadOnly }), [unreadOnly]);
+  useRefreshOnFocus(q.reload);
 
   const markRead = async (input: { ids: string[] } | { all: true }) => {
     setActionError(null);

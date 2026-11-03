@@ -259,7 +259,7 @@ export const CASES: MockCase[] = [
       order: {
         salesOrderNo: '4100231876', orderType: { code: 'ZROP', label: 'Stock order' }, poNumber: '7700012345', poDate: '2026-10-20',
         dealer: { dealerCode: '1S1148', name: 'Shree Motors' }, soldToParty: 'Shree Motors', plant: { code: '1154', label: 'RDC Binola' },
-        chassisNumber: null, overallStatus: { code: 'partially_delivered', label: 'Partially delivered' },
+        chassisNumber: null, overallStatus: { code: 'partially_delivered', label: 'Partially Delivered' },
         totalParts: 2, deliveredParts: 1, pendingParts: 1, fullyDelivered: false, consignmentReference: 'LR 552019',
       },
     },

@@ -20,7 +20,9 @@ export function ErrorState({ message, onRetry, testID }: { message: string; onRe
     <View style={s.center} testID={testID}>
       <Icon name="info" color={colors.inkMuted} size={36} />
       <Text style={s.msg}>{message}</Text>
-      <Button label="Try again" onPress={onRetry} variant="ghost" small testID={testID ? `${testID}.retry` : undefined} />
+      <View style={s.retry}>
+        <Button label="Try again" onPress={onRetry} variant="ghost" small testID={testID ? `${testID}.retry` : undefined} />
+      </View>
     </View>
   );
 }
@@ -57,6 +59,7 @@ export function LastRefreshed({ at, testID }: { at: string | null | undefined; t
 
 const s = StyleSheet.create({
   center: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: spacing.md, padding: spacing.xl },
+  retry: { alignSelf: 'center' },
   title: { fontFamily: fonts.extrabold, fontSize: 16, color: colors.ink, textAlign: 'center' },
   msg: { ...type.bodySmall, color: colors.inkStrong, textAlign: 'center' },
   fallback: { flexDirection: 'row', gap: 10, alignItems: 'flex-start', padding: spacing.md, borderRadius: 14, backgroundColor: '#F1F4F9' },

@@ -133,7 +133,7 @@ export function MessagesTab({ detail, internalView, onChanged }: Props) {
             >
               <Text style={[s.who, mine(c) && s.mineMeta, c.isClarificationRequest && !mine(c) && { color: colors.danger }]}>
                 {author(c)}
-                {c.isClarificationRequest ? ' · question for the dealer' : ''}
+                {c.isClarificationRequest ? (internalView ? ' · question for the dealer' : ' · question for you') : ''}
                 {c.internal ? ' · internal' : ''}
               </Text>
               <Text style={[s.msgText, mine(c) && { color: colors.paper }]}>{displayText(c.text)}</Text>

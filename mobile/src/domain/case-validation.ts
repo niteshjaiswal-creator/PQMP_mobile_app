@@ -56,13 +56,20 @@ export function visibleFields(form: SubTypeForm, values: Record<string, string>)
   return form.fields.filter(f => f.type !== 'file' && (!f.visibleWhen || String(values[f.visibleWhen.key] ?? '') === String(f.visibleWhen.equals)));
 }
 
+/** "Enter issue title." / "Choose plant." — a question label ("How should we reach you?") gets a plain prompt. */
+export function requiredMessage(f: Pick<FormField, 'label' | 'type'>): string {
+  const choose = f.type === 'select' || f.type === 'boolean';
+  if (/\?\s*$/.test(f.label)) return choose ? 'Choose an option.' : 'Enter an answer.';
+  return `${choose ? 'Choose' : 'Enter'} ${f.label.toLowerCase()}.`;
+}
+
 /** Field errors for step 3, keyed by field key, plus "parts" and "attachments" (9.1, 18.5). */
 export function validateDetails(draft: CaseDraft, form: SubTypeForm): Record<string, string> {
   const errors: Record<string, string> = {};
   for (const f of visibleFields(form, draft.values)) {
     const v = (draft.values[f.key] ?? '').trim();
     if (!v) {
-      if (f.required) errors[f.key] = f.type === 'select' || f.type === 'boolean' ? `Choose ${f.label.toLowerCase()}.` : `Enter ${f.label.toLowerCase()}.`;
+      if (f.required) errors[f.key] = requiredMessage(f);
       continue;
     }
     if (f.maxLength && v.length > f.maxLength) errors[f.key] = `Keep this within ${f.maxLength} characters.`;

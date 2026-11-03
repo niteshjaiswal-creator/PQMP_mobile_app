@@ -1,6 +1,6 @@
 // CREATE-04/05/06/07/11/13 — SRS 9.1: mandatory fields per sub-type form config, references, parts, files.
 import type { SubTypeForm } from '../api/types';
-import { buildCreateInput, emptyDraft, type CaseDraft, mapServerErrors, validateDetails, validateReferences, visibleFields } from './case-validation';
+import { buildCreateInput, emptyDraft, type CaseDraft, mapServerErrors, requiredMessage, validateDetails, validateReferences, visibleFields } from './case-validation';
 
 const form: SubTypeForm = {
   subTypeId: '6',
@@ -69,4 +69,14 @@ it('builds the create request with scan capture method and sub-type fields', () 
 
 it('maps server field errors back to form keys', () => {
   expect(mapServerErrors({ 'contact.phone': 'Bad', 'parts[0].partNumber': 'Unknown part', references: 'Missing' })).toEqual({ 'contact.phone': 'Bad', parts: 'Unknown part', _form: 'Missing' });
+});
+
+describe('requiredMessage', () => {
+  it('names the field for plain labels', () => {
+    expect(requiredMessage({ label: 'Issue title', type: 'text' })).toBe('Enter issue title.');
+    expect(requiredMessage({ label: 'Plant', type: 'select' })).toBe('Choose plant.');
+  });
+  it('does not turn a question label into a broken sentence', () => {
+    expect(requiredMessage({ label: 'How should we reach you?', type: 'select' })).toBe('Choose an option.');
+  });
 });

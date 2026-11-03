@@ -21,6 +21,14 @@ const PART_TONE: Record<PartDeliveryStatus, [string, string]> = {
   'not-available': [colors.neutralTint, colors.neutral],
 };
 
+/** Colour for the order's overall status code from SAP (e.g. fully_delivered, partially_delivered, open). */
+function orderTone(code: string | null | undefined): [string, string] {
+  const c = (code ?? '').toLowerCase();
+  if (c.startsWith('fully') || c === 'delivered' || c === 'completed') return PART_TONE['fully-delivered'];
+  if (c.startsWith('partial')) return PART_TONE['partially-delivered'];
+  return PART_TONE['not-delivered'];
+}
+
 const SECTION_DEFAULT: Record<string, string> = {
   order: 'Order details are not available for this case yet.',
   parts: 'Part details are not available for this case yet.',
@@ -52,7 +60,7 @@ export function OrderPartsTab({ caseId, show }: { caseId: string; show: { order:
       <Card style={s.pad} testID="orderParts.order">
         <View style={s.head}>
           <SectionTitle>Order</SectionTitle>
-          {order.data?.order?.overallStatus ? <Pill label={displayText(order.data.order.overallStatus.label)} bg={colors.warningTint} fg={colors.warning} testID="orderParts.order.status" /> : null}
+          {order.data?.order?.overallStatus ? <Pill label={displayText(order.data.order.overallStatus.label)} bg={orderTone(order.data.order.overallStatus.code)[0]} fg={orderTone(order.data.order.overallStatus.code)[1]} testID="orderParts.order.status" /> : null}
         </View>
         {order.loading ? (
           <Text style={s.muted}>Loading order details…</Text>

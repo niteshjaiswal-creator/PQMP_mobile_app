@@ -4,6 +4,7 @@
 import type { TransportRequest, TransportResponse } from '../api/client';
 import type {
   Actor,
+  Attachment,
   CaseDetail,
   CaseSummary,
   Comment,
@@ -22,6 +23,8 @@ type Db = {
   cases: MockCase[];
   notifications: typeof D.NOTIFICATIONS;
   seq: number;
+  /** Files uploaded with POST /attachments, waiting to be linked to a case. */
+  uploads: Record<string, Attachment>;
 };
 
 let db: Db = createDb();
@@ -31,6 +34,7 @@ function createDb(): Db {
     cases: JSON.parse(JSON.stringify(D.CASES)),
     notifications: JSON.parse(JSON.stringify(D.NOTIFICATIONS)),
     seq: 107100,
+    uploads: {},
   };
 }
 
@@ -391,11 +395,30 @@ on('GET', '/lookups/parts/:no', (req, [no]) => {
   return d ? ok({ partNumber: no.toUpperCase(), description: d }) : fail(404, 'PART_NOT_FOUND', "We couldn't find this part number.");
 });
 
+/** Name and type of the `file` part of a React Native FormData body, when there is one. */
+function uploadedFile(body: unknown): { name?: string; type?: string } {
+  const parts = (body as { _parts?: [string, unknown][] } | null)?._parts ?? [];
+  const file = parts.find(([k]) => k === 'file')?.[1];
+  return file && typeof file === 'object' ? (file as { name?: string; type?: string }) : {};
+}
+
 on('POST', '/attachments', req => {
   const u = userFrom(req);
   const id = `att_${++db.seq}`;
-  return ok({ id, fileName: 'upload.jpg', mimeType: 'image/jpeg', sizeBytes: 100_000, uploadedAt: D.NOW, uploadedBy: { type: u.role === 'dealer' ? 'dealer' : 'support', name: u.name }, source: u.role === 'dealer' ? 'user' : 'support' }, undefined, 201);
+  const f = uploadedFile(req.body);
+  const a: Attachment = { id, fileName: f.name || 'upload.jpg', mimeType: f.type || 'image/jpeg', sizeBytes: 100_000, uploadedAt: D.NOW, uploadedBy: { type: u.role === 'dealer' ? 'dealer' : 'support', name: u.name }, source: u.role === 'dealer' ? 'user' : 'support' };
+  db.uploads[id] = a;
+  return ok(a, undefined, 201);
 });
+
+/** Attachments for ids returned by POST /attachments (unknown ids get a placeholder record). */
+function takeUploads(u: MockUser, ids: string[]): Attachment[] {
+  return ids.map(aid => {
+    const a = db.uploads[aid] ?? { id: aid, fileName: `${aid}.jpg`, mimeType: 'image/jpeg', sizeBytes: 100_000, uploadedAt: D.NOW, uploadedBy: { type: (u.role === 'dealer' ? 'dealer' : 'support') as Actor['type'], name: u.name }, source: (u.role === 'dealer' ? 'user' : 'support') as 'user' | 'support' };
+    delete db.uploads[aid];
+    return a;
+  });
+}
 on('GET', '/attachments/:id/download', signedIn((_, [id]) => ok({ url: `https://files.example.invalid/${id}?sig=mock`, expiresAt: D.NOW, fileName: id, mimeType: 'application/octet-stream' })));
 
 on('GET', '/dashboard/summary', req => ok(dashboardOf(userFrom(req))));
@@ -427,7 +450,7 @@ on('POST', '/cases', req => {
     fields: [], parts: (b.parts ?? []).map(p => ({ partNumber: p.partNumber, description: p.description ?? null, quantity: p.quantity ?? null, hsnCode: null })),
     closure: null, feedback: null, reopenAllowed: false, transferred: 0,
     order: D.ORDER_RELATED_TYPES.includes(st!.t.id) ? { section: { state: 'pending', message: 'Order details will appear once support starts on the case.', lastRefreshedAt: null }, order: null } : null,
-    partLines: null, consignments: [], timeline: [], comments: [], attachments: [],
+    partLines: null, consignments: [], timeline: [], comments: [], attachments: takeUploads(u, b.attachmentIds ?? []),
   };
   addEvent(c, { type: 'created', actor: { type: 'dealer', name: c.contact.person }, status: 'New', text: 'Case registered', internal: false });
   db.cases.unshift(c);
@@ -478,7 +501,7 @@ on('POST', '/cases/:id/comments', (req, [id]) => {
   const author: Actor = u.role === 'dealer' ? { type: 'dealer', name: c.contact.person } : { type: 'support', name: u.name };
   const m: Comment = { id: `c_${++db.seq}`, at: D.NOW, author, text: text.trim(), attachments: [], isClarificationRequest: false, internal: false, read: u.role === 'dealer' };
   c.comments.push(m);
-  addEvent(c, { type: inReplyTo ? 'clarification_response' : 'comment', actor: author, status: null, text: inReplyTo ? 'Dealer replied to support' : 'New message', internal: false });
+  addEvent(c, { type: inReplyTo ? 'clarification_response' : 'comment', actor: author, status: null, text: inReplyTo ? 'Reply to clarification received' : 'New message', internal: false });
   return ok({ ...m, author: actorFor(u, m.author) }, undefined, 201);
 });
 on('GET', '/cases/:id/attachments', (req, [id]) => {
@@ -490,7 +513,7 @@ on('POST', '/cases/:id/attachments', (req, [id]) => {
   const c = findCase(u, id);
   if (!isOpen(c)) return fail(409, 'CASE_CLOSED', 'This case is closed. Reopen it to add files.');
   const ids = ((req.body ?? {}) as { attachmentIds?: string[] }).attachmentIds ?? [];
-  const added = ids.map(aid => ({ id: aid, fileName: `${aid}.jpg`, mimeType: 'image/jpeg', sizeBytes: 100_000, uploadedAt: D.NOW, uploadedBy: { type: (u.role === 'dealer' ? 'dealer' : 'support') as Actor['type'], name: u.name }, source: (u.role === 'dealer' ? 'user' : 'support') as 'user' | 'support' }));
+  const added = takeUploads(u, ids);
   c.attachments.push(...added);
   return ok(added, undefined, 201);
 });

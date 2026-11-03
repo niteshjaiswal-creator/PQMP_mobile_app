@@ -46,7 +46,12 @@ export function CreateDetailsScreen({ navigation }: RootScreenProps<'CreateDetai
 
   const change = (key: string) => (v: string) => {
     setValue(key, v);
-    if (errors[key]) setErrors(e => ({ ...e, [key]: '' }));
+    if (errors[key]) {
+      const rest = { ...errors, [key]: '' };
+      setErrors(rest);
+      // Drop "Some details need attention" once the last highlighted field is fixed.
+      if (!Object.values(rest).some(Boolean)) setBanner(null);
+    }
   };
 
   const addFile = async () => {

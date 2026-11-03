@@ -1,0 +1,42 @@
+appId: com.vecv.pqmp
+name: Dealer - offline error with retry, add a photo to an open case, DRLR order fallback
+tags: [DATA-02, ORDER-04, DETAIL-09, ATTACH-01, ATTACH-02, DETAIL-08]
+# Needs an image in the emulator gallery (adb push x.png /sdcard/Pictures/ + media scan).
+# The mock treats the device as offline when it cannot reach the Metro dev server (src/mock/index.ts).
+---
+- runFlow: ../common/sign-in-dealer.yaml
+- setAirplaneMode: enabled
+- tapOn:
+    id: tabs.updates
+- assertVisible: "You appear to be offline. Please check your connection and try again."
+- setAirplaneMode: disabled
+- waitForAnimationToEnd:
+    timeout: 8000
+- tapOn:
+    id: updates.error.retry
+    retryTapIfNoChange: true
+- assertVisible:
+    id: updates.item.0
+- tapOn:
+    id: tabs.cases
+- tapOn:
+    id: cases.search
+- inputText: "DRLR"
+- hideKeyboard
+- tapOn:
+    id: cases.item.0
+- tapOn:
+    id: caseDetail.tab.order
+- assertVisible: "The latest order information is being updated."
+- assertVisible:
+    id: caseDetail.title
+- tapOn:
+    id: caseDetail.tab.messages
+- tapOn:
+    id: messages.addFile
+- tapOn: "PHOTOS"
+- tapOn:
+    point: "15%,30%"
+- assertVisible:
+    id: messages.file.0
+- runFlow: ../common/assert-no-raw-values.yaml

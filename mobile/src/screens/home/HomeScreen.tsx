@@ -8,6 +8,7 @@ import type { CaseSummary, DashboardSummary } from '../../api/types';
 import { CaseCard } from '../../components/CaseCard';
 import { Icon } from '../../components/Icon';
 import { Screen } from '../../components/Screen';
+import { useRefreshOnFocus } from '../../components/useRefreshOnFocus';
 import { ErrorState, LoadingState } from '../../components/states';
 import { Button, Card, Divider, IconButton, ListRow, SectionTitle, L } from '../../components/ui';
 import { displayText } from '../../domain/display';
@@ -38,6 +39,7 @@ export function HomeScreen() {
     ]);
     return { dash, recent: recent.items, reply: reply?.items[0] ?? null };
   }, [isDealer]);
+  useRefreshOnFocus(q.reload);
 
   const openCases = (preset: CasePreset) => navigation.navigate('Tabs', { screen: 'Cases', params: { preset, nonce: Date.now() } });
   const openCase = (c: CaseSummary, tab?: 'messages' | 'order') => navigation.navigate('CaseDetail', { caseId: c.id, tab });
