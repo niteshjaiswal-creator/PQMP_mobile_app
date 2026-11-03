@@ -334,7 +334,8 @@ function listCasesFor(u: MockUser, q: Record<string, string>) {
   if (q.assignment === 'old_pending') rows = rows.filter(c => isOpen(c) && daysOpen(c) > OLD_PENDING_DAYS);
   if (term && term.length >= 3) {
     rows = rows.filter(c =>
-      [c.caseNumber, ...c.references.map(r => r.value), ...c.parts.map(p => p.partNumber)].some(v => v.toLowerCase().includes(term)),
+      // Internal users can also search by dealer code or name (workbench, SRS 13.12).
+      [c.caseNumber, ...c.references.map(r => r.value), ...c.parts.map(p => p.partNumber), ...(isInternal(u) ? [c.dealerCode, D.DEALERS[c.dealerCode]?.name ?? ''] : [])].some(v => v.toLowerCase().includes(term)),
     );
   }
   const sort = q.sort ?? '-updatedAt';

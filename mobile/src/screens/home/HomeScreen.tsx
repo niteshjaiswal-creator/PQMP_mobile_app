@@ -40,6 +40,9 @@ export function HomeScreen() {
   }, [isDealer]);
 
   const openCases = (preset: CasePreset) => navigation.navigate('Tabs', { screen: 'Cases', params: { preset, nonce: Date.now() } });
+  // Admin queues open the assignment workbench (SRS 13.12).
+  const isAdmin = user.role.code === 'admin';
+  const openWorkbench = (filter: 'unassigned' | 'old_pending') => navigation.navigate('Tabs', { screen: 'Assign', params: { filter, nonce: Date.now() } });
   const openCase = (c: CaseSummary, tab?: 'messages' | 'order') => navigation.navigate('CaseDetail', { caseId: c.id, tab });
 
   const header = (
@@ -108,11 +111,11 @@ export function HomeScreen() {
       {dash.internal ? (
         <>
           <Card>
-            <ListRow icon="alert" iconTint={colors.brandTint} iconColor={colors.danger} title={`Unassigned · ${dash.internal.unassigned}`} subtitle="Waiting for a desk" testID="home.internal.unassigned" />
+            <ListRow icon="alert" iconTint={colors.brandTint} iconColor={colors.danger} title={`Unassigned · ${dash.internal.unassigned}`} subtitle="Waiting for a desk" onPress={isAdmin ? () => openWorkbench('unassigned') : undefined} testID="home.internal.unassigned" />
             <Divider />
             <ListRow icon="chat" title={`Dealer replied · ${dash.internal.dealerReplied}`} subtitle="Responses to your questions" testID="home.internal.dealerReplied" />
             <Divider />
-            <ListRow icon="clock" iconTint={colors.neutralTint} iconColor={colors.neutral} title={`Old / pending · ${dash.internal.oldPending}`} subtitle="Open the longest" onPress={() => openCases('oldPending')} testID="home.internal.oldPending" />
+            <ListRow icon="clock" iconTint={colors.neutralTint} iconColor={colors.neutral} title={`Old / pending · ${dash.internal.oldPending}`} subtitle="Open the longest" onPress={isAdmin ? () => openWorkbench('old_pending') : () => openCases('oldPending')} testID="home.internal.oldPending" />
             <Divider />
             <ListRow
               icon="alert" iconTint={colors.brandTint} iconColor={colors.danger}

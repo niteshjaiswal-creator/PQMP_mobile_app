@@ -116,6 +116,6 @@ it('transfers from case detail and shows the new desk and status', async () => {
 
   // Re-Assigned shows as "Assigned" (case-status.ts); the desk change is in "Handled by".
   await waitFor(() => expect(screen.getByTestId('caseDetail.handledBy')).toHaveTextContent(/Support Desk 3/));
-  expect(screen.getByTestId('caseDetail.status')).toHaveTextContent('Assigned');
+  expect(screen.getByTestId('caseDetail.status')).toHaveTextContent('Reassigned'); // internal users see re-routing
   expect(screen.getByTestId('caseDetail.assign')).toHaveTextContent('Transfer');
 });

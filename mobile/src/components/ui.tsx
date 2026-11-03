@@ -97,9 +97,9 @@ const TONES: Record<StatusTone, [string, string]> = {
 };
 
 /** Status badge from a portal status value (LIST-05). */
-export function StatusPill({ status, testID }: { status: string | null | undefined; testID?: string }) {
+export function StatusPill({ status, testID, internalView }: { status: string | null | undefined; testID?: string; internalView?: boolean }) {
   const [bg, fg] = TONES[statusTone(fromPortalStatus(status))];
-  return <Pill label={portalStatusLabel(status)} bg={bg} fg={fg} testID={testID} />;
+  return <Pill label={portalStatusLabel(status, internalView)} bg={bg} fg={fg} testID={testID} />;
 }
 
 export function Pill({ label, bg, fg, testID }: { label: string; bg: string; fg: string; testID?: string }) {

@@ -48,7 +48,7 @@ export function CaseCard({ item, onPress, testID, compact, showDealer }: Props) 
         <Text style={s.no} testID={testID ? `${testID}.number` : undefined}>
           {item.caseNumber}
         </Text>
-        <StatusPill status={item.status} testID={testID ? `${testID}.status` : undefined} />
+        <StatusPill status={item.status} internalView={!!showDealer} testID={testID ? `${testID}.status` : undefined} />
       </View>
       <Text style={s.sub}>{sub}</Text>
       {!compact ? (
