@@ -11,7 +11,7 @@ import { Screen } from '../../components/Screen';
 import { useRefreshOnFocus } from '../../components/useRefreshOnFocus';
 import { EmptyState, ErrorState, LoadingState } from '../../components/states';
 import { Chip, IconButton, L } from '../../components/ui';
-import { activeFilterCount, filtersForPreset, toQuery, type CaseFilters } from '../../features/cases/filters';
+import { activeFilterCount, filtersForPreset, FILTER_STATUSES, INTERNAL_FILTER_STATUSES, toQuery, type CaseFilters } from '../../features/cases/filters';
 import { FilterSheet } from '../../features/cases/FilterSheet';
 import type { TabParamList } from '../../navigation/types';
 import { useUser } from '../../session/SessionContext';
@@ -21,6 +21,7 @@ type ListState = { items: CaseSummary[]; page: number; totalPages: number; total
 
 export function CaseListScreen() {
   const user = useUser();
+  const internalRole = user.role.code !== 'dealer';
   const navigation = useNavigation();
   const route = useRoute<RouteProp<TabParamList, 'Cases'>>();
   const [filters, setFilters] = useState<CaseFilters>(() => filtersForPreset(route.params?.preset));
@@ -90,9 +91,9 @@ export function CaseListScreen() {
         <TextInput
           value={search}
           onChangeText={setSearch}
-          placeholder="Case no. or order no."
+          placeholder={internalRole ? 'Case, order or dealer' : 'Case no. or order no.'}
           placeholderTextColor={colors.inkSubtle}
-          accessibilityLabel="Search by case number or order number"
+          accessibilityLabel={internalRole ? 'Search by case number, order number or dealer' : 'Search by case number or order number'}
           style={s.searchInput}
           returnKeyType="search"
           autoCapitalize="characters"
@@ -145,6 +146,7 @@ export function CaseListScreen() {
         visible={sheet}
         value={filters}
         caseTypes={masters.types}
+        statuses={internalRole ? INTERNAL_FILTER_STATUSES : FILTER_STATUSES}
         priorities={masters.priorities}
         onClose={() => setSheet(false)}
         onApply={f => {

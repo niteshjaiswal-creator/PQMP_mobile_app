@@ -10,7 +10,7 @@ import { Icon } from '../../components/Icon';
 import { Screen } from '../../components/Screen';
 import { useRefreshOnFocus } from '../../components/useRefreshOnFocus';
 import { ErrorState, LoadingState } from '../../components/states';
-import { Button, Card, Divider, IconButton, ListRow, SectionTitle, L } from '../../components/ui';
+import { Button, Card, Divider, IconButton, ListRow, SectionTitle, Tag, L } from '../../components/ui';
 import { displayText } from '../../domain/display';
 import { useQuery } from '../../hooks/useQuery';
 import type { CasePreset } from '../../navigation/types';
@@ -113,8 +113,17 @@ export function HomeScreen() {
       {dash.internal ? (
         <>
           <Card>
-            <ListRow icon="alert" iconTint={colors.brandTint} iconColor={colors.danger} title={`Unassigned · ${dash.internal.unassigned}`} subtitle="Waiting for a desk" onPress={isAdmin ? () => openWorkbench('unassigned') : undefined} testID="home.internal.unassigned" />
-            <Divider />
+            {isAdmin ? (
+              <>
+                <ListRow icon="alert" iconTint={colors.brandTint} iconColor={colors.danger} title={`Unassigned · ${dash.internal.unassigned}`} subtitle="Waiting for a desk" onPress={() => openWorkbench('unassigned')} testID="home.internal.unassigned" />
+                <Divider />
+              </>
+            ) : (
+              <>
+                <ListRow icon="clock" iconTint={colors.warningTint} iconColor={colors.warning} title={`Awaiting dealer reply · ${dash.awaitingUserResponse}`} subtitle="Questions you asked" onPress={() => openCases('reply')} testID="home.internal.awaitingReply" />
+                <Divider />
+              </>
+            )}
             <ListRow icon="chat" title={`Dealer replied · ${dash.internal.dealerReplied}`} subtitle="Responses to your questions" testID="home.internal.dealerReplied" />
             <Divider />
             <ListRow icon="clock" iconTint={colors.neutralTint} iconColor={colors.neutral} title={`Old / pending · ${dash.internal.oldPending}`} subtitle="Open the longest" onPress={isAdmin ? () => openWorkbench('old_pending') : () => openCases('oldPending')} testID="home.internal.oldPending" />
@@ -127,7 +136,9 @@ export function HomeScreen() {
             />
           </Card>
           <Card style={{ padding: spacing.lg, gap: spacing.md }} testID="home.internal.byDesk">
-            <SectionTitle>Open cases by desk</SectionTitle>
+            <SectionTitle right={!isAdmin && dash.internal.unassigned ? <Tag label={`${dash.internal.unassigned} unassigned`} tone="red" testID="home.internal.unassigned" /> : undefined}>
+              Open cases by desk
+            </SectionTitle>
             <Bars rows={dash.internal.byDesk.map(d => ({ label: d.name, value: d.open }))} />
           </Card>
         </>

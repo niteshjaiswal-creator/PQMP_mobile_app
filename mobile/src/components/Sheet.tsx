@@ -19,7 +19,7 @@ export function Sheet({ visible, onClose, title, subtitle, children, testID, rig
   const insets = useSafeAreaInsets();
   return (
     <Modal visible={visible} transparent animationType="slide" onRequestClose={onClose} statusBarTranslucent>
-      <KeyboardAvoidingView style={L.flex1} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+      <KeyboardAvoidingView style={L.flex1} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
         <Pressable style={s.scrim} onPress={onClose} accessibilityRole="button" accessibilityLabel="Close" testID={testID ? `${testID}.scrim` : undefined} />
         <View style={[s.sheet, { paddingBottom: insets.bottom + spacing.xl }]} testID={testID}>
           <View style={s.grab} />

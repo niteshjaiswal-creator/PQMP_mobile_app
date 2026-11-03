@@ -30,6 +30,8 @@ export const DEFAULT_FILTERS: CaseFilters = { statusGroup: 'open', statuses: [],
 
 /** Status values a user can pick, in lifecycle order (portal statuses, SRS 10.1). */
 export const FILTER_STATUSES: PortalStatus[] = ['New', 'Assigned', 'In Progress', 'Hold', 'Escalated', 'Re-Open', 'Close'];
+/** Internal users also filter re-routed and resumed cases (customers never see those statuses, 4.2.5). */
+export const INTERNAL_FILTER_STATUSES: PortalStatus[] = ['New', 'Assigned', 'Re-Assigned', 'In Progress', 'Hold', 'Resume', 'Escalated', 'Re-Open', 'Close'];
 
 /** Priority value the reports count as "high priority" (portal `priority` master). */
 export const HIGH_PRIORITY = 'P1';

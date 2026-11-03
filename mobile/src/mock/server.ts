@@ -512,7 +512,7 @@ on('POST', '/cases/:id/comments', (req, [id]) => {
   const author: Actor = u.role === 'dealer' ? { type: 'dealer', name: c.contact.person } : { type: 'support', name: u.name };
   const m: Comment = { id: `c_${++db.seq}`, at: D.NOW, author, text: text.trim(), attachments: [], isClarificationRequest: false, internal: false, read: u.role === 'dealer' };
   c.comments.push(m);
-  addEvent(c, { type: inReplyTo ? 'clarification_response' : 'comment', actor: author, status: null, text: inReplyTo ? 'Reply to clarification received' : 'New message', internal: false });
+  addEvent(c, { type: inReplyTo ? 'clarification_response' : 'comment', actor: author, status: null, text: inReplyTo ? 'Reply to clarification received' : m.text, internal: false });
   return ok({ ...m, author: actorFor(u, m.author) }, undefined, 201);
 });
 on('GET', '/cases/:id/attachments', (req, [id]) => {

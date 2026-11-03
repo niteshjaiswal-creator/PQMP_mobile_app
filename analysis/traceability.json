@@ -157,13 +157,13 @@
     ]
   },
   "DASH-04": {
-    "status": "implemented",
-    "updated": "2026-11-03T01:01:29.037Z",
+    "status": "tested",
+    "updated": "2026-11-03T01:45:42.463Z",
     "portalEvidence": [
       "analysis/portal/case-list.md",
       "analysis/portal/dashboard-dealer.md"
     ],
-    "notes": "Emulator 2026-11-03: Closed/Feedback KPI drill-down pass. Open defect: \"1 order or delivery update\" tile opens all open order-related cases (4), not the 1 counted (spec: open cases with order/part/EDA update in last 7 days). Needs a list filter for recent order updates in the API spec (analysis/test-reports/2026-11-03-dealer-phase.md, D-08).",
+    "notes": "Emulator 2026-11-03: Closed/Feedback KPI drill-down pass. Earlier defect (D-08, order/delivery tile opened 4 order-related cases instead of the 1 counted) fixed in f41a923 (orderUpdated list filter). Re-tested on Android 14 emulator 2026-11-03 as dealer, twice: \"1 order or delivery update\" opens My Cases with exactly 1 case (EUR261024106958). Desk \"Old / pending · 1\" also opens a filtered list with the 1 counted case (analysis/test-reports/2026-11-03-support-desk.md). The open question below is resolved by the orderUpdated filter.",
     "implementation": [
       "mobile/src/screens/home/HomeScreen.tsx",
       "mobile/src/features/cases/filters.ts",
@@ -173,11 +173,11 @@
       "mobile/src/features/cases/filters.test.ts",
       "mobile/__tests__/dealer-journey.test.tsx",
       "analysis/test-reports/2026-11-03-dealer-phase.md",
-      "mobile/.maestro/dealer/home-and-cases.yaml"
+      "mobile/.maestro/dealer/home-and-cases.yaml",
+      "analysis/test-reports/2026-11-03-support-desk.md",
+      "mobile/.maestro/desk/home-list-detail.yaml"
     ],
-    "openQuestions": [
-      "Order/delivery update tile count (dashboard.orderUpdates) and its drill-down list disagree; add a /cases filter for 'order update in last 7 days' to the API spec (SRS 8.2.4, 13.2.10)."
-    ]
+    "openQuestions": []
   },
   "CREATE-01": {
     "status": "tested",
@@ -929,9 +929,9 @@
     ]
   },
   "FLOW-03": {
-    "status": "implemented",
-    "updated": "2026-11-03T00:33:59.712Z",
-    "notes": "Support can request clarification (Ask dealer -> POST /cases/{id}/updates action=clarify, a comment with isClarificationRequest) and the dealer replies from Messages (inReplyTo). Phase 3 desk update sheet also covers Add update (allowedStatuses only, internal remark option, SRS 5) and Close with final remarks (SRS 9.4.1). Built on the mock; device test pending; release needs VECV approval of support desk mobile access (SRS 4.3).",
+    "status": "tested",
+    "updated": "2026-11-03T01:45:42.482Z",
+    "notes": "Support can request clarification (Ask dealer -> POST /cases/{id}/updates action=clarify, a comment with isClarificationRequest) and the dealer replies from Messages (inReplyTo). Phase 3 desk update sheet also covers Add update (allowedStatuses only, internal remark option, SRS 5) and Close with final remarks (SRS 9.4.1). Android 14 emulator 2026-11-03 (mock API), both sides passed: desk Ask dealer (empty remark rejected), question shown as clarification in timeline and messages; dealer sees it in the Awaiting card under \"PQMP Support\", replies with \"Replying to\" context; desk then sees the reply and \"Dealer replied · 1\". Add update offers only In Progress / On Hold from Assigned; internal remark shows \"Internal remark\" with lock; dealer-visible update moves status to In Progress; Close needs final remarks, confirm step, Go back keeps remarks, closed case has no action bar and a read-only composer. Release still needs VECV approval of support desk mobile access (SRS 4.3). Report: analysis/test-reports/2026-11-03-support-desk.md.",
     "implementation": [
       "mobile/src/features/case-detail/MessagesTab.tsx",
       "mobile/src/features/desk/DeskActions.tsx",
@@ -942,7 +942,10 @@
       "mobile/__tests__/dealer-journey.test.tsx",
       "mobile/src/domain/desk-update.test.ts",
       "mobile/__tests__/desk-journey.test.tsx",
-      "mobile/.maestro/desk/update-case.yaml"
+      "mobile/.maestro/desk/update-case.yaml",
+      "analysis/test-reports/2026-11-03-support-desk.md",
+      "mobile/.maestro/desk/clarification-round-trip.yaml",
+      "mobile/.maestro/desk/home-list-detail.yaml"
     ],
     "openQuestions": [
       "VECV approval of support desk mobile access (SRS 4.3) before release",

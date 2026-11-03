@@ -1,0 +1,85 @@
+appId: com.vecv.pqmp
+name: Support desk - home rows, Desk 1 list with dealer search, internal timeline and order tab
+tags: [FLOW-03, DASH-04, desk]
+---
+# Recorded from the 2026-11-03 emulator run (analysis/test-reports/2026-11-03-support-desk.md).
+# Signs in as the mock support desk (src/mock/README.md). Debug builds with useMockApi only.
+- launchApp:
+    clearState: true
+- tapOn:
+    id: login.userId
+- inputText: desk
+- tapOn:
+    id: login.password
+- inputText: test123
+- hideKeyboard
+- tapOn:
+    id: login.submit
+- extendedWaitUntil:
+    visible:
+      id: home.kpi.total
+    timeout: 10000
+
+# Home: own counts, internal rows, open cases by desk, no + tab
+- assertVisible: "Support Desk 1"
+- assertVisible:
+    id: home.internal.dealerReplied
+- assertVisible:
+    id: home.internal.oldPending
+- assertVisible:
+    id: home.internal.integration
+- assertVisible:
+    id: home.internal.byDesk
+- assertNotVisible:
+    id: tabs.newCase
+- runFlow: ../common/assert-no-raw-values.yaml
+
+# Old / pending opens My Cases filtered to the counted case
+- tapOn:
+    id: home.internal.oldPending
+- assertVisible: "Filters, 1 applied"
+- assertVisible: "EUR261024106958"
+- assertNotVisible: "WPS261029106930"
+
+# Full Desk 1 list: dealer name and desk tag on cards
+- tapOn:
+    id: cases.filter
+- tapOn:
+    id: filters.clear
+- tapOn:
+    id: filters.apply
+- assertVisible: "EUR261024106958"
+- assertVisible: "WPS261029106930"
+- assertVisible: ".*Sai Motors \\(1S0876\\).*"
+- assertVisible: ".*Shree Motors \\(1S1148\\).*"
+- runFlow: ../common/assert-no-raw-values.yaml
+
+# Search by dealer name and dealer code
+- tapOn:
+    id: cases.search
+- inputText: Sai
+- hideKeyboard
+- assertVisible: "WPS261029106930"
+- assertNotVisible: "EUR261024106958"
+- tapOn:
+    id: cases.search
+- eraseText: 10
+- inputText: 1S0876
+- hideKeyboard
+- assertVisible: "WPS261029106930"
+- assertNotVisible: "EUR261024106958"
+- eraseText: 10
+- hideKeyboard
+
+# Transferred case: internal timeline entries and the order tab
+- tapOn: "EUR261024106958"
+- assertVisible: "Internal remark"
+- assertVisible: "Transferred from Support Desk 2 to Support Desk 1"
+- assertVisible:
+    id: caseDetail.askDealer
+- tapOn:
+    id: caseDetail.tab.order
+- assertVisible:
+    id: orderParts.order.refreshed
+- assertVisible: "Awaiting Update"
+- runFlow: ../common/assert-no-raw-values.yaml

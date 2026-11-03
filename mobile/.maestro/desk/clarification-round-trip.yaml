@@ -1,0 +1,128 @@
+appId: com.vecv.pqmp
+name: Support desk asks, dealer replies, desk sees the reply (plus close cancel)
+tags: [FLOW-03, desk]
+---
+# Recorded from the 2026-11-03 emulator run (analysis/test-reports/2026-11-03-support-desk.md).
+# Mock data lives in memory, so the flow signs out and in without relaunching the app.
+- launchApp:
+    clearState: true
+- tapOn:
+    id: login.userId
+- inputText: desk
+- tapOn:
+    id: login.password
+- inputText: test123
+- hideKeyboard
+- tapOn:
+    id: login.submit
+- extendedWaitUntil:
+    visible:
+      id: home.kpi.total
+    timeout: 10000
+- assertVisible: "Dealer replied · 0"
+
+# Desk asks the dealer on a Shree Motors case
+- tapOn:
+    id: tabs.cases
+- tapOn: "EUR261024106958"
+- tapOn:
+    id: caseDetail.askDealer
+- tapOn:
+    id: deskUpdate.remark
+- inputText: "Please share the LR copy"
+- hideKeyboard
+- tapOn:
+    id: deskUpdate.submit
+- assertVisible: "Please share the LR copy"
+
+# Close: Go back cancels and keeps the remarks
+- tapOn:
+    id: caseDetail.updateCase
+- tapOn:
+    id: deskUpdate.action.close
+- tapOn:
+    id: deskUpdate.remark
+- inputText: "Final remarks kept"
+- hideKeyboard
+- tapOn:
+    id: deskUpdate.submit
+- assertVisible:
+    id: deskUpdate.confirm
+- tapOn:
+    id: deskUpdate.cancelClose
+- assertNotVisible:
+    id: deskUpdate.confirm
+- assertVisible: "Final remarks kept"
+- tapOn:
+    id: deskUpdate.scrim
+- assertVisible:
+    id: caseDetail.status
+    text: ".*In Progress.*"
+
+# Dealer replies from the awaiting card
+- tapOn:
+    id: caseDetail.back
+- tapOn:
+    id: tabs.account
+- tapOn:
+    id: account.signOut
+- tapOn: "SIGN OUT"
+- tapOn:
+    id: login.userId
+- inputText: dealer
+- tapOn:
+    id: login.password
+- inputText: test123
+- hideKeyboard
+- tapOn:
+    id: login.submit
+- extendedWaitUntil:
+    visible:
+      id: home.reply
+    timeout: 10000
+- assertVisible: "Please share the LR copy"
+- assertNotVisible: ".*Support Desk.*"
+- tapOn:
+    id: home.reply
+- scrollUntilVisible:
+    element:
+      id: messages.input
+- assertVisible: ".*Replying to.*Please share the LR copy.*"
+- tapOn:
+    id: messages.input
+- inputText: "Sending the LR copy today"
+- hideKeyboard
+- tapOn:
+    id: messages.send
+- assertVisible: "Sending the LR copy today"
+
+# Desk sees the reply
+- tapOn:
+    id: caseDetail.back
+- tapOn:
+    id: tabs.account
+- tapOn:
+    id: account.signOut
+- tapOn: "SIGN OUT"
+- tapOn:
+    id: login.userId
+- inputText: desk
+- tapOn:
+    id: login.password
+- inputText: test123
+- hideKeyboard
+- tapOn:
+    id: login.submit
+- extendedWaitUntil:
+    visible:
+      id: home.kpi.total
+    timeout: 10000
+- assertVisible: "Dealer replied · 1"
+- tapOn:
+    id: tabs.cases
+- tapOn: "EUR261024106958"
+- tapOn:
+    id: caseDetail.tab.messages
+- scrollUntilVisible:
+    element: "Sending the LR copy today"
+- runFlow: ../common/assert-no-raw-values.yaml

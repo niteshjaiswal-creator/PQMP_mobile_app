@@ -8,11 +8,14 @@ import { Button, Chip, L } from '../../components/ui';
 import { portalStatusLabel } from '../../domain/case-status';
 import { colors, fonts, spacing } from '../../theme';
 import { DEFAULT_FILTERS, FILTER_STATUSES, type CaseFilters, type DateRange } from './filters';
+import type { PortalStatus } from '../../api/types';
 
 type Props = {
   visible: boolean;
   value: CaseFilters;
   caseTypes: CaseType[];
+  /** Statuses offered as chips; internal roles get Re-Assigned and Resume too. */
+  statuses?: PortalStatus[];
   priorities: Option[];
   onApply: (f: CaseFilters) => void;
   onClose: () => void;
@@ -25,13 +28,13 @@ const RANGES: { value: DateRange; label: string }[] = [
   { value: '90d', label: 'Last 90 days' },
 ];
 
-export function FilterSheet({ visible, value, caseTypes, priorities, onApply, onClose }: Props) {
+export function FilterSheet({ visible, value, caseTypes, priorities, onApply, onClose, statuses = FILTER_STATUSES }: Props) {
   const [f, setF] = useState(value);
   useEffect(() => {
     if (visible) setF(value);
   }, [visible, value]);
 
-  const toggleStatus = (st: (typeof FILTER_STATUSES)[number]) =>
+  const toggleStatus = (st: PortalStatus) =>
     setF(p => ({ ...p, statuses: p.statuses.includes(st) ? p.statuses.filter(x => x !== st) : [...p.statuses, st] }));
   const type = caseTypes.find(t => t.id === f.caseTypeId);
 
@@ -48,8 +51,8 @@ export function FilterSheet({ visible, value, caseTypes, priorities, onApply, on
       }
     >
       <Group label="Status">
-        {FILTER_STATUSES.map(st => (
-          <Chip key={st} label={portalStatusLabel(st)} selected={f.statuses.includes(st)} onPress={() => toggleStatus(st)} testID={`filters.status.${st}`} />
+        {statuses.map(st => (
+          <Chip key={st} label={portalStatusLabel(st, statuses.includes('Re-Assigned'))} selected={f.statuses.includes(st)} onPress={() => toggleStatus(st)} testID={`filters.status.${st}`} />
         ))}
       </Group>
       <Group label="Category">

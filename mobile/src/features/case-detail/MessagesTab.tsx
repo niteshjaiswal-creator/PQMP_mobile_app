@@ -148,6 +148,8 @@ export function MessagesTab({ detail, internalView, onChanged }: Props) {
       {detail.actions.canComment ? (
         <View style={{ gap: spacing.sm }}>
           {ask ? <Text style={s.askHint}>Replying to: “{displayText(ask.text)}”</Text> : null}
+          {/* Above the input so it stays visible over any bottom action bar. */}
+          {sendError ? <Text style={s.err} testID="messages.sendError">{sendError}</Text> : null}
           <View style={s.composer}>
             <TextInput
               value={text}
@@ -164,7 +166,6 @@ export function MessagesTab({ detail, internalView, onChanged }: Props) {
               <Icon name="send" color={colors.paper} size={20} />
             </Pressable>
           </View>
-          {sendError ? <Text style={s.err} testID="messages.sendError">{sendError}</Text> : null}
         </View>
       ) : (
         <SectionFallback message={
