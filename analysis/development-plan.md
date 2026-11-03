@@ -50,7 +50,7 @@ Date: 2026-11-03. Baseline: the SRS (`docs/VECV_PQMP Case Tracking Mobile App.pd
 |---|---|
 | 0 Foundation | Done: navigation, Keychain session with refresh and expiry, role tabs, shared components, data hook |
 | 1 Dealer | Done except step 1.7 camera scan and step 1.9 push. Check-details and part selection work from a typed order or invoice number. Unit and journey tests pass on the mock; device testing (`/test-mobile`) still to do |
-| 2 Management | Not started. Home currently shows dashboard counts |
+| 2 Management | Built: Reports home (case summary tiles, by category, open by status, pending order, feedback, desk workload, integration exceptions, period and category scope, Last refreshed) and drill-down into the read-only list and detail through new presets (`pendingOrder`, `updatedToday`, `highPriority`, `lowRating`). Unit and journey tests (`__tests__/management-journey.test.tsx`) pass on the mock; Maestro flow `.maestro/management/reports.yaml` written. Device testing still to do. Open: region scope (no region master), drill-down doesn't carry period/category, high priority = `P1` and low rating ≤ 2 need VECV confirmation |
 | 3 Support desk | Not started. Home already shows the internal dashboard items from `getDashboard` |
 | 4 Admin | Not started |
 

@@ -542,6 +542,9 @@ My Cases list and search (LIST-01…09).
 | `subTypeId` | string[] | — | |
 | `q` | string | — | Searches case no., SO no., SAP doc / invoice no., part no. (min 3 characters) |
 | `needsAction` | boolean | — | Home "Needs you" strip |
+| `pendingOrder` | boolean | — | Open cases whose order or part quantities are still pending. Management "Pending order cases" drill-down (SRS 14.4) |
+| `updatedFrom` | date | — | Cases updated on or after this date. Management "Updated today" drill-down (SRS 14.1) |
+| `maxRating` | integer 1–5 | — | Closed cases rated at or below this value. Management "low ratings" drill-down (SRS 14.7; app sends `2`, threshold to confirm) |
 | `createdFrom`, `createdTo` | date | — | |
 | `page`, `pageSize`, `sort` | | `1`, `20`, `-updatedAt` | `sort`: `updatedAt`, `createdAt` |
 
@@ -1090,7 +1093,7 @@ Read-only reports within the user's approved data scope: hierarchy, dealer, loca
   }
 }
 ```
-Covers SRS 14.1, 14.2, 14.3, 14.4, 14.7, 14.8 and the integration exception summary (4.5). Each tile drills down through `GET /cases` with the same filters. Not included until approved: SLA and ageing (14.5), audit trail (14.6, web portal), closure review summary (14.9). `byStatus` uses the portal statuses until VECV adopts the SRS 10.2 statuses.
+Covers SRS 14.1, 14.2, 14.3, 14.4, 14.7, 14.8 and the integration exception summary (4.5). Each tile drills down through `GET /cases` (§8.2): total/open/closed → `statusGroup`; pending order → `pendingOrder=true`; updated today → `updatedFrom=<today>&statusGroup=all`; high priority → `priority=P1`; awaiting dealer reply → `needsAction=reply`; feedback pending → `statusGroup=closed&needsAction=feedback`; low ratings → `statusGroup=closed&maxRating=2`. The drill-down does not yet carry the report's period or category scope. Not included until approved: SLA and ageing (14.5), audit trail (14.6, web portal), closure review summary (14.9). `byStatus` uses the portal statuses until VECV adopts the SRS 10.2 statuses.
 
 ## 18. Mock backend (until this API exists)
 

@@ -1,0 +1,80 @@
+# Management reports (Phase 2; SRS 4.5, 14.1-14.4, 14.7, 14.8): sign in as the mock management user,
+# check every report section, change the scope, drill down into a read-only list and case detail.
+# Debug builds with useMockApi only (src/mock/README.md).
+appId: com.vecv.pqmp
+name: Management - reports, scope chips and read-only drill-down
+tags: [management, SRS-14.1, SRS-14.2, SRS-14.3, SRS-14.4, SRS-14.7, SRS-14.8, SRS-4.5]
+---
+- launchApp:
+    clearState: true
+- tapOn:
+    id: login.userId
+- inputText: mgmt
+- tapOn:
+    id: login.password
+- inputText: test123
+- hideKeyboard
+- tapOn:
+    id: login.submit
+- extendedWaitUntil:
+    visible:
+      id: reports.tile.total
+    timeout: 10000
+- assertVisible:
+    id: reports.tile.highPriority
+- assertVisible:
+    id: reports.byCategory
+- runFlow: ../common/assert-no-raw-values.yaml
+- scrollUntilVisible:
+    element:
+      id: reports.byStatus
+- scrollUntilVisible:
+    element:
+      id: reports.feedback
+- scrollUntilVisible:
+    element:
+      id: reports.workload
+- scrollUntilVisible:
+    element:
+      id: reports.integration
+- scrollUntilVisible:
+    element:
+      id: reports.refreshed
+- assertVisible: "Last refreshed.*"
+- runFlow: ../common/assert-no-raw-values.yaml
+- scrollUntilVisible:
+    element:
+      id: reports.period.30d
+    direction: UP
+- tapOn:
+    id: reports.period.30d
+- extendedWaitUntil:
+    visible:
+      id: reports.tile.total
+    timeout: 10000
+- tapOn:
+    id: reports.period.all
+- extendedWaitUntil:
+    visible:
+      id: reports.tile.highPriority
+    timeout: 10000
+- tapOn:
+    id: reports.tile.highPriority
+- assertVisible:
+    id: cases.item.0
+- assertVisible: "ICR261102107012"
+- assertNotVisible:
+    id: cases.item.1
+- tapOn:
+    id: cases.item.0
+- assertVisible:
+    id: caseDetail.title
+- assertNotVisible:
+    id: caseDetail.internalActions
+- tapOn:
+    id: caseDetail.tab.messages
+- assertNotVisible:
+    id: messages.input
+- assertNotVisible:
+    id: messages.addFile
+- runFlow: ../common/assert-no-raw-values.yaml

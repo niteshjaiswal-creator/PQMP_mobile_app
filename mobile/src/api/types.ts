@@ -251,6 +251,12 @@ export interface CaseListQuery {
   q?: string;
   needsAction?: 'reply' | 'feedback';
   orderRelated?: boolean;
+  /** Open cases whose order or part quantities are still pending (SRS 14.4). */
+  pendingOrder?: boolean;
+  /** Cases updated on or after this date (SRS 14.1 "updated today"). */
+  updatedFrom?: string;
+  /** Closed cases rated at or below this value (SRS 14.7 low ratings). */
+  maxRating?: number;
   createdFrom?: string;
   createdTo?: string;
   /** Internal roles (admin workbench, desk queues). */
