@@ -2,6 +2,7 @@
 // They pin the role and scope rules the real backend must also follow (SRS 4, 5, 9, 11.9).
 // When the real API is live, delete this file with src/mock or point configureApi at a test server.
 import { api } from './index';
+import { refreshSession } from './auth';
 import { ApiError, configureApi } from './client';
 import { installMockApi, resetMockDb } from '../mock';
 import { derivePartStatus } from '../domain/part-status';
@@ -43,6 +44,15 @@ describe('auth (AUTH-01…04)', () => {
   it('treats calls without a session as expired', async () => {
     const err = await fails(api.getMe());
     expect(err.kind).toBe('unauthorized');
+  });  it('expires the "expire" user after a few calls and refuses its refresh (AUTH-03 trigger)', async () => {
+    const s = await signIn('expire');
+    for (let i = 0; i < 12; i++) await api.getMe();
+    const err = await fails(api.getMe());
+    expect(err.kind).toBe('unauthorized');
+    expect(err.userMessage).toBe('Your session has expired. Please log in again.');
+    expect((await fails(refreshSession(s.refreshToken))).kind).toBe('unauthorized');
+    const other = await signIn('dealer');
+    expect((await refreshSession(other.refreshToken)).accessToken).toBe('mock.dealer');
   });
 });
 
@@ -173,6 +183,20 @@ describe('dealer', () => {
     expect((await fails(api.reopenCase('106702', { remarks: 'no' }))).kind).toBe('validation');
     const r = await api.reopenCase('106702', { remarks: 'Cartons damaged again on the next order.' });
     expect(r.status).toBe('Re-Open');
+  });
+
+  it('gets the no-access message for a restricted case (DATA-01 trigger)', async () => {
+    const err = await fails(api.getCase('106777'));
+    expect(err.kind).toBe('forbidden');
+    expect(err.userMessage).toBe('You do not have access to this information.');
+  });
+
+  it('gets an openable download URL for a permitted file (DETAIL-08, ATTACH-02)', async () => {
+    const pdf = await api.getDownloadUrl('att_2');
+    expect(pdf.mimeType).toBe('application/pdf');
+    expect(pdf.url).toMatch(/^https?:\/\//);
+    expect((await api.getDownloadUrl('att_1')).mimeType).toBe('image/png');
+    expect((await fails(api.getDownloadUrl('att_missing'))).kind).toBe('not-found');
   });
 
   it('cannot use internal endpoints', async () => {

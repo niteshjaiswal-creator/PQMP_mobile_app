@@ -31,7 +31,7 @@ export function toTimelineItems(events: TimelineEvent[], internalView: boolean):
         : customerFacingOwner(e.actor.name);
       return {
         id: e.id,
-        title: e.type === 'status_change' ? portalStatusLabel(e.status) : TITLE[e.type],
+        title: e.type === 'status_change' ? portalStatusLabel(e.status, internalView) : TITLE[e.type],
         body: e.text && e.text !== TITLE[e.type] ? e.text : null,
         meta: who ? `${displayDateTime(e.at)} · ${who}` : displayDateTime(e.at),
         internal: e.internal,

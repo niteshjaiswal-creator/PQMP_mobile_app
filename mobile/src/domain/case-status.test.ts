@@ -5,6 +5,9 @@ import * as status from './case-status';
 it('shows re-routing only to internal users (4.2.5)', () => {
   expect(status.portalStatusLabel('Re-Assigned')).toBe('Assigned');
   expect(status.portalStatusLabel('Re-Assigned', true)).toBe('Reassigned');
+  // Resume reads as In Progress to dealers; the desk sees the portal status (FLOW-01).
+  expect(status.portalStatusLabel('Resume')).toBe('In Progress');
+  expect(status.portalStatusLabel('Resume', true)).toBe('Resume');
 });
 
 describe('canTransition (10.2)', () => {

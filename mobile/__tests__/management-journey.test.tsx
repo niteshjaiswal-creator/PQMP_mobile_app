@@ -30,8 +30,8 @@ const RAW = /\bnull\b|\bundefined\b|\bNaN\b|0000-00-00|Invalid Date/;
 
 it('shows every report section with counts and no raw values', async () => {
   await signIn();
-  expect(screen.getByTestId('reports.tile.total.value')).toHaveTextContent('8');
-  expect(screen.getByTestId('reports.tile.open.value')).toHaveTextContent('6');
+  expect(screen.getByTestId('reports.tile.total.value')).toHaveTextContent('9'); // includes the Escalated case MH261025106870 (FLOW-01)
+  expect(screen.getByTestId('reports.tile.open.value')).toHaveTextContent('7');
   expect(screen.getByTestId('reports.tile.closed.value')).toHaveTextContent('2');
   expect(screen.getByTestId('reports.tile.pendingOrder.value')).toHaveTextContent('1');
   expect(screen.getByTestId('reports.tile.highPriority.value')).toHaveTextContent('1');

@@ -1,0 +1,72 @@
+appId: com.vecv.pqmp
+name: Support desk - Hold and Resume labels; dealer2 sees On Hold and Escalated
+tags: [FLOW-01, desk]
+---
+# Mock data: src/mock/README.md (WPS261029106930 on Desk 1; dealer2 has Hold and Escalated cases).
+- launchApp:
+    clearState: true
+- tapOn:
+    id: login.userId
+- inputText: desk
+- tapOn:
+    id: login.password
+- inputText: test123
+- hideKeyboard
+- tapOn:
+    id: login.submit
+- extendedWaitUntil:
+    visible:
+      id: home.kpi.total
+    timeout: 10000
+- tapOn:
+    id: tabs.cases
+- tapOn: "WPS261029106930"
+- tapOn:
+    id: caseDetail.updateCase
+- tapOn:
+    id: deskUpdate.status.Hold
+- tapOn:
+    id: deskUpdate.remark
+- inputText: Waiting for plant stock
+- hideKeyboard
+- tapOn:
+    id: deskUpdate.submit
+- assertVisible:
+    id: caseDetail.status
+    text: "On Hold"
+- tapOn:
+    id: caseDetail.updateCase
+- assertVisible:
+    id: deskUpdate.status.Resume
+    text: "Resume"
+- tapOn:
+    id: deskUpdate.status.Resume
+- tapOn:
+    id: deskUpdate.remark
+- inputText: Stock received
+- hideKeyboard
+- tapOn:
+    id: deskUpdate.submit
+- assertVisible:
+    id: caseDetail.status
+    text: "Resume"
+- launchApp:
+    clearState: true
+- tapOn:
+    id: login.userId
+- inputText: dealer2
+- tapOn:
+    id: login.password
+- inputText: test123
+- hideKeyboard
+- tapOn:
+    id: login.submit
+- extendedWaitUntil:
+    visible:
+      id: home.kpi.total
+    timeout: 10000
+- tapOn:
+    id: tabs.cases
+- assertVisible: "Escalated"
+- assertVisible: "On Hold"
+- runFlow: ../common/assert-no-raw-values.yaml

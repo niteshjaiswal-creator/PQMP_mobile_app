@@ -25,6 +25,8 @@ type Db = {
   seq: number;
   /** Files uploaded with POST /attachments, waiting to be linked to a case. */
   uploads: Record<string, Attachment>;
+  /** Calls made with the `expire` user's access token since it signed in (AUTH-03 trigger). */
+  expireCalls: number;
 };
 
 let db: Db = createDb();
@@ -35,6 +37,7 @@ function createDb(): Db {
     notifications: JSON.parse(JSON.stringify(D.NOTIFICATIONS)),
     seq: 107100,
     uploads: {},
+    expireCalls: 0,
   };
 }
 
@@ -73,10 +76,14 @@ const isInternal = (u: MockUser) => u.role !== 'dealer';
 const daysOpen = (c: MockCase) => (Date.parse(D.NOW) - Date.parse(c.createdAt)) / 86_400_000;
 const OLD_PENDING_DAYS = 7; // TODO(VECV): confirm the "old/pending" threshold (SRS 10.4)
 
+const sessionExpired = () => new HttpError(fail(401, 'SESSION_EXPIRED', 'Your session has expired. Please log in again.'));
+
 function userFrom(req: TransportRequest): MockUser {
   const token = req.headers.Authorization?.replace(/^Bearer mock\./, '');
   const user = D.USERS.find(u => u.userId === token);
-  if (!user) throw new HttpError(fail(401, 'SESSION_EXPIRED', 'Your session has expired. Please log in again.'));
+  if (!user) throw sessionExpired();
+  // The `expire` user's access token stops working after a few calls, and its refresh is refused (AUTH-03).
+  if (user.userId === D.EXPIRING_USER && ++db.expireCalls > D.EXPIRING_USER_CALLS) throw sessionExpired();
   return user;
 }
 
@@ -87,6 +94,8 @@ function inScope(u: MockUser, c: MockCase): boolean {
 }
 
 function findCase(u: MockUser, id: string): MockCase {
+  // A record the server refuses for this user, e.g. after a dealer mapping change (DATA-01 trigger).
+  if (D.RESTRICTED_CASE_IDS.includes(id)) throw new HttpError(fail(403, 'FORBIDDEN'));
   const c = db.cases.find(x => x.id === id || x.caseNumber === id);
   // Out of scope looks the same as missing, so case numbers can't be probed (spec §2.4).
   if (!c || !inScope(u, c)) throw new HttpError(fail(404, 'CASE_NOT_FOUND'));
@@ -374,11 +383,12 @@ on('POST', '/auth/login', req => {
   if (username === 'inactive') return fail(403, 'USER_INACTIVE');
   const user = D.USERS.find(u => u.userId === username?.toLowerCase());
   if (!user || !password || password === 'wrong') return fail(401, 'INVALID_CREDENTIALS');
+  if (user.userId === D.EXPIRING_USER) db.expireCalls = 0;
   return ok({ accessToken: `mock.${user.userId}`, accessTokenExpiresIn: 900, refreshToken: `mockrt.${user.userId}`, refreshTokenExpiresIn: 2_592_000, user: meOf(user) });
 });
 on('POST', '/auth/refresh', req => {
   const id = String((req.body as { refreshToken?: string })?.refreshToken ?? '').replace('mockrt.', '');
-  if (!D.USERS.some(u => u.userId === id)) return fail(401, 'SESSION_EXPIRED');
+  if (!D.USERS.some(u => u.userId === id) || id === D.EXPIRING_USER) return fail(401, 'SESSION_EXPIRED');
   return ok({ accessToken: `mock.${id}`, accessTokenExpiresIn: 900, refreshToken: `mockrt.${id}`, refreshTokenExpiresIn: 2_592_000 });
 });
 on('POST', '/auth/logout', () => ({ status: 204, body: undefined }));
@@ -430,7 +440,23 @@ function takeUploads(u: MockUser, ids: string[]): Attachment[] {
     return a;
   });
 }
-on('GET', '/attachments/:id/download', signedIn((_, [id]) => ok({ url: `https://files.example.invalid/${id}?sig=mock`, expiresAt: D.NOW, fileName: id, mimeType: 'application/octet-stream' })));
+let fileOrigin: string | null = null;
+/** Origin of the Metro dev server, which serves the sample files in ./files (set by ./index.ts). */
+export function setMockFileOrigin(origin: string | null) {
+  fileOrigin = origin;
+}
+/** Any known attachment: images open a sample PNG, everything else a sample PDF, served by Metro. */
+function attachmentById(id: string): Attachment | undefined {
+  return db.cases.flatMap(c => c.attachments).find(a => a.id === id) ?? db.uploads[id];
+}
+on('GET', '/attachments/:id/download', signedIn((_, [id]) => {
+  const a = attachmentById(id);
+  if (!a) return fail(404, 'NOT_FOUND');
+  const image = a.mimeType.startsWith('image/');
+  const file = image ? 'sample-image.png' : 'sample.pdf';
+  const url = fileOrigin ? `${fileOrigin}/assets/src/mock/files/${file}` : `https://files.example.invalid/${id}?sig=mock`;
+  return ok({ url, expiresAt: D.NOW, fileName: a.fileName, mimeType: image ? 'image/png' : 'application/pdf' });
+}));
 
 on('GET', '/dashboard/summary', req => ok(dashboardOf(userFrom(req))));
 on('GET', '/cases', req => listCasesFor(userFrom(req), req.query));

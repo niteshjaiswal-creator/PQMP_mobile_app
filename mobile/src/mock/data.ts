@@ -25,6 +25,7 @@ export const NOW = '2026-11-03T10:45:00+05:30';
 
 // ---------- users: sign in with these user IDs and any password ----------
 // Password "wrong" returns 401. User ID "inactive" returns 403.
+// User ID "expire" is a dealer whose session expires after a few calls and cannot be refreshed (AUTH-03).
 
 export type MockUser = {
   userId: string;
@@ -41,7 +42,16 @@ export const USERS: MockUser[] = [
   { userId: 'desk', name: 'Support Desk 1', role: 'support', dealerCodes: [], deskId: 'd1', location: null },
   { userId: 'admin', name: 'PQMP Admin', role: 'admin', dealerCodes: [], deskId: null, location: null },
   { userId: 'mgmt', name: 'Parts Management', role: 'management', dealerCodes: [], deskId: null, location: null },
+  { userId: 'expire', name: 'Shree Motors', role: 'dealer', dealerCodes: ['1S1148'], deskId: null, location: 'Indore, West' },
 ];
+
+/** Sign in as this user to see the session expiry message (AUTH-03). */
+export const EXPIRING_USER = 'expire';
+/** API calls the `expire` user's access token allows before it is rejected; signing in uses about 5. */
+export const EXPIRING_USER_CALLS = 12;
+
+/** Case ids the server answers with 403 FORBIDDEN, to show the no-access message (DATA-01). */
+export const RESTRICTED_CASE_IDS = ['106777'];
 
 export const DEALERS: Record<string, { name: string; city: string }> = {
   '1S1148': { name: 'Shree Motors', city: 'Indore' },
@@ -403,6 +413,22 @@ export const CASES: MockCase[] = [
       ev('e1', 'created', '2026-10-20T15:00:00+05:30', { type: 'dealer', name: 'Meena' }, 'New', 'Case registered'),
     ],
     comments: [], attachments: [],
+  },  {
+    // Escalated case for dealer2, so FLOW-01's Escalated label can be seen on device.
+    id: '106870', caseNumber: 'MH261025106870', caseTypeId: '45', subTypeId: '46', status: 'Escalated',
+    priority: { code: 'P2', label: 'P2' }, dealerCode: '1S2231', deskId: 'd2',
+    createdAt: '2026-10-25T10:00:00+05:30', updatedAt: '2026-10-30T17:00:00+05:30',
+    issueTitle: 'MRP higher than market price', problemStatement: 'Customer reports the MRP of the brake lining set is higher than local market price.', remarks: null,
+    references: [], contact: { person: 'Meena', phone: '9811122233', email: null }, modeOfQuery: 'Call', fields: [],
+    parts: [{ partNumber: 'E4410021', description: 'Brake lining set', quantity: 1, hsnCode: '68138100' }],
+    closure: null, feedback: null, reopenAllowed: false, transferred: 0,
+    order: null, partLines: null, consignments: null,
+    timeline: [
+      ev('e3', 'status_change', '2026-10-30T17:00:00+05:30', desk('Support Desk 2'), 'Escalated', 'Escalated to the pricing team for review.'),
+      ev('e2', 'status_change', '2026-10-26T10:00:00+05:30', desk('Support Desk 2'), 'Assigned', 'Your case is with PQMP Support.'),
+      ev('e1', 'created', '2026-10-25T10:00:00+05:30', { type: 'dealer', name: 'Meena' }, 'New', 'Case registered'),
+    ],
+    comments: [], attachments: [],
   },
 ];
 
@@ -415,6 +441,8 @@ export const NOTIFICATIONS: Record<string, AppNotification[]> = {
     { id: 'n3', type: 'feedback_requested', title: 'Case closed: tell us how it went', body: 'Rate the support you received.', caseId: '106702', caseNumber: 'PD261015106702', createdAt: '2026-10-29T16:20:00+05:30', read: true },
     { id: 'n2', type: 'status_updated', title: 'Status changed to In Progress', body: 'Support started working on your case.', caseId: '106958', caseNumber: 'EUR261024106958', createdAt: '2026-10-25T14:10:00+05:30', read: true },
     { id: 'n1', type: 'case_created', title: 'Case registered', body: 'We have received your case.', caseId: '106958', caseNumber: 'EUR261024106958', createdAt: '2026-10-24T10:42:00+05:30', read: true },
+    // Points to a case the server refuses with 403 (RESTRICTED_CASE_IDS): opens the no-access message (DATA-01).
+    { id: 'n0', type: 'status_updated', title: 'Case moved to another dealer', body: 'This case is now handled by another dealer account.', caseId: '106777', caseNumber: 'OQ261008106777', createdAt: '2026-10-08T12:00:00+05:30', read: true },
   ],
   desk: [
     { id: 'n2', type: 'case_assigned', title: 'New case assigned to you', body: 'Wrong Part Supply from Sai Motors.', caseId: '106930', caseNumber: 'WPS261029106930', createdAt: '2026-10-29T10:00:00+05:30', read: false },

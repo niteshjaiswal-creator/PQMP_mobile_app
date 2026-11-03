@@ -26,3 +26,9 @@ it('labels clarification events and never shows raw statuses', () => {
   expect(toTimelineItems([ev({ type: 'clarification_requested', text: 'Confirm address' })], false)[0].title).toBe('Clarification requested');
   expect(toTimelineItems([ev({ status: 'XX' as never })], false)[0].title).toBe('Under Review');
 });
+
+it('shows Resume and Reassigned to internal users only (FLOW-01, 4.2.5)', () => {
+  const events = [ev({ id: '1', status: 'Resume' }), ev({ id: '2', status: 'Re-Assigned' })];
+  expect(toTimelineItems(events, true).map(i => i.title)).toEqual(['Resume', 'Reassigned']);
+  expect(toTimelineItems(events, false).map(i => i.title)).toEqual(['In Progress', 'Assigned']);
+});

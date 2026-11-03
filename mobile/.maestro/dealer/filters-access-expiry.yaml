@@ -1,0 +1,101 @@
+appId: com.vecv.pqmp
+name: Dealer - list filters and Clear all, no-access message, session expiry
+tags: [LIST-04, DATA-01, AUTH-03]
+---
+# Mock triggers: src/mock/README.md (notification for restricted case 106777, user "expire").
+- runFlow: ../common/sign-in-dealer.yaml
+- tapOn:
+    id: tabs.cases
+# Status chip only: In Progress -> EUR261024106958
+- tapOn:
+    id: cases.filter
+- tapOn:
+    id: filters.status.In Progress
+- tapOn:
+    id: filters.apply
+- assertVisible: "EUR261024106958"
+- assertNotVisible:
+    id: cases.item.1
+- assertVisible: "Filters, 1 applied"
+# Category + sub-category + P2 + order-related -> 5 applied, still EUR
+- tapOn:
+    id: cases.filter
+- tapOn:
+    id: filters.category.3
+- tapOn:
+    id: filters.subCategory.6
+- tapOn:
+    id: filters.priority.P2
+- tapOn:
+    id: filters.orderRelated
+- tapOn:
+    id: filters.apply
+- assertVisible: "Filters, 5 applied"
+- assertVisible: "EUR261024106958"
+# Clear all, then Raised: last 7 days -> ITD261101106998 only
+- tapOn:
+    id: cases.filter
+- tapOn:
+    id: filters.clear
+- tapOn:
+    id: filters.date.7d
+- tapOn:
+    id: filters.apply
+- assertVisible: "ITD261101106998"
+- assertNotVisible:
+    id: cases.item.1
+# Clear all resets the list and the badge
+- tapOn:
+    id: cases.filter
+- tapOn:
+    id: filters.clear
+- tapOn:
+    id: filters.apply
+- assertVisible: "Filters"
+- assertVisible:
+    id: cases.item.2
+# DATA-01: notification for a case the server refuses with 403
+- tapOn:
+    id: tabs.updates
+- scrollUntilVisible:
+    element: "Case moved to another dealer"
+- tapOn: "Case moved to another dealer"
+- assertVisible: "You do not have access to this information."
+- assertNotVisible: ".*403.*"
+- assertNotVisible: ".*FORBIDDEN.*"
+- back
+# AUTH-03: "expire" user's token stops after a few calls and refresh is refused
+- tapOn:
+    id: tabs.account
+- tapOn:
+    id: account.signOut
+- tapOn: "SIGN OUT"
+- tapOn:
+    id: login.userId
+- inputText: expire
+- tapOn:
+    id: login.password
+- inputText: test123
+- hideKeyboard
+- tapOn:
+    id: login.submit
+- extendedWaitUntil:
+    visible:
+      id: home.kpi.total
+    timeout: 10000
+- repeat:
+    times: 4
+    commands:
+      - tapOn:
+          id: tabs.cases
+      - tapOn:
+          id: tabs.updates
+      - tapOn:
+          id: tabs.home
+    while:
+      notVisible: "Your session has expired. Please log in again."
+- extendedWaitUntil:
+    visible: "Your session has expired. Please log in again."
+    timeout: 10000
+- assertVisible:
+    id: login.submit

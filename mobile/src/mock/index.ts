@@ -2,7 +2,7 @@
 // Remove it by deleting this folder and the marked lines in index.js and src/config/env.ts.
 import { NativeModules } from 'react-native';
 import { configureApi } from '../api/client';
-import { handle, resetMockDb } from './server';
+import { handle, resetMockDb, setMockFileOrigin } from './server';
 
 export { resetMockDb };
 
@@ -42,6 +42,8 @@ async function deviceOnline(): Promise<boolean> {
  * (on by default in the app, off when `delayMs` is 0 as in tests) makes calls fail while offline.
  */
 export function installMockApi({ delayMs = 400, offlineCheck = delayMs > 0 }: { delayMs?: number; offlineCheck?: boolean } = {}) {
+  // Attachment downloads open sample files from the dev server (DETAIL-08, ATTACH-02).
+  setMockFileOrigin(devServerOrigin());
   configureApi({
     transport: async req => {
       if (offlineCheck && !(await deviceOnline())) throw new TypeError('Network request failed');

@@ -8,6 +8,7 @@ The backend API isn't built yet. This folder answers every call in
 | `data.ts` | **All** test data: users, dealers, desks, masters, lookups, cases, notifications. Edit here. |
 | `server.ts` | Routes and rules (role scope, support identity, validation). No data. |
 | `index.ts` | `installMockApi()` swaps the API client's transport for `server.ts`. |
+| `files/` | Sample attachment files the dev server serves for downloads. |
 
 Screens and `src/api/*` don't know the mock exists. They call the same functions either way.
 
@@ -23,6 +24,7 @@ Any password works, except `wrong` (returns "incorrect password").
 | `admin` | Admin | All cases, assign and transfer |
 | `mgmt` | Management | Reports, all cases read-only |
 | `inactive` | none | Blocked-account message |
+| `expire` | Dealer, Shree Motors (1S1148) | Same as `dealer`, but the session expires after 12 API calls and can't be refreshed |
 
 ## Test triggers
 
@@ -34,6 +36,12 @@ Any password works, except `wrong` (returns "incorrect password").
 | Open `DRLR261022106911` | Order section unavailable while the rest of the case loads |
 | Open `EUR261024106958` | Partial delivery, invalid invoice date (`0000-00-00`), one tracking feed down |
 | Open `PD261015106702` as `dealer` | Closed case, feedback pending, reopen allowed |
+| Sign in as `expire`, then move between Home, Cases and Updates | After 12 API calls the access token is rejected (401) and so is the refresh, so the app returns to Login with "Your session has expired. Please log in again." (AUTH-03). Signing in again resets the count |
+| As `dealer`, Updates → "Case moved to another dealer" | Case `106777` is answered with 403 FORBIDDEN on every `/cases/106777*` call, so the screen shows "You do not have access to this information." (DATA-01) |
+| Open a file in a case's Messages tab, e.g. `EUR261024106958` | `/attachments/:id/download` returns a sample file served by the Metro dev server (`files/sample-image.png` for images, `files/sample.pdf` for everything else), so it opens in the browser or PDF viewer (DETAIL-08, ATTACH-02). In jest there is no dev server, so the URL is a placeholder |
+| As `desk`, Update case on `WPS261029106930` | Assigned → In Progress / On Hold → Resume, to see the Hold and Resume labels (FLOW-01) |
+| As `admin`, Transfer an assigned case, e.g. `DRLR261022106911` | Status becomes Re-Assigned: "Reassigned" for internal users, "Assigned" for the dealer (FLOW-01) |
+| Sign in as `dealer2` | `COC261020106800` is On Hold and `MH261025106870` is Escalated (FLOW-01) |
 | Turn on airplane mode (emulator) | Every call fails as offline, because the device can't reach the Metro dev server. Turn it off and tap Try again |
 
 ## Switch it on or off

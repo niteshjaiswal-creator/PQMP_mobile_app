@@ -106,25 +106,30 @@
     "notes": "Prototype only, not in SRS; left out of the final design. Needs VECV approval"
   },
   "AUTH-03": {
-    "status": "implemented",
-    "updated": "2026-11-03T01:01:29.055Z",
+    "status": "tested",
+    "updated": "2026-11-03T05:59:57.743Z",
     "portalEvidence": [
       "analysis/portal/api-contracts.md"
     ],
-    "notes": "Emulator 2026-11-03: session restored after app restart/reload, sign-out with confirm returns to login, sign back in works. Session expiry message and inactivity timeout not exercised on device (needs token expiry from backend; timeout policy awaits VECV).",
+    "notes": "Emulator 2026-11-03 (remaining rows): mock user `expire` (token rejected after 12 calls, refresh refused). Signed in, moved Cases/case detail/Updates/Home; app refreshed once, then returned to Login with \"Your session has expired. Please log in again.\"; relaunch showed Login with no restored session (keychain cleared). Earlier: session restore, sign-out confirm, sign back in passed. Inactivity timeout policy still undefined by VECV (open question, not a failure).",
     "implementation": [
       "mobile/src/api/auth.ts",
       "mobile/src/api/client.ts",
       "mobile/src/session/SessionContext.tsx",
       "mobile/src/screens/account/AccountScreen.tsx",
       "mobile/src/screens/LoginScreen.tsx",
-      "mobile/src/navigation/RootNavigator.tsx"
+      "mobile/src/navigation/RootNavigator.tsx",
+      "mobile/src/mock/server.ts",
+      "mobile/src/mock/data.ts"
     ],
     "tests": [
       "mobile/src/api/client.test.ts",
       "mobile/__tests__/dealer-journey.test.tsx",
       "analysis/test-reports/2026-11-03-dealer-phase.md",
-      "mobile/.maestro/dealer/updates-account.yaml"
+      "mobile/.maestro/dealer/updates-account.yaml",
+      "mobile/src/api/api.test.ts",
+      "mobile/.maestro/dealer/filters-access-expiry.yaml",
+      "analysis/test-reports/2026-11-03-remaining-rows.md"
     ],
     "openQuestions": [
       "Session inactivity timeout policy (SRS 8.1.4) not yet defined by VECV."
@@ -374,12 +379,12 @@
     ]
   },
   "LIST-04": {
-    "status": "implemented",
-    "updated": "2026-11-03T01:01:29.072Z",
+    "status": "tested",
+    "updated": "2026-11-03T05:59:57.761Z",
     "portalEvidence": [
       "analysis/portal/case-list.md"
     ],
-    "notes": "Emulator 2026-11-03: filter sheet shows status, category, sub-category (after category), priority, raised date range and order-related; category+sub-category+priority and order-related applied and correct. Status and date-range chips not applied on device (unit-tested in filters.test.ts).",
+    "notes": "Emulator 2026-11-03 (remaining rows), dealer: status In Progress -> EUR261024106958 only, badge \"Filters, 1 applied\"; + category Order Status + sub-category Execution/EDA + P2 + order-related -> EUR only, \"Filters, 5 applied\"; Clear all + Raised Last 7 days -> ITD261101106998 only; Clear all + apply -> 3 open cases, badge back to \"Filters\". Desk filter sheet shows Reassigned and Resume chips without duplicates. Badge is a dot visually; the count is in the accessibility label.",
     "implementation": [
       "mobile/src/features/cases/FilterSheet.tsx",
       "mobile/src/features/cases/filters.ts"
@@ -387,7 +392,9 @@
     "tests": [
       "mobile/src/features/cases/filters.test.ts",
       "mobile/.maestro/dealer/home-and-cases.yaml",
-      "analysis/test-reports/2026-11-03-dealer-phase.md"
+      "analysis/test-reports/2026-11-03-dealer-phase.md",
+      "mobile/.maestro/dealer/filters-access-expiry.yaml",
+      "analysis/test-reports/2026-11-03-remaining-rows.md"
     ]
   },
   "LIST-09": {
@@ -534,19 +541,25 @@
     ]
   },
   "DETAIL-08": {
-    "status": "implemented",
-    "updated": "2026-11-03T01:01:29.089Z",
+    "status": "tested",
+    "updated": "2026-11-03T05:59:57.779Z",
     "portalEvidence": [
       "analysis/portal/case-detail.md"
     ],
-    "notes": "Emulator 2026-11-03: Files list with source, uploader, date and size shown; tapping a file requests a download URL and opens it (mock URL is a placeholder, so the real file open/download is unverified until the backend exists).",
+    "notes": "Emulator 2026-11-03 (remaining rows): mock /attachments/:id/download now returns a sample file served by Metro (10.0.2.2:8081/assets/src/mock/files/...). EUR261024106958 -> Messages: \"Invoice scan.jpg\" opened the image in Chrome; \"LR copy.pdf\" downloaded (594 B) and opened in the PDF viewer. Real signed URLs depend on the backend.",
     "implementation": [
-      "mobile/src/features/case-detail/MessagesTab.tsx"
+      "mobile/src/features/case-detail/MessagesTab.tsx",
+      "mobile/src/mock/server.ts",
+      "mobile/src/mock/index.ts",
+      "mobile/src/mock/files/sample.pdf",
+      "mobile/src/mock/files/sample-image.png"
     ],
     "tests": [
       "mobile/__tests__/dealer-journey.test.tsx",
       "analysis/test-reports/2026-11-03-dealer-phase.md",
-      "mobile/.maestro/dealer/offline-and-attachments.yaml"
+      "mobile/.maestro/dealer/offline-and-attachments.yaml",
+      "mobile/src/api/api.test.ts",
+      "analysis/test-reports/2026-11-03-remaining-rows.md"
     ]
   },
   "DETAIL-09": {
@@ -640,19 +653,25 @@
     ]
   },
   "FLOW-01": {
-    "status": "implemented",
-    "updated": "2026-11-03T01:01:29.120Z",
+    "status": "tested",
+    "updated": "2026-11-03T05:59:57.817Z",
     "portalEvidence": [
       "analysis/portal/masters.md"
     ],
-    "notes": "Emulator 2026-11-03: New, Assigned, In Progress, Closed and Reopened shown with friendly labels; Hold (On Hold) present in filters. Hold/Resume/Escalated/Reassigned not reachable as dealer with mock data (covered by case-status.test.ts).",
+    "notes": "Emulator 2026-11-03 (remaining rows): desk on WPS261029106930 Assigned -> In Progress -> On Hold -> Resume (pill, timeline, latest update); admin transfer of DRLR261022106911 -> \"Reassigned\" internally, dealer sees \"Assigned\" with the transfer hidden; dealer2 sees COC261020106800 \"On Hold\" and new mock case MH261025106870 \"Escalated\" (list and detail, PQMP Support only). Defect D-R1 fixed: internal users saw Resume as \"In Progress\" (status sheet, timeline; internal filter sheet had two \"In Progress\" chips); now \"Resume\" for internal users, \"In Progress\" for dealers. Dealer-side Resume label covered by unit tests.",
     "implementation": [
       "mobile/src/domain/case-status.ts",
-      "mobile/src/components/ui.tsx"
+      "mobile/src/components/ui.tsx",
+      "mobile/src/features/desk/UpdateCaseSheet.tsx",
+      "mobile/src/features/case-detail/timeline.ts",
+      "mobile/src/mock/data.ts"
     ],
     "tests": [
       "mobile/src/domain/case-status.test.ts",
-      "analysis/test-reports/2026-11-03-dealer-phase.md"
+      "analysis/test-reports/2026-11-03-dealer-phase.md",
+      "mobile/src/features/case-detail/timeline.test.ts",
+      "mobile/.maestro/desk/status-labels.yaml",
+      "analysis/test-reports/2026-11-03-remaining-rows.md"
     ]
   },
   "ORDER-03": {
@@ -1150,16 +1169,20 @@
     ]
   },
   "ATTACH-02": {
-    "status": "implemented",
-    "updated": "2026-11-03T01:01:29.105Z",
-    "notes": "Emulator 2026-11-03: permitted files listed in Messages tab; tap opens signed download URL (placeholder in mock), real download unverified until backend exists.",
+    "status": "tested",
+    "updated": "2026-11-03T05:59:57.800Z",
+    "notes": "Emulator 2026-11-03 (remaining rows): permitted files in Messages tab open for real now: image opens in Chrome, PDF downloads and opens in the PDF viewer (mock serves sample files via Metro). Real signed URLs depend on the backend.",
     "implementation": [
-      "mobile/src/features/case-detail/MessagesTab.tsx"
+      "mobile/src/features/case-detail/MessagesTab.tsx",
+      "mobile/src/mock/server.ts",
+      "mobile/src/mock/index.ts"
     ],
     "tests": [
       "mobile/__tests__/dealer-journey.test.tsx",
       "analysis/test-reports/2026-11-03-dealer-phase.md",
-      "mobile/.maestro/dealer/offline-and-attachments.yaml"
+      "mobile/.maestro/dealer/offline-and-attachments.yaml",
+      "mobile/src/api/api.test.ts",
+      "analysis/test-reports/2026-11-03-remaining-rows.md"
     ]
   },
   "ATTACH-03": {
@@ -1282,18 +1305,23 @@
     ]
   },
   "DATA-01": {
-    "status": "implemented",
-    "updated": "2026-11-03T01:01:29.137Z",
-    "notes": "Not exercised on device 2026-11-03: dealer UI only lists in-scope cases, so the no-access message cannot be reached without a deep link (contract-tested in api.test.ts). Offline negative passed: readable \"You appear to be offline\" with Try again on Cases and Updates, recovers after network restored.",
+    "status": "tested",
+    "updated": "2026-11-03T05:59:57.837Z",
+    "notes": "Emulator 2026-11-03 (remaining rows): mock trigger, dealer notification \"Case moved to another dealer\" points to case 106777, which the mock answers with 403 FORBIDDEN. Tapping it shows \"You do not have access to this information.\" with Try again; no status code, error code or technical text. Offline negative passed earlier.",
     "implementation": [
       "mobile/src/api/client.ts",
-      "mobile/src/components/states.tsx"
+      "mobile/src/components/states.tsx",
+      "mobile/src/mock/server.ts",
+      "mobile/src/mock/data.ts"
     ],
     "tests": [
       "mobile/src/api/client.test.ts",
       "mobile/__tests__/screen-states.test.tsx",
       "analysis/test-reports/2026-11-03-dealer-phase.md",
-      "mobile/.maestro/dealer/offline-and-attachments.yaml"
+      "mobile/.maestro/dealer/offline-and-attachments.yaml",
+      "mobile/src/api/api.test.ts",
+      "mobile/.maestro/dealer/filters-access-expiry.yaml",
+      "analysis/test-reports/2026-11-03-remaining-rows.md"
     ]
   },
   "DATA-02": {

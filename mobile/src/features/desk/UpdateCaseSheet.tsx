@@ -127,14 +127,14 @@ export function UpdateCaseSheet({ detail, visible, initialAction, onClose, onDon
                 {allowed.map(st => (
                   <Chip
                     key={st}
-                    label={portalStatusLabel(st)}
+                    label={portalStatusLabel(st, true)}
                     selected={form.status === st}
                     onPress={() => patch({ status: form.status === st ? null : st })}
                     testID={`deskUpdate.status.${st.replace(/\s+/g, '')}`}
                   />
                 ))}
               </View>
-              <Text style={s.hint}>{`Only the statuses allowed from ${portalStatusLabel(detail.status)} are shown. Leave unselected to keep the status.`}</Text>
+              <Text style={s.hint}>{`Only the statuses allowed from ${portalStatusLabel(detail.status, true)} are shown. Leave unselected to keep the status.`}</Text>
             </>
           ) : (
             <Text style={s.hint} testID="deskUpdate.noStatuses">The status can't be changed from here right now. You can still add a remark.</Text>
