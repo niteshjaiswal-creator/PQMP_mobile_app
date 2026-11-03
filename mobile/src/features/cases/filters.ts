@@ -20,6 +20,8 @@ export type CaseFilters = {
   updatedToday?: boolean;
   /** Closed cases rated at or below this value (low-rating cases, SRS 14.7). */
   maxRating?: number;
+  /** Internal roles: open cases older than the old/pending threshold (SRS 10.4, 13.2). */
+  assignment?: 'old_pending';
 };
 
 export const DEFAULT_FILTERS: CaseFilters = { statusGroup: 'open', statuses: [], dateRange: 'any', orderRelated: false };
@@ -44,13 +46,14 @@ export function filtersForPreset(preset: CasePreset | undefined): CaseFilters {
     case 'updatedToday': return { ...DEFAULT_FILTERS, statusGroup: 'all', updatedToday: true };
     case 'highPriority': return { ...DEFAULT_FILTERS, priority: HIGH_PRIORITY };
     case 'lowRating': return { ...DEFAULT_FILTERS, statusGroup: 'closed', maxRating: LOW_RATING_MAX };
+    case 'oldPending': return { ...DEFAULT_FILTERS, assignment: 'old_pending' };
     default: return DEFAULT_FILTERS;
   }
 }
 
 /** Number of filters beyond the status group, for the filter button badge. */
 export function activeFilterCount(f: CaseFilters): number {
-  return [f.statuses.length > 0, !!f.caseTypeId, !!f.subTypeId, !!f.priority, f.dateRange !== 'any', f.orderRelated, !!f.needsAction, !!f.pendingOrder, !!f.updatedToday, f.maxRating != null].filter(Boolean).length;
+  return [f.statuses.length > 0, !!f.caseTypeId, !!f.subTypeId, !!f.priority, f.dateRange !== 'any', f.orderRelated, !!f.needsAction, !!f.pendingOrder, !!f.updatedToday, f.maxRating != null, !!f.assignment].filter(Boolean).length;
 }
 
 const DAYS: Record<DateRange, number | null> = { any: null, '7d': 7, '30d': 30, '90d': 90 };
@@ -74,6 +77,7 @@ export function toQuery(f: CaseFilters, search: string, now = new Date()): CaseL
     pendingOrder: f.pendingOrder || undefined,
     updatedFrom: f.updatedToday ? isoDate(now) : undefined,
     maxRating: f.maxRating,
+    assignment: f.assignment,
     createdFrom: days ? isoDate(new Date(now.getTime() - days * 86_400_000)) : undefined,
     // The server needs at least 3 characters (spec §8.2); shorter input doesn't filter yet.
     q: term.length >= 3 ? term : undefined,

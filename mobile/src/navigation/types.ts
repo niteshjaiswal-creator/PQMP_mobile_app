@@ -1,10 +1,10 @@
 import type { NavigatorScreenParams } from '@react-navigation/native';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 
-/** Quick filters a dashboard or report tile opens in My Cases (DASH-04, SRS 14.1, 14.4, 14.7). */
+/** Quick filters a dashboard or report tile opens in My Cases (DASH-04, SRS 13.2, 14.1, 14.4, 14.7). */
 export type CasePreset =
   | 'open' | 'closed' | 'all' | 'inProgress' | 'reply' | 'feedback' | 'orderRelated'
-  | 'pendingOrder' | 'updatedToday' | 'highPriority' | 'lowRating';
+  | 'pendingOrder' | 'updatedToday' | 'highPriority' | 'lowRating' | 'oldPending';
 
 export type TabParamList = {
   Home: undefined;

@@ -25,6 +25,13 @@ it('maps every management report preset to a list query', () => {
   expect(plain.maxRating).toBeUndefined();
 });
 
+it('maps the internal old/pending home item to the old_pending list filter (SRS 13.2)', () => {
+  const f = filtersForPreset('oldPending');
+  expect(toQuery(f, '', NOW)).toMatchObject({ statusGroup: 'open', assignment: 'old_pending' });
+  expect(activeFilterCount(f)).toBe(1);
+  expect(toQuery(DEFAULT_FILTERS, '', NOW).assignment).toBeUndefined();
+});
+
 it('searches only from 3 characters', () => {
   expect(toQuery(DEFAULT_FILTERS, 'EU', NOW).q).toBeUndefined();
   expect(toQuery(DEFAULT_FILTERS, ' 4100231876 ', NOW).q).toBe('4100231876');

@@ -112,7 +112,7 @@ export function HomeScreen() {
             <Divider />
             <ListRow icon="chat" title={`Dealer replied · ${dash.internal.dealerReplied}`} subtitle="Responses to your questions" testID="home.internal.dealerReplied" />
             <Divider />
-            <ListRow icon="clock" iconTint={colors.neutralTint} iconColor={colors.neutral} title={`Old / pending · ${dash.internal.oldPending}`} subtitle="Open the longest" testID="home.internal.oldPending" />
+            <ListRow icon="clock" iconTint={colors.neutralTint} iconColor={colors.neutral} title={`Old / pending · ${dash.internal.oldPending}`} subtitle="Open the longest" onPress={() => openCases('oldPending')} testID="home.internal.oldPending" />
             <Divider />
             <ListRow
               icon="alert" iconTint={colors.brandTint} iconColor={colors.danger}
