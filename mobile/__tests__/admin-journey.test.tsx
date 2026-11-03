@@ -119,3 +119,18 @@ it('transfers from case detail and shows the new desk and status', async () => {
   expect(screen.getByTestId('caseDetail.status')).toHaveTextContent('Reassigned'); // internal users see re-routing
   expect(screen.getByTestId('caseDetail.assign')).toHaveTextContent('Transfer');
 });
+
+it('drops the confirmation line when the admin comes back to the workbench from another tab', async () => {
+  await signInAdmin();
+  await openWorkbench();
+  await fireEvent.press(screen.getByTestId(`workbench.item.${indexOf('ICR261102107012')}.assign`));
+  await screen.findByTestId('assign.desk.d1');
+  await fireEvent.press(screen.getByTestId('assign.submit'));
+  await screen.findByTestId('workbench.done');
+
+  // Home "Old / pending" opens the workbench on that queue; the earlier line may be out of date by now.
+  await fireEvent.press(screen.getByTestId('tabs.home'));
+  await fireEvent.press(await screen.findByTestId('home.internal.oldPending'));
+  await waitFor(() => expect(screen.getByTestId('workbench.queue.old_pending').props.accessibilityState).toMatchObject({ selected: true }));
+  expect(screen.queryByTestId('workbench.done')).toBeNull();
+});

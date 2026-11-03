@@ -58,7 +58,7 @@ export function HomeScreen() {
           {user.desk?.name ?? user.name}
         </Text>
       </View>
-      {user.role.code !== 'management' ? (
+      {user.role.code === 'dealer' || user.role.code === 'support' ? (
         <IconButton
           icon="bell"
           label={`Updates${q.data?.dash.unreadNotifications ? `, ${q.data.dash.unreadNotifications} unread` : ''}`}

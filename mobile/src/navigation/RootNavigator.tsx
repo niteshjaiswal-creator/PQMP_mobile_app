@@ -40,7 +40,8 @@ function RoleTabs({ role }: { role: Role }) {
       {role === 'admin' ? <Tabs.Screen name="Assign" component={WorkbenchScreen} /> : null}
       <Tabs.Screen name="Cases" component={CaseListScreen} />
       {role === 'dealer' ? <Tabs.Screen name="NewCase" component={Nothing} /> : null}
-      {role !== 'management' ? <Tabs.Screen name="Updates" component={NotificationsScreen} /> : null}
+      {/* Admin and management follow their boards: no Updates tab (AdminHome, MgmtHome). */}
+      {role === 'dealer' || role === 'support' ? <Tabs.Screen name="Updates" component={NotificationsScreen} /> : null}
       <Tabs.Screen name="Account" component={AccountScreen} />
     </Tabs.Navigator>
   );

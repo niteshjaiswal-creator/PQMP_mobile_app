@@ -1,0 +1,101 @@
+# Admin home rows into the workbench, queue counts, desk filter and search (SRS 7.15, 13.2, 13.12;
+# spec §8.3, §16). Recorded from the 2026-11-03 exploratory run on the Android 14 emulator.
+# Mock backend data (src/mock/data.ts): 2 unassigned, 4 assigned, 3 old/pending, desk 3 has no open case.
+appId: com.vecv.pqmp
+name: Admin - home rows, queues, desk filter and search
+tags:
+  - admin
+  - workbench
+---
+- launchApp:
+    clearState: true
+- tapOn:
+    id: login.userId
+- inputText: admin
+- tapOn:
+    id: login.password
+- inputText: test123
+- hideKeyboard
+- tapOn:
+    id: login.submit
+- extendedWaitUntil:
+    visible:
+      id: home.kpi.total
+    timeout: 10000
+- assertVisible: "Unassigned · 2"
+- assertVisible: "Old / pending · 3"
+- assertVisible: Open cases by desk
+- assertNotVisible:
+    id: tabs.newCase
+- runFlow: ../common/assert-no-raw-values.yaml
+
+# Home "Old / pending" opens the workbench on that queue.
+- tapOn:
+    id: home.internal.oldPending
+- extendedWaitUntil:
+    visible:
+      id: workbench.item.0
+    timeout: 10000
+- assertVisible:
+    id: workbench.queue.old_pending
+    text: "Old · pending · 3"
+    selected: true
+
+# Back home, "Unassigned" switches the already-open workbench to the unassigned queue.
+- tapOn:
+    id: tabs.home
+- tapOn:
+    id: home.internal.unassigned
+- extendedWaitUntil:
+    visible: ICR261102107012
+    timeout: 10000
+- assertVisible:
+    id: workbench.queue.unassigned
+    selected: true
+- assertVisible: ITD261101106998
+
+# Desk filter: Desk 3 has no open case.
+- tapOn:
+    id: workbench.desk.d3
+- extendedWaitUntil:
+    visible:
+      id: workbench.empty
+    timeout: 5000
+- assertVisible: "Assigned · 0"
+- tapOn:
+    id: workbench.desk.all
+
+# Search by dealer name, dealer code and order number.
+- tapOn:
+    id: workbench.queue.unassigned
+- tapOn:
+    id: workbench.search
+- inputText: Balaji
+- extendedWaitUntil:
+    notVisible: ITD261101106998
+    timeout: 5000
+- assertVisible: ICR261102107012
+- eraseText: 10
+- inputText: 1S2231
+- extendedWaitUntil:
+    visible: "Unassigned · 1"
+    timeout: 5000
+- assertVisible: ICR261102107012
+- eraseText: 10
+- inputText: 4100239001
+- hideKeyboard
+- tapOn:
+    id: workbench.queue.assigned
+- extendedWaitUntil:
+    visible: COC261020106800
+    timeout: 5000
+- tapOn:
+    id: workbench.search
+- eraseText: 12
+- inputText: ZZZZ
+- extendedWaitUntil:
+    visible: No matching cases
+    timeout: 5000
+- eraseText: 6
+- hideKeyboard
+- runFlow: ../common/assert-no-raw-values.yaml

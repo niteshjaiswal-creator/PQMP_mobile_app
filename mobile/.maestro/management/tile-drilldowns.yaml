@@ -1,0 +1,99 @@
+# Management report tiles drill down to My Cases and the list matches the tile (SRS 14.1, 14.4, 14.7;
+# spec §17.1). Recorded from the 2026-11-03 exploratory run on the Android 14 emulator. Mock data on
+# All time / All categories: total 8, open 6, closed 2, and 1 each for the other tiles.
+appId: com.vecv.pqmp
+name: Management - tile drill-downs match the tile counts
+tags: [management, SRS-14.1, SRS-14.4, SRS-14.7]
+---
+- launchApp:
+    clearState: true
+- tapOn:
+    id: login.userId
+- inputText: mgmt
+- tapOn:
+    id: login.password
+- inputText: test123
+- hideKeyboard
+- tapOn:
+    id: login.submit
+- extendedWaitUntil:
+    visible:
+      id: reports.tile.total
+    timeout: 10000
+- assertVisible:
+    id: tabs.home
+- assertVisible:
+    id: tabs.cases
+- assertVisible:
+    id: tabs.account
+- assertNotVisible:
+    id: tabs.updates
+
+# Closed: 2 cases.
+- tapOn:
+    id: reports.tile.closed
+- extendedWaitUntil:
+    visible:
+      id: cases.item.1
+    timeout: 10000
+- assertNotVisible:
+    id: cases.item.2
+- assertVisible: PD261015106702
+- assertVisible: OQ261010106650
+
+# Pending order: 1 case.
+- tapOn:
+    id: tabs.home
+- tapOn:
+    id: reports.tile.pendingOrder
+- extendedWaitUntil:
+    visible: EUR261024106958
+    timeout: 10000
+- assertNotVisible:
+    id: cases.item.1
+
+# Updated today: 1 case.
+- tapOn:
+    id: tabs.home
+- tapOn:
+    id: reports.tile.updatedToday
+- extendedWaitUntil:
+    visible: EUR261024106958
+    timeout: 10000
+- assertNotVisible:
+    id: cases.item.1
+
+# Awaiting dealer reply: 1 case.
+- tapOn:
+    id: tabs.home
+- tapOn:
+    id: reports.tile.awaitingReply
+- extendedWaitUntil:
+    visible: EUR261024106958
+    timeout: 10000
+- assertNotVisible:
+    id: cases.item.1
+
+# Feedback pending: 1 closed case, opened read-only (no feedback form, no reopen).
+- tapOn:
+    id: tabs.home
+- tapOn:
+    id: reports.tile.feedbackPending
+- extendedWaitUntil:
+    visible: PD261015106702
+    timeout: 10000
+- assertNotVisible:
+    id: cases.item.1
+- tapOn:
+    id: cases.item.0
+- extendedWaitUntil:
+    visible:
+      id: caseDetail.title
+    timeout: 10000
+- assertNotVisible:
+    id: caseDetail.internalActions
+- assertNotVisible:
+    id: reopen.open
+- assertNotVisible:
+    id: feedback
+- runFlow: ../common/assert-no-raw-values.yaml

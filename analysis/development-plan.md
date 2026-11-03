@@ -46,10 +46,12 @@ Date: 2026-11-03. Baseline: the SRS (`docs/VECV_PQMP Case Tracking Mobile App.pd
 
 ## Progress (2026-11-03)
 
+Phases 2–4 were built in parallel on separate branches and merged into `develop`; device testing of those roles is running on two emulators.
+
 | Phase | State |
 |---|---|
 | 0 Foundation | Done: navigation, Keychain session with refresh and expiry, role tabs, shared components, data hook |
-| 1 Dealer | Done except step 1.7 camera scan and step 1.9 push. Check-details and part selection work from a typed order or invoice number. Unit and journey tests pass on the mock; device testing (`/test-mobile`) still to do |
+| 1 Dealer | Done except step 1.7 camera scan and step 1.9 push. Tested live on the Android 14 emulator on 2026-11-03: 64 of 71 dealer requirements passed, 9 defects found and 8 fixed; DASH-04 tile mismatch fixed afterwards (`orderUpdated` filter). Report: [test-reports/2026-11-03-dealer-phase.md](test-reports/2026-11-03-dealer-phase.md) |
 | 2 Management | Built: Reports home (case summary tiles, by category, open by status, pending order, feedback, desk workload, integration exceptions, period and category scope, Last refreshed) and drill-down into the read-only list and detail through new presets (`pendingOrder`, `updatedToday`, `highPriority`, `lowRating`). Unit and journey tests (`__tests__/management-journey.test.tsx`) pass on the mock; Maestro flow `.maestro/management/reports.yaml` written. Device testing still to do. Open: region scope (no region master), drill-down doesn't carry period/category, high priority = `P1` and low rating ≤ 2 need VECV confirmation |
 | 3 Support desk | Built on the mock: case detail action bar (Ask dealer, Update case) and update sheet (Add update with statuses from `actions.allowedStatuses` and a dealer-visible or internal remark; Ask dealer; Close with confirmed final remarks; optional file). Home "Old / pending" opens My Cases filtered to `assignment=old_pending`. Unit and journey tests pass; device test (`/test-mobile`) pending. Release still needs VECV approval of support desk mobile access (SRS 4.3, question 3) |
 | 4 Admin | Built: assignment workbench (Unassigned / Assigned / Old · pending queues with counts, desk filter, search, paging), assign sheet (desk workload, lowest-workload suggestion, note required on transfer, current desk blocked) and Assign/Transfer on case detail. Domain and journey (`__tests__/admin-journey.test.tsx`) tests pass on the mock; Maestro flow `.maestro/admin/assign.yaml` written, not yet run; device testing (`/test-mobile`) pending. SRS 7.15 technical discussion with VECV still needed before release; overdue and closure-eligible filters wait for SLA and closure review approval |

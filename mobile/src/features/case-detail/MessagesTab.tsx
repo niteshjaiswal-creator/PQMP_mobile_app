@@ -167,7 +167,11 @@ export function MessagesTab({ detail, internalView, onChanged }: Props) {
           {sendError ? <Text style={s.err} testID="messages.sendError">{sendError}</Text> : null}
         </View>
       ) : (
-        <SectionFallback message={detail.statusGroup === 'closed' ? 'This case is closed. Reopen it to send a message.' : 'Messages are read-only for your role.'} testID="messages.readOnly" />
+        <SectionFallback message={
+            detail.statusGroup === 'closed'
+              ? detail.actions.canReopen ? 'This case is closed. Reopen it to send a message.' : 'This case is closed.'
+              : 'Messages are read-only for your role.'
+          } testID="messages.readOnly" />
       )}
     </View>
   );

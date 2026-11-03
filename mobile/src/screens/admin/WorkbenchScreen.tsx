@@ -50,7 +50,9 @@ export function WorkbenchScreen() {
 
   // A home row pressed again with a new filter switches the queue.
   useEffect(() => {
-    if (route.params?.filter) setQueue(route.params.filter);
+    if (!route.params?.filter) return;
+    setDone(null);
+    setQueue(route.params.filter);
   }, [route.params?.filter, route.params?.nonce]);
 
   useEffect(() => {
@@ -123,7 +125,8 @@ export function WorkbenchScreen() {
     loadCounts();
   }, [loadCounts]);
 
-  // Coming back from case detail (where the case may have been transferred) refreshes quietly.
+  // Coming back from case detail (where the case may have been transferred) refreshes quietly. The
+  // last confirmation line is dropped then, since the case may have moved again since.
   const reloadRef = useRef<() => void>(() => undefined);
   reloadRef.current = () => {
     load(1, 'silent');
@@ -134,13 +137,23 @@ export function WorkbenchScreen() {
     let first = true;
     return navigation.addListener('focus', () => {
       if (first) first = false;
-      else reloadRef.current();
+      else {
+        setDone(null);
+        reloadRef.current();
+      }
     });
   }, [navigation]);
 
   const refresh = () => {
     setDone(null);
     load(1, 'refresh');
+    loadCounts();
+    loadDesks();
+  };
+
+  // Counts and desk chips failed with the list, so they are fetched again too.
+  const retry = () => {
+    load(1, 'initial');
     loadCounts();
     loadDesks();
   };
@@ -211,7 +224,7 @@ export function WorkbenchScreen() {
 
   let body: React.ReactNode;
   if (loading) body = <LoadingState testID="workbench.loading" />;
-  else if (error) body = <ErrorState message={error} onRetry={() => load(1, 'initial')} testID="workbench.error" />;
+  else if (error) body = <ErrorState message={error} onRetry={retry} testID="workbench.error" />;
   else
     body = (
       <FlatList

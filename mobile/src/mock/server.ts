@@ -154,7 +154,8 @@ function allowedStatuses(c: MockCase): PortalStatus[] {
 }
 
 function detailOf(u: MockUser, c: MockCase): CaseDetail {
-  const handler: Actor = isInternal(u) && c.deskId ? { type: 'support', name: deskName(c.deskId) } : { type: 'support', name: D.SUPPORT_NAME };
+  // Dealers always get the support identity (SRS 4.2); internal users get the desk, or null when unassigned.
+  const handler: Actor = isInternal(u) ? { type: 'support', name: c.deskId ? deskName(c.deskId) : null } : { type: 'support', name: D.SUPPORT_NAME };
   const canUpdate = isOpen(c) && ((u.role === 'support' && c.deskId === u.deskId) || u.role === 'admin');
   const comments = visibleComments(u, c);
   return {
@@ -346,10 +347,10 @@ function listCasesFor(u: MockUser, q: Record<string, string>) {
       [c.caseNumber, ...c.references.map(r => r.value), ...c.parts.map(p => p.partNumber), ...(isInternal(u) ? [c.dealerCode, D.DEALERS[c.dealerCode]?.name ?? ''] : [])].some(v => v.toLowerCase().includes(term)),
     );
   }
-  const sort = q.sort ?? '-updatedAt';
+  // Old/pending is always oldest raised first; other lists follow `sort`.
+  const sort = q.assignment === 'old_pending' ? 'createdAt' : q.sort ?? '-updatedAt';
   const key = sort.replace('-', '') as 'updatedAt' | 'createdAt';
   rows = [...rows].sort((a, b) => (sort.startsWith('-') ? -1 : 1) * a[key].localeCompare(b[key]));
-  if (q.assignment === 'old_pending') rows.reverse(); // oldest first
   const page = Number(q.page ?? 1);
   const pageSize = Math.min(Number(q.pageSize ?? 20), 50);
   const items = rows.slice((page - 1) * pageSize, page * pageSize).map(c => summaryOf(u, c));
