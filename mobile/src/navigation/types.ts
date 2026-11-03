@@ -2,7 +2,7 @@ import type { NavigatorScreenParams } from '@react-navigation/native';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 
 /** Quick filters a dashboard tile opens in My Cases (DASH-04). */
-export type CasePreset = 'open' | 'closed' | 'all' | 'inProgress' | 'reply' | 'feedback' | 'orderRelated';
+export type CasePreset = 'open' | 'closed' | 'all' | 'inProgress' | 'reply' | 'feedback' | 'orderRelated' | 'oldPending';
 
 export type TabParamList = {
   Home: undefined;

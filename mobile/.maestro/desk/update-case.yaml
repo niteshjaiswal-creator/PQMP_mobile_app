@@ -1,0 +1,87 @@
+appId: com.vecv.pqmp
+name: Support desk - ask dealer, internal remark with status change, close with final remarks
+tags: [FLOW-03, desk]
+---
+# Signs in as the mock support desk (src/mock/README.md). Debug builds with useMockApi only.
+- launchApp:
+    clearState: true
+- tapOn:
+    id: login.userId
+- inputText: desk
+- tapOn:
+    id: login.password
+- inputText: test123
+- hideKeyboard
+- tapOn:
+    id: login.submit
+- extendedWaitUntil:
+    visible:
+      id: home.kpi.total
+    timeout: 10000
+- assertVisible:
+    id: home.internal.oldPending
+- tapOn:
+    id: tabs.cases
+- tapOn:
+    id: cases.search
+- inputText: WPS261029106930
+- hideKeyboard
+- tapOn:
+    id: cases.item.0
+- assertVisible:
+    id: caseDetail.status
+    text: ".*Assigned.*"
+
+# Ask dealer
+- tapOn:
+    id: caseDetail.askDealer
+- tapOn:
+    id: deskUpdate.submit
+- assertVisible: "Enter the question for the dealer."
+- tapOn:
+    id: deskUpdate.remark
+- inputText: "Please share a photo of the part label."
+- hideKeyboard
+- tapOn:
+    id: deskUpdate.submit
+- assertVisible: "Clarification requested"
+
+# Internal remark with status change
+- tapOn:
+    id: caseDetail.updateCase
+- tapOn:
+    id: deskUpdate.status.InProgress
+- tapOn:
+    id: deskUpdate.showToDealer
+- tapOn:
+    id: deskUpdate.remark
+- inputText: "Checked with plant, correct part reserved."
+- hideKeyboard
+- tapOn:
+    id: deskUpdate.submit
+- assertVisible:
+    id: caseDetail.status
+    text: ".*In Progress.*"
+- assertVisible: "Internal remark"
+
+# Close with final remarks (confirmed)
+- tapOn:
+    id: caseDetail.updateCase
+- tapOn:
+    id: deskUpdate.action.close
+- tapOn:
+    id: deskUpdate.remark
+- inputText: "Correct part dispatched on invoice 9012345678."
+- hideKeyboard
+- tapOn:
+    id: deskUpdate.submit
+- assertVisible:
+    id: deskUpdate.confirm
+- tapOn:
+    id: deskUpdate.confirmClose
+- assertVisible:
+    id: caseDetail.status
+    text: ".*Closed.*"
+- assertNotVisible:
+    id: caseDetail.updateCase
+- runFlow: ../common/assert-no-raw-values.yaml

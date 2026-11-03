@@ -13,6 +13,8 @@ export type CaseFilters = {
   dateRange: DateRange;
   orderRelated: boolean;
   needsAction?: 'reply' | 'feedback';
+  /** Internal roles: open cases older than the old/pending threshold (SRS 10.4, 13.2). */
+  assignment?: 'old_pending';
 };
 
 export const DEFAULT_FILTERS: CaseFilters = { statusGroup: 'open', statuses: [], dateRange: 'any', orderRelated: false };
@@ -28,13 +30,14 @@ export function filtersForPreset(preset: CasePreset | undefined): CaseFilters {
     case 'reply': return { ...DEFAULT_FILTERS, needsAction: 'reply' };
     case 'feedback': return { ...DEFAULT_FILTERS, statusGroup: 'closed', needsAction: 'feedback' };
     case 'orderRelated': return { ...DEFAULT_FILTERS, orderRelated: true };
+    case 'oldPending': return { ...DEFAULT_FILTERS, assignment: 'old_pending' };
     default: return DEFAULT_FILTERS;
   }
 }
 
 /** Number of filters beyond the status group, for the filter button badge. */
 export function activeFilterCount(f: CaseFilters): number {
-  return [f.statuses.length > 0, !!f.caseTypeId, !!f.subTypeId, !!f.priority, f.dateRange !== 'any', f.orderRelated, !!f.needsAction].filter(Boolean).length;
+  return [f.statuses.length > 0, !!f.caseTypeId, !!f.subTypeId, !!f.priority, f.dateRange !== 'any', f.orderRelated, !!f.needsAction, !!f.assignment].filter(Boolean).length;
 }
 
 const DAYS: Record<DateRange, number | null> = { any: null, '7d': 7, '30d': 30, '90d': 90 };
@@ -54,6 +57,7 @@ export function toQuery(f: CaseFilters, search: string, now = new Date()): CaseL
     priority: f.priority,
     orderRelated: f.orderRelated || undefined,
     needsAction: f.needsAction,
+    assignment: f.assignment,
     createdFrom: days ? isoDate(new Date(now.getTime() - days * 86_400_000)) : undefined,
     // The server needs at least 3 characters (spec §8.2); shorter input doesn't filter yet.
     q: term.length >= 3 ? term : undefined,
